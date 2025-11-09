@@ -1,0 +1,51 @@
+Nozomi UI Library • Snapshot
+============================
+
+Load the library
+---------------
+loadstring(game:HttpGet("https://raw.githubusercontent.com/froumes/nozomi/refs/heads/main/nozomiLib"))()
+
+Quick start
+-----------
+local UI = UILibrary.new("BadScriptsHub • Control Center")
+local mainTab = UI:AddTab("Dashboard", "compass")
+
+-- Themeing
+UI:ApplyPreset("Sakura Dark")
+
+-- Components
+mainTab:AddToggle("Auto-Farm", true, function(enabled)
+    print("Auto-Farm toggled:", enabled)
+end)
+
+mainTab:AddSlider("Walk Speed", 10, 150, 60, function(value)
+    print("Walk Speed:", value)
+end)
+
+mainTab:AddDropdown("Teleport Target", {"Spawn", "Training Area", "Secret Room"}, "Spawn", function(selection)
+    print("Teleporting to:", selection)
+end)
+
+mainTab:AddButton("Summon Dynamic Island", function()
+    UILibrary.DynamicIslandAssetLoader.ShowLoading(_G.BadScriptsHub.DynamicIsland, Color3.fromRGB(255, 122, 144))
+end)
+
+Dynamic Island Hooks
+--------------------
+_G.BadScriptsHub.DynamicIsland        -- Roblox instance created by loader
+_G.BadScriptsHub.UpdateIslandTheme()  -- Tween background/text colors to match active theme
+
+Included Presets
+----------------
+- Dark Mode, Light Mode, VS Code Dark, Dracula
+- Nord, Monokai, Monkeytype Dark/Light/9009
+- Sakura Light/Dark, Soft Pastel (+ Dark), Soft Mint (+ Dark)
+- Soft Lavender, Soft Blue (both with Dark variants)
+
+Key Features
+------------
+- AssetManager caches Lucide icons via getcustomasset/getsynasset
+- Tween-driven minimize/maximize & drag/resize window behavior
+- Confirmation dialogs, multi-select, color picker, theme tab + credits tab
+- Executor-aware caching and Discord-style modal UX
+
