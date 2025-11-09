@@ -1,6 +1,386 @@
 <!DOCTYPE html>
-<html>
-<body>
-  <h1>Hello world, site is live!</h1>
-</body>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Austinxyz.lol – Portfolio for Austin, creator of BadScriptsHub and the Nozomi Roblox UI library."
+    />
+    <title>Austin XYZ • BadScriptsHub Creator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container site-header__inner">
+        <a class="brand" href="#home" aria-label="Austinxyz home">
+          <span class="brand__dot"></span>
+          <span class="brand__text">austinxyz.lol</span>
+        </a>
+        <nav class="primary-nav" aria-label="Primary">
+          <a href="#projects">Projects</a>
+          <a href="#nozomi">Nozomi UI</a>
+          <a href="#stack">Stack</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div class="header-actions">
+          <button
+            class="button button--ghost"
+            type="button"
+            data-toggle-theme
+            aria-label="Toggle theme"
+          >
+            Toggle theme
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="container hero__inner">
+          <div class="hero__content">
+            <p class="hero__eyebrow">BadScriptsHub Author · Roblox Automation</p>
+            <h1>Hi, I'm Austin — I build polished Roblox tooling and UI.</h1>
+            <p class="hero__description">
+              Creator of <strong>BadScriptsHub</strong>, a LuaArmor-secured loader
+              that detects games on the fly, fetches private GitHub scripts, and
+              keeps players immersed with the <strong>Nozomi UI library</strong>.
+              I design automation that feels premium, reliable, and fast.
+            </p>
+            <div class="hero__actions">
+              <a class="button" href="#projects">Explore BadScriptsHub</a>
+              <a class="button button--subtle" href="#nozomi">See Nozomi Demo</a>
+            </div>
+            <ul class="hero__meta" role="list">
+              <li>
+                <span class="hero__meta-label">Latest drop</span>
+                <span>Dynamic Island loader v3</span>
+              </li>
+              <li>
+                <span class="hero__meta-label">Secure hosting</span>
+                <span>LuaArmor + private GitHub</span>
+              </li>
+              <li>
+                <span class="hero__meta-label">Availability</span>
+                <span>Open to collabs & commissions</span>
+              </li>
+            </ul>
+          </div>
+          <div class="hero__visual">
+            <div class="hero-card">
+              <div class="hero-card__header">
+                <span class="hero-card__title">Loader Snapshot</span>
+                <span class="hero-card__tag">Live telemetry</span>
+              </div>
+              <div class="hero-card__body">
+                <dl class="hero-card__stats">
+                  <div>
+                    <dt>Supported games</dt>
+                    <dd>12+</dd>
+                  </div>
+                  <div>
+                    <dt>Script fetch</dt>
+                    <dd>Private GitHub</dd>
+                  </div>
+                  <div>
+                    <dt>Protection</dt>
+                    <dd>LuaArmor + key rotation</dd>
+                  </div>
+                </dl>
+                <p>
+                  “Austin engineered an onboarding flow that feels native and
+                  updates themes in real time.”
+                </p>
+              </div>
+              <div class="hero-card__footer">
+                <span>Featured on: <strong>Nozomi UI Showcase</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--primary" id="projects">
+        <div class="container">
+          <div class="section__heading">
+            <p class="section__eyebrow">BadScriptsHub Ecosystem</p>
+            <h2>One loader, many polished Roblox experiences.</h2>
+            <p>
+              BadScriptsHub auto-detects the current place, validates LuaArmor
+              keys, and streams the correct scripts from GitHub—no manual setup
+              required. Every game gets a themed, stats-aware experience.
+            </p>
+          </div>
+          <div class="grid grid--projects">
+            <article class="card">
+              <div class="card__meta">
+                <span class="card__badge">Universal Loader</span>
+                <span class="card__tag">Roblox Lua</span>
+              </div>
+              <h3>BadScriptsHub Loader</h3>
+              <p>
+                Detects supported place IDs, fetches the right script, validates
+                via LuaArmor, and keeps keys synced across sessions with a
+                powerful UX layer.
+              </p>
+              <ul class="card__list">
+                <li>Secure token-based GitHub content delivery</li>
+                <li>Dynamic Island-inspired loading state + telemetry</li>
+                <li>Automated Discord onboarding & clipboard helpers</li>
+              </ul>
+              <div class="card__actions">
+                <a
+                  class="button button--ghost"
+                  href="https://github.com/froumes/badscripthub"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View repository
+                </a>
+                <a class="button button--subtle" href="#nozomi">UI in action</a>
+              </div>
+            </article>
+            <article class="card">
+              <div class="card__meta">
+                <span class="card__badge">Featured Titles</span>
+                <span class="card__tag">Automation</span>
+              </div>
+              <h3>Curated Game Scripts</h3>
+              <p>
+                Tailored experiences for Anime Eternal, Dig To Earth, Clash
+                Clicker, Jules RNG, Rebirth Champions, and more—each themed with
+                Nozomi.
+              </p>
+              <ul class="card__list">
+                <li>Game-aware toggles and farming optimizations</li>
+                <li>Per-game theme overrides & telemetry hooks</li>
+                <li>Modular architecture for rapid updates</li>
+              </ul>
+              <div class="card__actions">
+                <a
+                  class="button button--ghost"
+                  href="mailto:hello@austinxyz.lol?subject=BadScriptsHub%20Access"
+                >
+                  Request access
+                </a>
+              </div>
+            </article>
+            <article class="card">
+              <div class="card__meta">
+                <span class="card__badge">Workflow</span>
+                <span class="card__tag">Automation Ops</span>
+              </div>
+              <h3>Secure Delivery Pipeline</h3>
+              <p>
+                LuaArmor script ID validation, key caching, Discord onboarding,
+                and safe key rotation keep the loader battle-ready for live
+                events.
+              </p>
+              <ul class="card__list">
+                <li>Key storage & expiry detection</li>
+                <li>Graceful fallback UI for executors</li>
+                <li>Executor-aware asset caching pipeline</li>
+              </ul>
+              <div class="card__actions">
+                <a
+                  class="button button--ghost"
+                  href="https://discord.gg/fA8jDgtHg9"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Join community
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--contrast" id="nozomi">
+        <div class="container">
+          <div class="section__heading">
+            <p class="section__eyebrow">Nozomi UI Library</p>
+            <h2>Theme-aware Roblox UI with a Dynamic Island core.</h2>
+            <p>
+              Nozomi ships a full UI framework with sliders, dropdowns, modal
+              workflows, and a signature Dynamic Island loader. Theme presets,
+              asset caching, and tween orchestration are built in.
+            </p>
+          </div>
+
+          <div class="grid grid--two">
+            <div class="panel">
+              <h3>Feature Highlights</h3>
+              <ul class="feature-list">
+                <li>
+                  Theme presets with live tween updates (&ldquo;Sakura Dark&rdquo;,
+                  &ldquo;Nord&rdquo;, &ldquo;Soft Mint&rdquo;, and more)
+                </li>
+                <li>
+                  Asset manager that caches Lucide icons via
+                  <code>getcustomasset</code>
+                </li>
+                <li>
+                  Dynamic Island loader plug-in with stats telemetry +
+                  animations
+                </li>
+                <li>
+                  Complete UI toolkit: toggles, sliders, dropdowns,
+                  color-pickers, confirm dialogs
+                </li>
+              </ul>
+              <div class="panel__actions">
+                <a
+                  class="button"
+                  href="https://raw.githubusercontent.com/froumes/nozomi/refs/heads/main/nozomiLib"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Get the library
+                </a>
+                <a class="button button--ghost" href="nozomi-preview.txt">
+                  View API Snapshot
+                </a>
+              </div>
+            </div>
+
+            <div class="panel island-panel" data-island>
+              <div class="island-demo" data-state="idle">
+                <div class="island-demo__header">
+                  <span class="island-demo__title">Dynamic Island Loader</span>
+                  <span class="island-demo__chip">Nozomi demo</span>
+                </div>
+                <div class="island-demo__body">
+                  <div class="island-demo__status" data-status-wrapper>
+                    <span class="island-demo__status-text" data-status-text>
+                      Ready to demo
+                    </span>
+                    <div class="island-demo__progress">
+                      <div
+                        class="island-demo__progress-fill"
+                        data-progress-fill
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="island-demo__stats" data-stats>
+                    <div>
+                      <span>Player</span>
+                      <strong data-display-name>latte-soft</strong>
+                    </div>
+                    <div>
+                      <span>Ping</span>
+                      <strong data-ping>0ms</strong>
+                    </div>
+                    <div>
+                      <span>FPS</span>
+                      <strong data-fps>0 FPS</strong>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  class="button island-demo__cta"
+                  type="button"
+                  data-action="start-demo"
+                >
+                  Play loading animation
+                </button>
+              </div>
+              <div class="island-meta">
+                <p>
+                  This web demo mimics what the Nozomi library delivers in Roblox:
+                  animated progress, theme-aware surfaces, and live telemetry.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="stack">
+        <div class="container">
+          <div class="section__heading">
+            <p class="section__eyebrow">Toolkit</p>
+            <h2>The stack behind BadScriptsHub & Nozomi.</h2>
+          </div>
+          <div class="grid grid--stack">
+            <div class="stack-card">
+              <h3>Core Languages</h3>
+              <p>LuaU · TypeScript · JavaScript · HTML · CSS</p>
+            </div>
+            <div class="stack-card">
+              <h3>Roblox Platform</h3>
+              <p>Players/RunService APIs · HttpService · TweenService</p>
+            </div>
+            <div class="stack-card">
+              <h3>Security & Delivery</h3>
+              <p>LuaArmor · GitHub REST · Executor-aware caching</p>
+            </div>
+            <div class="stack-card">
+              <h3>Design System</h3>
+              <p>Nozomi themes · Dynamic Island · Glassmorphism</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section section--cta" id="contact">
+        <div class="container section__cta">
+          <div>
+            <h2>Let’s ship your next Roblox experience.</h2>
+            <p>
+              Need a white-label loader, a custom UI library, or game automation
+              that feels premium? I collaborate with studios and creators to
+              deliver secure, themed experiences.
+            </p>
+          </div>
+          <div class="cta-actions">
+            <a class="button" href="mailto:hello@austinxyz.lol">
+              hello@austinxyz.lol
+            </a>
+            <a
+              class="button button--subtle"
+              href="https://discord.gg/fA8jDgtHg9"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Discord community
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container site-footer__inner">
+        <p>&copy; <span id="year"></span> Austin XYZ · Built with Nozomi-inspired UX.</p>
+        <div class="site-footer__links">
+          <a
+            href="https://github.com/froumes"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub
+          </a>
+          <a
+            href="https://austinxyz.lol"
+            target="_blank"
+            rel="noreferrer"
+          >
+            austinxyz.lol
+          </a>
+          <a href="#home">Back to top</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="script.js" type="module"></script>
+  </body>
 </html>
+
