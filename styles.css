@@ -135,92 +135,90 @@ body {
 
 /* Choices */
 .choices {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  max-width: 900px;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 800px;
   margin: 0 auto;
 }
 
 .choice-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 2.5rem 2rem;
+  background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  border: none;
+  border-radius: var(--radius);
+  padding: 1.5rem 2.5rem;
   text-decoration: none;
   color: var(--text);
-  display: flex;
-  flex-direction: column;
+  display: inline-flex;
   align-items: center;
-  text-align: center;
-  gap: 1.5rem;
+  gap: 1rem;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  font-weight: 600;
+  font-size: 1.125rem;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+  cursor: pointer;
 }
 
 .choice-card::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--gradient-start), var(--gradient-end));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s ease;
+  inset: 0;
+  background: linear-gradient(135deg, var(--accent-hover), #a855f7);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
 .choice-card:hover {
-  transform: translateY(-8px);
-  border-color: rgba(99, 102, 241, 0.5);
-  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
 }
 
 .choice-card:hover::before {
-  transform: scaleX(1);
+  opacity: 1;
+}
+
+.choice-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .choice-icon {
-  width: 64px;
-  height: 64px;
-  border-radius: var(--radius);
-  background: rgba(99, 102, 241, 0.1);
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--accent);
-  transition: all 0.3s ease;
+  color: var(--text);
+  transition: transform 0.3s ease;
 }
 
 .choice-card:hover .choice-icon {
-  background: rgba(99, 102, 241, 0.2);
   transform: scale(1.1);
 }
 
 .choice-card h2 {
-  font-size: 1.75rem;
+  font-size: 1.125rem;
   font-weight: 600;
   margin: 0;
+  white-space: nowrap;
 }
 
 .choice-card p {
-  color: var(--text-muted);
-  font-size: 1rem;
-  line-height: 1.6;
-  margin: 0;
-  flex: 1;
+  display: none;
 }
 
 .choice-arrow {
-  font-size: 1.5rem;
-  color: var(--accent);
+  font-size: 1.25rem;
+  color: var(--text);
   transition: transform 0.3s ease;
+  margin-left: 0.25rem;
 }
 
 .choice-card:hover .choice-arrow {
-  transform: translateX(8px);
+  transform: translateX(4px);
 }
 
 /* Section */
@@ -292,11 +290,12 @@ body {
   }
 
   .choices {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .choice-card {
-    padding: 2rem 1.5rem;
+    padding: 1.25rem 2rem;
+    justify-content: center;
   }
 }
