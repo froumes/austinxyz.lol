@@ -22,6 +22,8 @@ import {
   RotateCcw,
   Copy,
   Check,
+  Key,
+  ExternalLink,
 } from "lucide-react"
 import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
@@ -572,6 +574,185 @@ export default function BadScriptHubPage() {
           >
             Copy and paste this into your Roblox executor to load BadScriptHub
           </p>
+        </div>
+      </div>
+
+      {/* Key Links Section */}
+      <div className="relative z-10 container mx-auto px-6 pt-8 pb-8">
+        <div
+          className="max-w-4xl mx-auto rounded-2xl p-6 mb-8 shadow-2xl border-2 animate-fade-in-up animation-delay-200 hover-lift"
+          style={{
+            backgroundColor: currentTheme.SurfaceColor,
+            borderColor: currentTheme.AccentColor,
+            boxShadow: "0 0 40px " + currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.2)"),
+            transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1)",
+          }}
+        >
+          <div className="text-center mb-6">
+            <h2
+              className="text-2xl font-bold flex items-center justify-center gap-2 mb-2 animate-slide-in-left"
+              style={{
+                color: currentTheme.TextColor,
+                transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+              }}
+            >
+              <Key 
+                className="w-6 h-6 animate-pulse-slow"
+                style={{
+                  color: currentTheme.AccentColor,
+                  transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+                }}
+              />
+              Get Your Key
+            </h2>
+            <p
+              className="text-sm opacity-70"
+              style={{
+                color: currentTheme.SecondaryTextColor,
+                transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+              }}
+            >
+              Complete a short verification to access BadScriptHub scripts
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            {/* Linkvertise Key Link */}
+            <a
+              href="https://ads.luarmor.net/get_key?for=badscripthub-rKXsLWcPlUCN"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative backdrop-blur-sm border-2 rounded-xl p-6 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 animate-fade-in-scale hover-lift"
+              style={{
+                backgroundColor: currentTheme.SurfaceColor.replace("rgb", "rgba").replace(")", ", 0.5)"),
+                borderColor: currentTheme.BorderColor,
+                transition: "all 0.3s ease, border-color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = currentTheme.AccentColor
+                e.currentTarget.style.boxShadow = "0 0 20px " + currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.3)")
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = currentTheme.BorderColor
+                e.currentTarget.style.boxShadow = "none"
+              }}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div
+                    className="w-12 h-12 rounded-lg flex items-center justify-center group-hover:scale-110 transition-all duration-300"
+                    style={{
+                      backgroundColor: currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.1)"),
+                      transition: "all 0.3s ease, background-color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+                    }}
+                  >
+                    <Key
+                      className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300"
+                      style={{
+                        color: currentTheme.AccentColor,
+                        transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <h3
+                      className="text-lg font-semibold mb-1 transition-colors duration-300"
+                      style={{
+                        color: currentTheme.TextColor,
+                        transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+                      }}
+                    >
+                      Linkvertise
+                    </h3>
+                    <p
+                      className="text-sm opacity-70"
+                      style={{
+                        color: currentTheme.SecondaryTextColor,
+                        transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+                      }}
+                    >
+                      Complete verification
+                    </p>
+                  </div>
+                </div>
+                <ExternalLink
+                  className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300"
+                  style={{
+                    color: currentTheme.AccentColor,
+                    transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+                  }}
+                />
+              </div>
+            </a>
+
+            {/* Work.ink Key Link */}
+            <a
+              href="https://ads.luarmor.net/get_key?for=badscripthub-makxYXFZnUta"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative backdrop-blur-sm border-2 rounded-xl p-6 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 animate-fade-in-scale animation-delay-100 hover-lift"
+              style={{
+                backgroundColor: currentTheme.SurfaceColor.replace("rgb", "rgba").replace(")", ", 0.5)"),
+                borderColor: currentTheme.BorderColor,
+                transition: "all 0.3s ease, border-color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = currentTheme.AccentColor
+                e.currentTarget.style.boxShadow = "0 0 20px " + currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.3)")
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = currentTheme.BorderColor
+                e.currentTarget.style.boxShadow = "none"
+              }}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div
+                    className="w-12 h-12 rounded-lg flex items-center justify-center group-hover:scale-110 transition-all duration-300"
+                    style={{
+                      backgroundColor: currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.1)"),
+                      transition: "all 0.3s ease, background-color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+                    }}
+                  >
+                    <Key
+                      className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300"
+                      style={{
+                        color: currentTheme.AccentColor,
+                        transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <h3
+                      className="text-lg font-semibold mb-1 transition-colors duration-300"
+                      style={{
+                        color: currentTheme.TextColor,
+                        transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+                      }}
+                    >
+                      Work.ink
+                    </h3>
+                    <p
+                      className="text-sm opacity-70"
+                      style={{
+                        color: currentTheme.SecondaryTextColor,
+                        transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+                      }}
+                    >
+                      Complete verification
+                    </p>
+                  </div>
+                </div>
+                <ExternalLink
+                  className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform duration-300"
+                  style={{
+                    color: currentTheme.AccentColor,
+                    transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+                  }}
+                />
+              </div>
+            </a>
+          </div>
         </div>
       </div>
 
