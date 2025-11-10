@@ -28,6 +28,7 @@ import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
+import { AbstractLogo } from "@/components/abstract-logo"
 
 // Discord Icon Component
 const DiscordIcon = ({ className, style }: { className?: string; style?: React.CSSProperties }) => (
@@ -427,6 +428,16 @@ export default function BadScriptHubPage() {
               className="w-5 h-5 group-hover:-translate-x-1 transition-all"
               style={{ 
                 color: currentTheme.SecondaryTextColor,
+                transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+              }}
+            />
+            {/* Abstract Logo - you can customize the variant: "default" | "minimal" | "geometric" | "layered" */}
+            <AbstractLogo
+              variant="default"
+              size={24}
+              className="group-hover:scale-110 transition-transform duration-300"
+              style={{
+                color: currentTheme.AccentColor,
                 transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
               }}
             />
