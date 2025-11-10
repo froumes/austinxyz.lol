@@ -84,12 +84,8 @@ export default function HomePage() {
       delay 
     })
     
-    // Use a ref to track if we've ever been visible (persists across re-renders)
-    const hasBeenVisibleRef = useRef(false)
-    if (isVisible) {
-      hasBeenVisibleRef.current = true
-    }
-    const shouldBeVisible = hasBeenVisibleRef.current || isVisible
+    // The hook already handles persistence, but add extra safety
+    const shouldBeVisible = isVisible
 
     // Calculate transform based on visibility and hover state
     // Once visible, always use hover or default transform (never go back to translateY)

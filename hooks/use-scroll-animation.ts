@@ -20,6 +20,7 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
   const [isVisible, setIsVisible] = useState(false)
   const [hasAnimated, setHasAnimated] = useState(false)
   const elementRef = useRef<HTMLElement>(null)
+  const hasBeenVisibleRef = useRef(false) // Persistent ref that never resets
 
   useEffect(() => {
     const element = elementRef.current
@@ -38,7 +39,8 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
         rect.left < windowWidth + 100 &&
         rect.right > -100
 
-      if (isInViewport && !hasAnimated) {
+      if (isInViewport && !hasBeenVisibleRef.current) {
+        hasBeenVisibleRef.current = true // Mark as seen immediately
         if (delay > 0) {
           setTimeout(() => {
             setIsVisible(true)
@@ -84,7 +86,8 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasAnimated) {
+          if (entry.isIntersecting && !hasBeenVisibleRef.current) {
+            hasBeenVisibleRef.current = true // Mark as seen immediately
             if (delay > 0) {
               setTimeout(() => {
                 setIsVisible(true)
@@ -98,9 +101,9 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
                 setHasAnimated(true)
               }
             }
-          } else if (!triggerOnce) {
-            setIsVisible(false)
           }
+          // Never set isVisible to false if triggerOnce is true
+          // This ensures elements stay visible once they've appeared
         })
       },
       {
@@ -118,17 +121,8 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
       rect.top < (window.innerHeight || document.documentElement.clientHeight) + 200 &&
       rect.bottom > -200
     
-    if (isAlreadyVisible && !hasAnimated) {
-      // Create a fake entry to trigger the observer callback
-      const fakeEntry = {
-        target: element,
-        isIntersecting: true,
-        intersectionRatio: 1,
-        boundingClientRect: rect,
-        rootBounds: null,
-        intersectionRect: rect,
-        time: Date.now(),
-      } as IntersectionObserverEntry
+    if (isAlreadyVisible && !hasBeenVisibleRef.current) {
+      hasBeenVisibleRef.current = true // Mark as seen immediately
       
       // Trigger the callback manually
       observer.takeRecords() // This will process any pending observations
@@ -154,9 +148,14 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
     }
   }, [threshold, rootMargin, triggerOnce, delay, hasAnimated])
 
+  // Once visible, always return true (never go back to false)
+  const finalIsVisible = triggerOnce 
+    ? (hasBeenVisibleRef.current || hasAnimated || isVisible)
+    : isVisible
+
   return {
     ref: elementRef,
-    isVisible: triggerOnce ? (hasAnimated || isVisible) : isVisible,
+    isVisible: finalIsVisible,
   }
 }
 
