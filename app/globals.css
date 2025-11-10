@@ -559,6 +559,11 @@ body {
   opacity: 1 !important;
 }
 
+/* Ensure elements with inline opacity style stay visible */
+.scroll-animate[style*="opacity: 1"] {
+  opacity: 1 !important;
+}
+
 .scroll-fade-up {
   transform: translateY(40px);
 }

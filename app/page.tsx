@@ -78,19 +78,28 @@ export default function HomePage() {
     [key: string]: any
   }) {
     const { ref, isVisible } = useScrollAnimation({ 
-      threshold: 0.1, 
-      rootMargin: "0px 0px -50px 0px",
+      threshold: 0, 
+      rootMargin: "300px 0px 300px 0px",
       triggerOnce: true,
       delay 
     })
+    
+    // Use a ref to track if we've ever been visible (persists across re-renders)
+    const hasBeenVisibleRef = useRef(false)
+    if (isVisible) {
+      hasBeenVisibleRef.current = true
+    }
+    const shouldBeVisible = hasBeenVisibleRef.current || isVisible
 
     // Calculate transform based on visibility and hover state
+    // Once visible, always use hover or default transform (never go back to translateY)
     const getTransform = () => {
-      if (!isVisible) {
+      if (!shouldBeVisible) {
         return "translateY(40px)"
       }
+      // Once visible, use hover transform with scale/translate effects or default
       if (hoveredOption) {
-        return hoverTransform
+        return `${hoverTransform} scale(1.02) translateY(-8px)`
       }
       return "rotateX(0) rotateY(0)"
     }
@@ -101,11 +110,14 @@ export default function HomePage() {
         href={href}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        className={`scroll-animate ${isVisible ? "visible" : ""} ${className}`}
+        className={`scroll-animate ${shouldBeVisible ? "visible" : ""} ${className}`}
         style={{
           transform: getTransform(),
           transformStyle: "preserve-3d",
-          transition: "opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
+          // Only transition transform, not opacity (opacity is handled by CSS class)
+          transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+          // Ensure opacity stays 1 once visible - use !important via inline style
+          opacity: shouldBeVisible ? 1 : 0,
           ...props.style,
         }}
         {...props}
@@ -275,7 +287,7 @@ export default function HomePage() {
             onMouseEnter={() => setHoveredOption("portfolio")}
             onMouseLeave={() => setHoveredOption(null)}
             hoveredOption={hoveredOption === "portfolio"}
-            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 perspective-1000"
+            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-12 perspective-1000"
           >
             {/* Animated gradient border */}
             <div className="absolute -inset-0.5 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl opacity-0 group-hover:opacity-75 transition duration-500 blur-sm animate-gradient-rotate" />
@@ -317,7 +329,7 @@ export default function HomePage() {
             onMouseLeave={() => setHoveredOption(null)}
             hoveredOption={hoveredOption === "badscripthub"}
             hoverTransform="rotateX(2deg) rotateY(2deg)"
-            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 perspective-1000"
+            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-12 perspective-1000"
           >
             {/* Animated gradient border */}
             <div className="absolute -inset-0.5 bg-gradient-to-r from-accent via-primary to-accent rounded-2xl opacity-0 group-hover:opacity-75 transition duration-500 blur-sm animate-gradient-rotate" />

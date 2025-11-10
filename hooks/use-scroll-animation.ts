@@ -105,7 +105,7 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
       },
       {
         threshold: 0, // Trigger as soon as any part is visible
-        rootMargin: "200px 0px 200px 0px", // More aggressive - trigger 200px before element enters viewport
+        rootMargin: "300px 0px 300px 0px", // Very aggressive - trigger 300px before element enters viewport
       }
     )
 
