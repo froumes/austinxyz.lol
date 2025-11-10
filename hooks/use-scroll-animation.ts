@@ -25,6 +25,39 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
     const element = elementRef.current
     if (!element) return
 
+    // Check if element is already in viewport on mount
+    const checkInitialVisibility = () => {
+      const rect = element.getBoundingClientRect()
+      const windowHeight = window.innerHeight || document.documentElement.clientHeight
+      const windowWidth = window.innerWidth || document.documentElement.clientWidth
+      
+      const isInViewport = 
+        rect.top < windowHeight &&
+        rect.bottom > 0 &&
+        rect.left < windowWidth &&
+        rect.right > 0
+
+      if (isInViewport) {
+        if (delay > 0) {
+          setTimeout(() => {
+            setIsVisible(true)
+            if (triggerOnce) {
+              setHasAnimated(true)
+            }
+          }, delay)
+        } else {
+          setIsVisible(true)
+          if (triggerOnce) {
+            setHasAnimated(true)
+          }
+        }
+      }
+    }
+
+    // Check immediately and after a small delay to account for layout
+    checkInitialVisibility()
+    setTimeout(checkInitialVisibility, 100)
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
