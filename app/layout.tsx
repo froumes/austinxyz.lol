@@ -8,9 +8,8 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "austinxyz.lol - Showcase of Capabilities",
-  description: "Portfolio and BadScriptHub demo by Austin",
-  generator: "v0.app",
+  title: "austinxyz.lol",
+  description: "austin",
   icons: {
     icon: [
       {
