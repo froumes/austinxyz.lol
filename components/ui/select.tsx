@@ -62,34 +62,63 @@ SelectScrollDownButton.displayName = SelectPrimitive.ScrollDownButton.displayNam
 
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
->(({ className, children, position = "popper", ...props }, ref) => (
-  <SelectPrimitive.Portal>
-    <SelectPrimitive.Content
-      ref={ref}
-      className={cn(
-        "relative z-50 max-h-96 min-w-32 overflow-hidden rounded-md border bg-[#2a2d33] text-white shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-        position === "popper" &&
-          "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
-        className,
-      )}
-      position={position}
-      {...props}
-    >
-      <SelectScrollUpButton />
-      <SelectPrimitive.Viewport
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> & {
+    themeColors?: {
+      surfaceColor?: string
+      textColor?: string
+      borderColor?: string
+      accentColor?: string
+    }
+  }
+>(({ className, children, position = "popper", themeColors, ...props }, ref) => {
+  const contentStyle: React.CSSProperties = themeColors
+    ? {
+        backgroundColor: themeColors.surfaceColor || undefined,
+        color: themeColors.textColor || undefined,
+        borderColor: themeColors.borderColor || undefined,
+      }
+    : {}
+
+  // Clone children to inject themeColors into SelectItem components
+  const childrenWithTheme = React.Children.map(children, (child) => {
+    if (React.isValidElement(child) && themeColors) {
+      return React.cloneElement(child as React.ReactElement<any>, {
+        themeColors,
+      })
+    }
+    return child
+  })
+
+  return (
+    <SelectPrimitive.Portal>
+      <SelectPrimitive.Content
+        ref={ref}
         className={cn(
-          "p-1",
+          "relative z-50 max-h-96 min-w-32 overflow-hidden rounded-md border shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
           position === "popper" &&
-            "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]",
+            "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
+          !themeColors && "bg-[#2a2d33] text-white",
+          className,
         )}
+        style={contentStyle}
+        position={position}
+        {...props}
       >
-        {children}
-      </SelectPrimitive.Viewport>
-      <SelectScrollDownButton />
-    </SelectPrimitive.Content>
-  </SelectPrimitive.Portal>
-))
+        <SelectScrollUpButton />
+        <SelectPrimitive.Viewport
+          className={cn(
+            "p-1",
+            position === "popper" &&
+              "h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]",
+          )}
+        >
+          {childrenWithTheme || children}
+        </SelectPrimitive.Viewport>
+        <SelectScrollDownButton />
+      </SelectPrimitive.Content>
+    </SelectPrimitive.Portal>
+  )
+})
 SelectContent.displayName = SelectPrimitive.Content.displayName
 
 const SelectLabel = React.forwardRef<
@@ -102,19 +131,72 @@ SelectLabel.displayName = SelectPrimitive.Label.displayName
 
 const SelectItem = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>
->(({ className, children, ...props }, ref) => (
-  <SelectPrimitive.Item
-    ref={ref}
-    className={cn(
-      "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 px-2 text-sm outline-none focus:bg-[#3a3d43] focus:text-white data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-      className,
-    )}
-    {...props}
-  >
-    <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
-  </SelectPrimitive.Item>
-))
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item> & {
+    themeColors?: {
+      surfaceColor?: string
+      textColor?: string
+      accentColor?: string
+    }
+  }
+>(({ className, children, themeColors, ...props }, ref) => {
+  const itemStyle: React.CSSProperties = themeColors
+    ? {
+        "--focus-bg": themeColors.accentColor
+          ? themeColors.accentColor.replace("rgb", "rgba").replace(")", ", 0.2)")
+          : undefined,
+      } as React.CSSProperties
+    : {}
+
+  return (
+    <SelectPrimitive.Item
+      ref={ref}
+      className={cn(
+        "relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 px-2 text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+        !themeColors && "focus:bg-[#3a3d43] focus:text-white",
+        className,
+      )}
+      style={{
+        ...itemStyle,
+        color: themeColors?.textColor || undefined,
+        ...(themeColors?.accentColor && {
+          // @ts-ignore - CSS custom property
+          "--focus-bg": themeColors.accentColor.replace("rgb", "rgba").replace(")", ", 0.2)"),
+        }),
+      }}
+      onMouseEnter={(e) => {
+        if (themeColors?.accentColor) {
+          e.currentTarget.style.backgroundColor = themeColors.accentColor
+            .replace("rgb", "rgba")
+            .replace(")", ", 0.2)")
+        }
+        props.onMouseEnter?.(e as any)
+      }}
+      onMouseLeave={(e) => {
+        if (themeColors) {
+          e.currentTarget.style.backgroundColor = "transparent"
+        }
+        props.onMouseLeave?.(e as any)
+      }}
+      onFocus={(e) => {
+        if (themeColors?.accentColor) {
+          e.currentTarget.style.backgroundColor = themeColors.accentColor
+            .replace("rgb", "rgba")
+            .replace(")", ", 0.2)")
+        }
+        props.onFocus?.(e as any)
+      }}
+      onBlur={(e) => {
+        if (themeColors) {
+          e.currentTarget.style.backgroundColor = "transparent"
+        }
+        props.onBlur?.(e as any)
+      }}
+      {...props}
+    >
+      <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>
+    </SelectPrimitive.Item>
+  )
+})
 SelectItem.displayName = SelectPrimitive.Item.displayName
 
 const SelectSeparator = React.forwardRef<

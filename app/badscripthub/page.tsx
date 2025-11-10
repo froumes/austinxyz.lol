@@ -452,7 +452,14 @@ export default function BadScriptHubPage() {
               >
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent
+                themeColors={{
+                  surfaceColor: currentTheme.SurfaceColor,
+                  textColor: currentTheme.TextColor,
+                  borderColor: currentTheme.BorderColor,
+                  accentColor: currentTheme.AccentColor,
+                }}
+              >
                 {Object.keys(THEME_PRESETS)
                   .filter((key) => key !== "landing")
                   .map((theme) => (
@@ -912,7 +919,7 @@ export default function BadScriptHubPage() {
                   transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1)",
                 }}
               >
-                <div className="text-sm font-mono animate-pulse-slow group">
+                <div className="text-sm font-mono animate-pulse-slow group" style={{ marginRight: "auto", paddingRight: "1rem" }}>
                   <span
                     className="group-hover:text-pink-300 transition-colors"
                     style={{ color: currentTheme.SecondaryTextColor }}
@@ -1036,7 +1043,14 @@ export default function BadScriptHubPage() {
                         >
                           <SelectValue />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent
+                          themeColors={{
+                            surfaceColor: currentTheme.SurfaceColor,
+                            textColor: currentTheme.TextColor,
+                            borderColor: currentTheme.BorderColor,
+                            accentColor: currentTheme.AccentColor,
+                          }}
+                        >
                           <SelectItem value="camera">camera</SelectItem>
                           <SelectItem value="memory">memory</SelectItem>
                           <SelectItem value="hybrid">hybrid</SelectItem>
@@ -1235,7 +1249,14 @@ export default function BadScriptHubPage() {
                         >
                           <SelectValue />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent
+                          themeColors={{
+                            surfaceColor: currentTheme.SurfaceColor,
+                            textColor: currentTheme.TextColor,
+                            borderColor: currentTheme.BorderColor,
+                            accentColor: currentTheme.AccentColor,
+                          }}
+                        >
                           <SelectItem value="head">Head</SelectItem>
                           <SelectItem value="chest">Chest</SelectItem>
                           <SelectItem value="body">Body</SelectItem>
