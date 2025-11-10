@@ -26,6 +26,8 @@
   --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --motion-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --glow-primary: rgba(99, 102, 241, 0.28);
+  --hero-name: #38bdf8;
+  --hero-name-glow: rgba(56, 189, 248, 0.35);
 }
 
 body[data-theme='light'] {
@@ -44,6 +46,8 @@ body[data-theme='light'] {
   --accent-contrast: #e0ecff;
   --shadow-lg: 0 22px 60px rgba(15, 23, 42, 0.15);
   --shadow-sm: 0 12px 40px rgba(15, 23, 42, 0.12);
+  --hero-name: #2563eb;
+  --hero-name-glow: rgba(37, 99, 235, 0.28);
 }
 
 *,
@@ -266,6 +270,36 @@ main {
   font-size: clamp(2.6rem, 5vw, 3.5rem);
   margin: 0 0 20px;
   line-height: 1.05;
+}
+
+.hero__name {
+  color: var(--hero-name);
+  text-shadow: 0 0 18px var(--hero-name-glow);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-width: 0.1em;
+}
+
+.hero__name::after {
+  content: '';
+  display: inline-block;
+  width: 0.08em;
+  height: 1.1em;
+  margin-left: 0.1em;
+  background: currentColor;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.hero__name.is-typing::after {
+  animation: blinkCursor 0.8s steps(2, start) infinite;
+  opacity: 1;
+}
+
+.hero__name[data-type-complete='true']::after {
+  opacity: 0;
+  animation: none;
 }
 
 .hero__description {
@@ -774,6 +808,16 @@ main {
   }
   50% {
     box-shadow: 0 40px 80px rgba(99, 102, 241, 0.3);
+  }
+}
+
+@keyframes blinkCursor {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
   }
 }
 

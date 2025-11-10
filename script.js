@@ -4,6 +4,8 @@ const storedTheme = localStorage.getItem('austinxyz-theme');
 const prefersLight = window.matchMedia('(prefers-color-scheme: light)');
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 const animatedTargets = Array.from(document.querySelectorAll('[data-animate]'));
+const typewriterTargets = Array.from(document.querySelectorAll('[data-typewriter]'));
+const typewriterStates = new WeakMap();
 
 const applyTheme = (theme) => {
   if (theme === 'light') {
@@ -79,23 +81,104 @@ const setupAnimationObserver = () => {
     .forEach((element) => animationObserver.observe(element));
 };
 
+const ensureTypewriterText = (element) => {
+  if (element.dataset.typeText && element.dataset.typeText.trim().length) {
+    return;
+  }
+
+  const fallbackText = element.textContent.trim();
+  if (fallbackText.length) {
+    element.dataset.typeText = fallbackText;
+  }
+};
+
+const cancelTypewriter = (element) => {
+  const state = typewriterStates.get(element);
+  if (state?.timeoutId) {
+    clearTimeout(state.timeoutId);
+  }
+  typewriterStates.delete(element);
+};
+
+const runTypewriter = (element) => {
+  const text = (element.dataset.typeText || '').trim();
+
+  if (!text.length) {
+    element.textContent = '';
+    element.dataset.typeComplete = 'true';
+    element.classList.remove('is-typing');
+    return;
+  }
+
+  const speed = Math.max(30, parseInt(element.dataset.typeSpeed || '85', 10));
+  const startDelay = Math.max(0, parseInt(element.dataset.typeDelay || '160', 10));
+
+  element.textContent = '';
+  element.dataset.typeComplete = 'false';
+  element.classList.add('is-typing');
+
+  const state = { timeoutId: null };
+  typewriterStates.set(element, state);
+
+  const step = (index) => {
+    element.textContent = text.slice(0, index);
+
+    if (index >= text.length) {
+      element.classList.remove('is-typing');
+      element.dataset.typeComplete = 'true';
+      typewriterStates.delete(element);
+      return;
+    }
+
+    const variance = Math.floor(Math.random() * 60);
+    state.timeoutId = window.setTimeout(() => step(index + 1), speed + variance);
+  };
+
+  state.timeoutId = window.setTimeout(() => step(1), startDelay);
+};
+
+const initializeTypewriters = () => {
+  if (!typewriterTargets.length) {
+    return;
+  }
+
+  typewriterTargets.forEach((element) => {
+    ensureTypewriterText(element);
+    cancelTypewriter(element);
+
+    const text = element.dataset.typeText || '';
+
+    if (prefersReducedMotion.matches) {
+      element.textContent = text;
+      element.dataset.typeComplete = 'true';
+      element.classList.remove('is-typing');
+      return;
+    }
+
+    runTypewriter(element);
+  });
+};
+
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(() => {
       body.classList.add('animation-ready');
       setupAnimationObserver();
+      initializeTypewriters();
     });
   });
 } else {
   requestAnimationFrame(() => {
     body.classList.add('animation-ready');
     setupAnimationObserver();
+    initializeTypewriters();
   });
 }
 
 prefersReducedMotion.addEventListener('change', () => {
   animatedTargets.forEach((element) => element.classList.remove('is-visible'));
   setupAnimationObserver();
+  initializeTypewriters();
 });
 
 const island = document.querySelector('[data-island]');
@@ -199,5 +282,6 @@ document.addEventListener('visibilitychange', () => {
 window.addEventListener('beforeunload', () => {
   clearInterval(statsInterval);
   clearTimeout(stepTimeout);
+  typewriterTargets.forEach(cancelTypewriter);
 });
 
