@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -74,10 +74,65 @@
       </div>
 
       <div class="badscripthub-content" id="badscripthub" style="display: none;">
-        <section class="section">
+        <section class="section section--badscripts">
           <div class="container">
-            <h2>BadScriptsHub Content</h2>
-            <p>Your BadScriptsHub content will go here.</p>
+            <div class="bsh-grid">
+              <div class="bsh-copy">
+                <p class="eyebrow">BadScriptsHub</p>
+                <h2>Automation with a Nozomi-grade interface.</h2>
+                <p class="bsh-intro">
+                  BadScriptsHub pairs LuaArmor security with the <strong>Nozomi UI Library</strong> to deliver
+                  per-game loaders that feel premium, responsive, and trusted.
+                </p>
+                <div class="bsh-actions">
+                  <a class="button" href="mailto:hello@austinxyz.lol?subject=BadScriptsHub%20Access">Request access</a>
+                  <button class="button button--ghost" type="button" data-demo-start>Play loader demo</button>
+                </div>
+                <p class="bsh-note">
+                  Powered by the <strong>Nozomi UI Library</strong>. Explore the component library below.
+                </p>
+                <a class="button button--text" href="https://nozomi.lol" target="_blank" rel="noreferrer">
+                  Visit Nozomi UI Library ↗
+                </a>
+              </div>
+
+              <div class="nozomi-demo" data-nozomi-demo data-state="idle">
+                <span class="nozomi-demo__badge">Nozomi UI Library</span>
+                <div class="nozomi-demo__card">
+                  <div class="nozomi-demo__top">
+                    <div>
+                      <span class="nozomi-demo__label">Loader status</span>
+                      <p class="nozomi-demo__status" data-demo-status>Ready to initialize</p>
+                    </div>
+                    <span class="nozomi-demo__chip" data-demo-phase>Idle</span>
+                  </div>
+
+                  <div class="nozomi-demo__progress">
+                    <div class="nozomi-demo__progress-fill" data-demo-progress></div>
+                  </div>
+
+                  <div class="nozomi-demo__stats" data-demo-stats>
+                    <div>
+                      <span>Player</span>
+                      <strong data-demo-player>latte-soft</strong>
+                    </div>
+                    <div>
+                      <span>Ping</span>
+                      <strong data-demo-ping>32 ms</strong>
+                    </div>
+                    <div>
+                      <span>FPS</span>
+                      <strong data-demo-fps>60</strong>
+                    </div>
+                  </div>
+
+                  <div class="nozomi-demo__footer">
+                    <button class="button button--secondary" type="button" data-demo-start>Run loader demo</button>
+                    <p class="nozomi-demo__footnote">Live preview of Nozomi UI components.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </div>
