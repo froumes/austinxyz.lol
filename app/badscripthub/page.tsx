@@ -465,7 +465,11 @@ export default function BadScriptHubPage() {
               href="https://github.com/froumes"
               target="_blank"
               rel="noopener noreferrer"
+<<<<<<< HEAD
               className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-[1000ms] ease-in-out hover:scale-105 hover-lift hover-glow"
+=======
+              className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-[1000ms] ease-in-out hover:scale-105"
+>>>>>>> e69f9321ae055dbe0a1ce3b81b9ebb854c65bcc7
               style={{
                 backgroundColor: currentTheme.SurfaceColor.replace("rgb", "rgba").replace(")", ", 0.5)"),
                 border: "1px solid " + currentTheme.BorderColor,
@@ -480,7 +484,11 @@ export default function BadScriptHubPage() {
               href="https://discord.gg/fA8jDgtHg9"
               target="_blank"
               rel="noopener noreferrer"
+<<<<<<< HEAD
               className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-[1000ms] ease-in-out hover:scale-105 hover-lift hover-glow"
+=======
+              className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-[1000ms] ease-in-out hover:scale-105"
+>>>>>>> e69f9321ae055dbe0a1ce3b81b9ebb854c65bcc7
               style={{
                 backgroundColor: currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.1)"),
                 border: "1px solid " + currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.5)"),
@@ -498,7 +506,11 @@ export default function BadScriptHubPage() {
       {/* Prominent Loadstring Section */}
       <div className="relative z-10 container mx-auto px-6 pt-8">
         <div
+<<<<<<< HEAD
           className="max-w-4xl mx-auto rounded-2xl p-6 mb-8 shadow-2xl border-2 animate-scale-in hover-lift hover-glow"
+=======
+          className="max-w-4xl mx-auto rounded-2xl p-6 mb-8 shadow-2xl border-2 animate-fade-in-up"
+>>>>>>> e69f9321ae055dbe0a1ce3b81b9ebb854c65bcc7
           style={{
             backgroundColor: currentTheme.SurfaceColor,
             borderColor: currentTheme.AccentColor,
@@ -508,14 +520,22 @@ export default function BadScriptHubPage() {
         >
           <div className="flex items-center justify-between gap-4 mb-4">
             <h2
+<<<<<<< HEAD
               className="text-2xl font-bold flex items-center gap-2 animate-slide-in-left"
+=======
+              className="text-2xl font-bold flex items-center gap-2"
+>>>>>>> e69f9321ae055dbe0a1ce3b81b9ebb854c65bcc7
               style={{
                 color: currentTheme.TextColor,
                 transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
               }}
             >
               <Sparkles 
+<<<<<<< HEAD
                 className="w-6 h-6 animate-spin-slow"
+=======
+                className="w-6 h-6"
+>>>>>>> e69f9321ae055dbe0a1ce3b81b9ebb854c65bcc7
                 style={{
                   color: currentTheme.AccentColor,
                   transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -529,7 +549,11 @@ export default function BadScriptHubPage() {
                 setCopied(true)
                 setTimeout(() => setCopied(false), 2000)
               }}
+<<<<<<< HEAD
               className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all hover:scale-105 active:scale-95 animate-slide-in-right hover-lift"
+=======
+              className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all hover:scale-105 active:scale-95"
+>>>>>>> e69f9321ae055dbe0a1ce3b81b9ebb854c65bcc7
               style={{
                 backgroundColor: copied 
                   ? currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.2)")
@@ -1197,7 +1221,11 @@ export default function BadScriptHubPage() {
           className="max-w-6xl mx-auto mb-16 animate-fade-in-up animation-delay-600"
         >
           <h2
+<<<<<<< HEAD
             className="text-4xl md:text-5xl font-black mb-12 text-center transition-colors duration-[1000ms] ease-in-out animate-fade-in-up"
+=======
+            className="text-4xl md:text-5xl font-black mb-12 text-center transition-colors duration-[1000ms] ease-in-out"
+>>>>>>> e69f9321ae055dbe0a1ce3b81b9ebb854c65bcc7
             style={{ 
               color: currentTheme.TextColor,
               transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -1255,7 +1283,11 @@ export default function BadScriptHubPage() {
               return (
               <div
                 key={i}
+<<<<<<< HEAD
                 className="group relative backdrop-blur-sm rounded-2xl p-6 border-2 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 animate-scale-in hover-lift"
+=======
+                className="group relative backdrop-blur-sm rounded-2xl p-6 border-2 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 animate-fade-in-up"
+>>>>>>> e69f9321ae055dbe0a1ce3b81b9ebb854c65bcc7
                 style={{
                   backgroundColor: currentTheme.SurfaceColor.replace("rgb", "rgba").replace(")", ", 0.5)"),
                   borderColor: currentTheme.BorderColor,
@@ -1273,7 +1305,11 @@ export default function BadScriptHubPage() {
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div
+<<<<<<< HEAD
                     className="p-2 rounded-lg transition-all duration-300 hover-scale group-hover:animate-bounce-subtle"
+=======
+                    className="p-2 rounded-lg transition-all duration-300"
+>>>>>>> e69f9321ae055dbe0a1ce3b81b9ebb854c65bcc7
                     style={{
                       backgroundColor: script.color.replace("rgb", "rgba").replace(")", ", 0.1)"),
                       color: script.color,
@@ -1313,12 +1349,19 @@ export default function BadScriptHubPage() {
                     {script.features.map((feature, j) => (
                       <span
                         key={j}
+<<<<<<< HEAD
                         className="px-2 py-1 rounded-lg text-xs font-medium transition-all duration-300 hover:scale-110 animate-fade-in-scale"
+=======
+                        className="px-2 py-1 rounded-lg text-xs font-medium transition-all duration-300 hover:scale-110"
+>>>>>>> e69f9321ae055dbe0a1ce3b81b9ebb854c65bcc7
                         style={{
                           backgroundColor: script.color.replace("rgb", "rgba").replace(")", ", 0.1)"),
                           color: script.color,
                           border: "1px solid " + script.color.replace("rgb", "rgba").replace(")", ", 0.3)"),
+<<<<<<< HEAD
                           animationDelay: String(j * 50) + "ms",
+=======
+>>>>>>> e69f9321ae055dbe0a1ce3b81b9ebb854c65bcc7
                         }}
                       >
                         {feature}
@@ -1337,7 +1380,11 @@ export default function BadScriptHubPage() {
           className="max-w-4xl mx-auto mb-16 animate-fade-in-up animation-delay-800"
         >
           <h2
+<<<<<<< HEAD
             className="text-4xl md:text-5xl font-black mb-12 text-center transition-colors duration-[1000ms] ease-in-out animate-fade-in-up"
+=======
+            className="text-4xl md:text-5xl font-black mb-12 text-center transition-colors duration-[1000ms] ease-in-out"
+>>>>>>> e69f9321ae055dbe0a1ce3b81b9ebb854c65bcc7
             style={{ 
               color: currentTheme.TextColor,
               transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -1393,7 +1440,11 @@ export default function BadScriptHubPage() {
               return (
                 <div
                   key={i}
+<<<<<<< HEAD
                   className="backdrop-blur-sm rounded-xl border-2 overflow-hidden transition-all duration-500 animate-fade-in-scale hover-lift"
+=======
+                  className="backdrop-blur-sm rounded-xl border-2 overflow-hidden transition-all duration-500 animate-fade-in-up"
+>>>>>>> e69f9321ae055dbe0a1ce3b81b9ebb854c65bcc7
                   style={{
                     backgroundColor: currentTheme.SurfaceColor.replace("rgb", "rgba").replace(")", ", 0.5)"),
                     borderColor: currentTheme.BorderColor,
