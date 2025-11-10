@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react"
 import { ArrowRight, Code, Target } from "lucide-react"
 import Link from "next/link"
-import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 interface Theme {
   BackgroundColor: string
@@ -24,106 +23,6 @@ export default function HomePage() {
   const bgLayerRef = useRef<HTMLDivElement>(null)
   const fullText = "austinxyz.lol"
 
-  // Scroll animation component for regular elements
-  function ScrollAnimatedElement({ 
-    children, 
-    delay = 0, 
-    className = "scroll-fade-up" 
-  }: { 
-    children: React.ReactNode
-    delay?: number
-    className?: string
-  }) {
-    const { ref, isVisible } = useScrollAnimation({ 
-      threshold: 0.1, 
-      rootMargin: "0px 0px -50px 0px",
-      triggerOnce: true,
-      delay 
-    })
-
-    return (
-      <div
-        ref={ref as React.RefObject<HTMLDivElement>}
-        className={`scroll-animate ${className} ${isVisible ? "visible" : ""}`}
-        style={{ 
-          width: "100%",
-          height: "100%",
-        }}
-      >
-        {children}
-      </div>
-    )
-  }
-
-  // Scroll animation component for Links (handles transform conflicts)
-  function ScrollAnimatedLink({ 
-    href,
-    children,
-    delay = 0,
-    onMouseEnter,
-    onMouseLeave,
-    hoveredOption,
-    hoverTransform = "rotateX(2deg) rotateY(-2deg)",
-    className = "",
-    ...props
-  }: { 
-    href: string
-    children: React.ReactNode
-    delay?: number
-    onMouseEnter?: () => void
-    onMouseLeave?: () => void
-    hoveredOption?: boolean
-    hoverTransform?: string
-    className?: string
-    [key: string]: any
-  }) {
-    const { ref, isVisible } = useScrollAnimation({ 
-      threshold: 0, 
-      rootMargin: "300px 0px 300px 0px",
-      triggerOnce: true,
-      delay 
-    })
-    
-    // The hook already handles persistence, but add extra safety
-    const shouldBeVisible = isVisible
-
-    // Calculate transform based on visibility and hover state
-    // Once visible, always use hover or default transform (never go back to translateY)
-    const getTransform = () => {
-      if (!shouldBeVisible) {
-        return "translateY(40px)"
-      }
-      // Once visible, use hover transform with scale/translate effects or default
-      if (hoveredOption) {
-        return `${hoverTransform} scale(1.02) translateY(-8px)`
-      }
-      return "rotateX(0) rotateY(0)"
-    }
-
-    return (
-      <Link
-        ref={ref as React.RefObject<HTMLAnchorElement>}
-        href={href}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        className={`scroll-animate ${shouldBeVisible ? "visible" : ""} ${className}`}
-        style={{
-          transform: getTransform(),
-          transformStyle: "preserve-3d",
-          // Only transition transform, not opacity (opacity is handled by CSS class)
-          transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-          // Ensure opacity stays 1 once visible - use !important via inline style
-          opacity: shouldBeVisible ? 1 : 0,
-          // Force visibility with important to prevent CSS from overriding
-          visibility: shouldBeVisible ? "visible" : "hidden",
-          ...props.style,
-        }}
-        {...props}
-      >
-        {children}
-      </Link>
-    )
-  }
   
   // Default landing theme colors
   const defaultTheme: Theme = {
@@ -279,13 +178,15 @@ export default function HomePage() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          <ScrollAnimatedLink 
+          <Link
             href="/portfolio"
-            delay={400}
             onMouseEnter={() => setHoveredOption("portfolio")}
             onMouseLeave={() => setHoveredOption(null)}
-            hoveredOption={hoveredOption === "portfolio"}
-            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-12 perspective-1000"
+            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 perspective-1000"
+            style={{
+              transform: hoveredOption === "portfolio" ? "rotateX(2deg) rotateY(-2deg)" : "rotateX(0) rotateY(0)",
+              transformStyle: "preserve-3d",
+            }}
           >
             {/* Animated gradient border */}
             <div className="absolute -inset-0.5 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl opacity-0 group-hover:opacity-75 transition duration-500 blur-sm animate-gradient-rotate" />
@@ -318,16 +219,17 @@ export default function HomePage() {
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
               </div>
             </div>
-          </ScrollAnimatedLink>
+          </Link>
 
-          <ScrollAnimatedLink 
+          <Link
             href="/badscripthub"
-            delay={600}
             onMouseEnter={() => setHoveredOption("badscripthub")}
             onMouseLeave={() => setHoveredOption(null)}
-            hoveredOption={hoveredOption === "badscripthub"}
-            hoverTransform="rotateX(2deg) rotateY(2deg)"
-            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-12 perspective-1000"
+            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 perspective-1000"
+            style={{
+              transform: hoveredOption === "badscripthub" ? "rotateX(2deg) rotateY(2deg)" : "rotateX(0) rotateY(0)",
+              transformStyle: "preserve-3d",
+            }}
           >
             {/* Animated gradient border */}
             <div className="absolute -inset-0.5 bg-gradient-to-r from-accent via-primary to-accent rounded-2xl opacity-0 group-hover:opacity-75 transition duration-500 blur-sm animate-gradient-rotate" />
@@ -366,14 +268,12 @@ export default function HomePage() {
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
               </div>
             </div>
-          </ScrollAnimatedLink>
+          </Link>
         </div>
 
-        <ScrollAnimatedElement delay={1000}>
-          <div className="text-center mt-16">
-            <p className="text-muted-foreground text-sm">Choose your path and discover what I can do</p>
-          </div>
-        </ScrollAnimatedElement>
+        <div className="text-center mt-16 animate-fade-in-up animation-delay-1000">
+          <p className="text-muted-foreground text-sm">Choose your path and discover what I can do</p>
+        </div>
       </div>
       </div>
     </>
