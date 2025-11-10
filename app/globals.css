@@ -552,6 +552,7 @@ body {
   opacity: 0;
   transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
     transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
 }
 
 .scroll-animate.visible {
@@ -563,7 +564,7 @@ body {
 }
 
 .scroll-fade-up.visible {
-  transform: translateY(0);
+  transform: translateY(0) !important;
   animation: scroll-fade-in-up 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
