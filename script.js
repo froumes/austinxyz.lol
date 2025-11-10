@@ -2,6 +2,8 @@ const body = document.body;
 const themeToggle = document.querySelector('[data-toggle-theme]');
 const storedTheme = localStorage.getItem('austinxyz-theme');
 const prefersLight = window.matchMedia('(prefers-color-scheme: light)');
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+const animatedTargets = Array.from(document.querySelectorAll('[data-animate]'));
 
 const applyTheme = (theme) => {
   if (theme === 'light') {
@@ -30,6 +32,71 @@ if (themeToggle) {
     applyTheme(nextTheme);
   });
 }
+
+let animationObserver = null;
+
+const showAnimatedElement = (element) => {
+  const delay = parseFloat(element.dataset.animateDelay || '0');
+  element.style.setProperty('--animate-delay', `${delay}s`);
+  element.classList.add('is-visible');
+};
+
+const setupAnimationObserver = () => {
+  if (!animatedTargets.length) {
+    return;
+  }
+
+  if (animationObserver) {
+    animationObserver.disconnect();
+    animationObserver = null;
+  }
+
+  if (prefersReducedMotion.matches) {
+    animatedTargets.forEach(showAnimatedElement);
+    return;
+  }
+
+  animationObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          showAnimatedElement(entry.target);
+          if (animationObserver) {
+            animationObserver.unobserve(entry.target);
+          }
+        }
+      });
+    },
+    {
+      root: null,
+      threshold: 0.15,
+      rootMargin: '0px 0px -10% 0px',
+    }
+  );
+
+  animatedTargets
+    .filter((element) => !element.classList.contains('is-visible'))
+    .forEach((element) => animationObserver.observe(element));
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    requestAnimationFrame(() => {
+      body.classList.add('animation-ready');
+      setupAnimationObserver();
+    });
+  });
+} else {
+  requestAnimationFrame(() => {
+    body.classList.add('animation-ready');
+    setupAnimationObserver();
+  });
+}
+
+prefersReducedMotion.addEventListener('change', () => {
+  animatedTargets.forEach((element) => element.classList.remove('is-visible'));
+  setupAnimationObserver();
+});
 
 const island = document.querySelector('[data-island]');
 const startDemoButton = island?.querySelector('[data-action="start-demo"]');
@@ -111,7 +178,7 @@ const runDemo = () => {
 };
 
 if (displayName) {
-  const sampleNames = ['latte-soft', 'AustinXYZ', 'BadScriptsHub'];
+  const sampleNames = ['latte-soft', 'austinxyz', 'BadScriptsHub'];
   displayName.textContent =
     sampleNames[Math.floor(Math.random() * sampleNames.length)];
 }

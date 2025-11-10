@@ -21,6 +21,11 @@
   --container: min(1120px, 92vw);
   --font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
     sans-serif;
+  --motion-duration: 0.7s;
+  --motion-duration-long: 1.2s;
+  --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --motion-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --glow-primary: rgba(99, 102, 241, 0.28);
 }
 
 body[data-theme='light'] {
@@ -56,11 +61,42 @@ body {
   background-color: var(--bg);
   color: var(--text);
   min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: -30% -50% -30% -50%;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(236, 72, 153, 0.16), transparent 55%),
+    radial-gradient(circle at 70% 60%, rgba(59, 130, 246, 0.18), transparent 60%),
+    radial-gradient(circle at 45% 80%, rgba(14, 165, 233, 0.12), transparent 65%);
+  filter: blur(120px);
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: -1;
+  animation: hueShift 40s linear infinite;
 }
 
 .container {
   width: var(--container);
   margin: 0 auto;
+}
+
+[data-animate] {
+  --animate-delay: 0s;
+  opacity: 0;
+  transform: translateY(26px) scale(0.985);
+  transition:
+    opacity var(--motion-duration) var(--motion-ease) var(--animate-delay),
+    transform var(--motion-duration) var(--motion-ease) var(--animate-delay);
+  will-change: opacity, transform;
+}
+
+[data-animate].is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 a {
@@ -159,12 +195,31 @@ footer {
   border: 1px solid transparent;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
 }
 
 .button:hover,
 .button:focus-visible {
   transform: translateY(-1px);
   box-shadow: 0 10px 30px var(--accent-soft);
+}
+
+.button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.35), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s var(--motion-ease);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.button:hover::after,
+.button:focus-visible::after {
+  opacity: 0.35;
 }
 
 .button--ghost {
@@ -259,6 +314,8 @@ main {
   display: flex;
   flex-direction: column;
   gap: 22px;
+  animation: floatCard 16s ease-in-out infinite;
+  will-change: transform;
 }
 
 .hero-card__header {
@@ -382,6 +439,18 @@ main {
   gap: 18px;
   box-shadow: var(--shadow-sm);
   min-height: 100%;
+  transition:
+    transform var(--motion-duration-long) var(--motion-ease),
+    border-color 0.45s var(--motion-ease),
+    box-shadow 0.45s var(--motion-ease);
+  will-change: transform;
+}
+
+.card:hover,
+.card:focus-within {
+  transform: translateY(-10px);
+  border-color: var(--accent-soft);
+  box-shadow: 0 30px 70px rgba(15, 23, 42, 0.35);
 }
 
 .card__meta {
@@ -420,6 +489,18 @@ main {
   padding: 32px;
   box-shadow: var(--shadow-sm);
   min-height: 100%;
+  transition:
+    transform var(--motion-duration-long) var(--motion-ease),
+    border-color 0.45s var(--motion-ease),
+    box-shadow 0.45s var(--motion-ease);
+  will-change: transform;
+}
+
+.panel:hover,
+.panel:focus-within {
+  transform: translateY(-8px);
+  border-color: var(--accent-soft);
+  box-shadow: 0 28px 65px rgba(15, 23, 42, 0.32);
 }
 
 .panel h3 {
@@ -464,6 +545,24 @@ main {
   display: flex;
   flex-direction: column;
   gap: 22px;
+  position: relative;
+  overflow: hidden;
+  animation: pulseGlow 12s ease-in-out infinite;
+}
+
+.island-demo::before {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 24px;
+  background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.08), transparent 55%);
+  opacity: 0.5;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+.island-demo:hover::before {
+  opacity: 0.8;
 }
 
 .island-demo__header {
@@ -564,6 +663,17 @@ main {
   border-radius: var(--radius-md);
   padding: 24px;
   box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--motion-duration-long) var(--motion-ease),
+    border-color 0.45s var(--motion-ease),
+    box-shadow 0.45s var(--motion-ease);
+}
+
+.stack-card:hover,
+.stack-card:focus-within {
+  transform: translateY(-8px);
+  border-color: var(--accent-soft);
+  box-shadow: 0 26px 60px rgba(15, 23, 42, 0.3);
 }
 
 .stack-card h3 {
@@ -635,6 +745,38 @@ main {
   color: inherit;
 }
 
+@keyframes hueShift {
+  0% {
+    transform: rotate(0deg) scale(1.05);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+  100% {
+    transform: rotate(360deg) scale(1.05);
+  }
+}
+
+@keyframes floatCard {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-0.4deg);
+  }
+  50% {
+    transform: translate3d(0, -16px, 0) rotate(0.6deg);
+  }
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    box-shadow: 0 30px 60px rgba(15, 23, 42, 0.45);
+  }
+  50% {
+    box-shadow: 0 40px 80px rgba(99, 102, 241, 0.3);
+  }
+}
+
 @media (max-width: 960px) {
   .primary-nav {
     display: none;
@@ -670,6 +812,24 @@ main {
 
   .cta-actions {
     width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none;
+  }
+
+  .hero-card,
+  .island-demo {
+    animation: none;
+  }
+
+  [data-animate] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    filter: none !important;
   }
 }
 
