@@ -3,8 +3,6 @@ const landingSection = document.querySelector('.hero');
 const portfolioContent = document.querySelector('.portfolio-content');
 const badscripthubContent = document.querySelector('.badscripthub-content');
 const choiceCards = document.querySelectorAll('.choice-card');
-let startNozomiDemo = () => {};
-let resetNozomiPreview = () => {};
 
 const showContent = (contentType) => {
   // Hide landing page
@@ -24,11 +22,9 @@ const showContent = (contentType) => {
   if (contentType === 'portfolio' && portfolioContent) {
     portfolioContent.style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    resetNozomiPreview();
   } else if (contentType === 'badscripthub' && badscripthubContent) {
     badscripthubContent.style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
-    startNozomiDemo();
   }
 };
 
@@ -42,7 +38,6 @@ const showLanding = () => {
   if (badscripthubContent) {
     badscripthubContent.style.display = 'none';
   }
-  resetNozomiPreview();
 };
 
 // Handle choice card clicks
@@ -129,112 +124,106 @@ document.querySelectorAll('.section').forEach((section) => {
   observer.observe(section);
 });
 
-// Nozomi UI interactive demo
-const nozomiDemo = document.querySelector('[data-nozomi-demo]');
-const demoStatus = nozomiDemo?.querySelector('[data-demo-status]');
-const phaseChip = nozomiDemo?.querySelector('[data-demo-phase]');
-const progressFill = nozomiDemo?.querySelector('[data-demo-progress]');
-const statsPanel = nozomiDemo?.querySelector('[data-demo-stats]');
-const playerLabel = nozomiDemo?.querySelector('[data-demo-player]');
-const pingLabel = nozomiDemo?.querySelector('[data-demo-ping]');
-const fpsLabel = nozomiDemo?.querySelector('[data-demo-fps]');
-
-const demoSteps = [
-  { status: 'Initializing loader…', phase: 'Handshake', progress: 0.2 },
-  { status: 'Validating LuaArmor key…', phase: 'Security', progress: 0.45 },
-  { status: 'Fetching workspace script…', phase: 'Delivery', progress: 0.68 },
-  { status: 'Applying Nozomi theme…', phase: 'Styling', progress: 0.85 },
-  { status: 'Ready — telemetry live.', phase: 'Live', progress: 1 },
-];
-
-const samplePlayers = ['latte-soft', 'austinxyz', 'NozomiClient', 'ember-builds'];
-
-let demoStepTimeout = null;
-let statsInterval = null;
-
-const updatePlayerLabel = () => {
-  if (!playerLabel) return;
-  const name = samplePlayers[Math.floor(Math.random() * samplePlayers.length)];
-  playerLabel.textContent = name;
-};
-
-const resetDemo = () => {
-  if (!nozomiDemo) return;
-  window.clearTimeout(demoStepTimeout);
-  window.clearInterval(statsInterval);
-  nozomiDemo.dataset.state = 'idle';
-  if (demoStatus) {
-    demoStatus.textContent = 'Ready to initialize';
+// Nozomi UI interactive preview
+const initializeNozomiPreview = () => {
+  const uiRoot = document.querySelector('[data-nozomi-ui]');
+  if (!uiRoot) {
+    return;
   }
-  if (phaseChip) {
-    phaseChip.textContent = 'Idle';
-  }
-  if (progressFill) {
-    progressFill.style.width = '0%';
-  }
-  updatePlayerLabel();
-};
 
-const startStatsLoop = () => {
-  if (!pingLabel || !fpsLabel) return;
-  let ping = 32;
-  let fps = 60;
-  statsInterval = window.setInterval(() => {
-    ping = Math.max(18, Math.min(110, ping + (Math.random() * 14 - 7)));
-    fps = Math.max(45, Math.min(144, fps + (Math.random() * 10 - 5)));
-    pingLabel.textContent = `${Math.round(ping)} ms`;
-    fpsLabel.textContent = Math.round(fps);
-  }, 600);
-};
+  const toggleButtons = uiRoot.querySelectorAll('[data-toggle]');
+  toggleButtons.forEach((button) => {
+    const setState = (isOn) => {
+      button.classList.toggle('is-on', isOn);
+      button.setAttribute('aria-pressed', String(isOn));
+    };
 
-const runDemo = () => {
-  if (!nozomiDemo || !demoStatus || !progressFill) return;
-  resetDemo();
-  nozomiDemo.dataset.state = 'running';
-  let stepIndex = 0;
+    setState(button.classList.contains('is-on'));
 
-  const advance = () => {
-    const step = demoSteps[stepIndex];
-    demoStatus.textContent = step.status;
-    if (phaseChip) {
-      phaseChip.textContent = step.phase;
-    }
-    progressFill.style.width = `${Math.round(step.progress * 100)}%`;
+    button.addEventListener('click', () => {
+      const nextState = !button.classList.contains('is-on');
+      setState(nextState);
+    });
+  });
 
-    if (stepIndex < demoSteps.length - 1) {
-      stepIndex += 1;
-      demoStepTimeout = window.setTimeout(advance, 900);
-    } else {
-      demoStepTimeout = window.setTimeout(() => {
-        nozomiDemo.dataset.state = 'complete';
-        startStatsLoop();
-      }, 500);
-    }
+  const rangeInputs = uiRoot.querySelectorAll('[data-range-input]');
+  rangeInputs.forEach((input) => {
+    const wrapper = input.closest('[data-range]');
+    const valueEl = wrapper?.querySelector('[data-range-value]');
+    const precision = Number(wrapper?.dataset.rangePrecision ?? '0');
+    const suffix = wrapper?.dataset.rangeSuffix ?? '';
+
+    const formatValue = (value) => {
+      const numeric = Number(value);
+      if (Number.isNaN(numeric)) {
+        return value;
+      }
+      return `${numeric.toFixed(Math.max(0, precision))}${suffix}`;
+    };
+
+    const update = () => {
+      const min = Number(input.min ?? 0);
+      const max = Number(input.max ?? 100);
+      const value = Number(input.value);
+      const percent = max - min === 0 ? 0 : ((value - min) / (max - min)) * 100;
+      input.style.setProperty('--percent', percent.toString());
+      if (valueEl) {
+        valueEl.textContent = formatValue(value);
+      }
+    };
+
+    input.addEventListener('input', update);
+    update();
+  });
+
+  const selects = uiRoot.querySelectorAll('[data-select]');
+
+  const closeAllSelects = () => {
+    selects.forEach((select) => select.classList.remove('is-open'));
   };
 
-  advance();
+  selects.forEach((select) => {
+    const trigger = select.querySelector('[data-select-trigger]');
+    const valueEl = select.querySelector('[data-select-value]');
+    const options = select.querySelectorAll('[data-select-option]');
+
+    trigger?.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const isOpen = select.classList.contains('is-open');
+      closeAllSelects();
+      select.classList.toggle('is-open', !isOpen);
+    });
+
+    options.forEach((option) => {
+      option.addEventListener('click', () => {
+        const optionValue = option.dataset.selectOption || option.textContent?.trim() || '';
+        if (valueEl) {
+          valueEl.textContent = optionValue;
+        }
+        select.classList.remove('is-open');
+      });
+    });
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!event.target.closest('[data-select]')) {
+      closeAllSelects();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      closeAllSelects();
+    }
+  });
+
+  const sidebarButtons = uiRoot.querySelectorAll('[data-tab-trigger]');
+  sidebarButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      sidebarButtons.forEach((btn) => btn.classList.remove('is-active'));
+      button.classList.add('is-active');
+    });
+  });
 };
 
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden) {
-    window.clearInterval(statsInterval);
-  } else if (nozomiDemo?.dataset.state === 'complete') {
-    startStatsLoop();
-  }
-});
-
-resetNozomiPreview = () => {
-  resetDemo();
-};
-
-startNozomiDemo = () => {
-  runDemo();
-};
-
-window.addEventListener('beforeunload', () => {
-  window.clearTimeout(demoStepTimeout);
-  window.clearInterval(statsInterval);
-});
-
-// Initialize player label immediately
-updatePlayerLabel();
+initializeNozomiPreview();

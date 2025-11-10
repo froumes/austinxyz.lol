@@ -88,45 +88,175 @@
                   <a class="button" href="mailto:hello@austinxyz.lol?subject=BadScriptsHub%20Access">Request access</a>
                 </div>
                 <p class="bsh-note">
-                  Powered by the <strong>Nozomi UI Library</strong>. This preview auto-plays to mirror the live loader experience.
+                  Powered by the <strong>Nozomi UI Library</strong>. Tweak the live preview to see how the in-game interface responds.
                 </p>
                 <a class="button button--text" href="https://nozomi.lol" target="_blank" rel="noreferrer">
                   Visit Nozomi UI Library ↗
                 </a>
               </div>
 
-              <div class="nozomi-demo" data-nozomi-demo data-state="idle">
-                <span class="nozomi-demo__badge">Nozomi UI Library</span>
-                <div class="nozomi-demo__card">
-                  <div class="nozomi-demo__top">
-                    <div>
-                      <span class="nozomi-demo__label">Loader status</span>
-                      <p class="nozomi-demo__status" data-demo-status>Ready to initialize</p>
-                    </div>
-                    <span class="nozomi-demo__chip" data-demo-phase>Idle</span>
+              <div class="nozomi-ui" data-nozomi-ui>
+                <header class="nozomi-ui__header">
+                  <div class="nozomi-ui__lights" aria-hidden="true">
+                    <span class="nozomi-ui__light nozomi-ui__light--close"></span>
+                    <span class="nozomi-ui__light nozomi-ui__light--minimize"></span>
+                    <span class="nozomi-ui__light nozomi-ui__light--maximize"></span>
                   </div>
-
-                  <div class="nozomi-demo__progress">
-                    <div class="nozomi-demo__progress-fill" data-demo-progress></div>
+                  <p class="nozomi-ui__title">nozomi://@nozomi.lol — v0.1.0 (seika)</p>
+                  <div class="nozomi-ui__chips">
+                    <span class="nozomi-chip">TOGGLE UI</span>
+                    <span class="nozomi-chip nozomi-chip--ghost">RIGHTSHIFT</span>
                   </div>
+                </header>
+                <div class="nozomi-ui__body">
+                  <nav class="nozomi-ui__sidebar" aria-label="Nozomi sections">
+                    <button class="nozomi-ui__sidebar-icon is-active" type="button" data-tab-trigger aria-label="Main settings">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="7"></circle>
+                        <line x1="12" y1="3" x2="12" y2="5"></line>
+                        <line x1="12" y1="19" x2="12" y2="21"></line>
+                        <line x1="3" y1="12" x2="5" y2="12"></line>
+                        <line x1="19" y1="12" x2="21" y2="12"></line>
+                      </svg>
+                    </button>
+                    <button class="nozomi-ui__sidebar-icon" type="button" data-tab-trigger aria-label="Vision">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                    </button>
+                    <button class="nozomi-ui__sidebar-icon" type="button" data-tab-trigger aria-label="Movement">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 3L5 21"></path>
+                        <path d="M15 3l-4 18"></path>
+                        <path d="M19 6l-6 2"></path>
+                        <path d="M7 6l6 2"></path>
+                      </svg>
+                    </button>
+                    <button class="nozomi-ui__sidebar-icon" type="button" data-tab-trigger aria-label="Themes">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 5c1.7 0 3 1.3 3 3a3 3 0 0 1-3 3H6a3 3 0 0 1 0-6h6z"></path>
+                        <path d="M12 19c-1.7 0-3-1.3-3-3a3 3 0 0 1 3-3h6a3 3 0 1 1 0 6h-6z"></path>
+                      </svg>
+                    </button>
+                    <button class="nozomi-ui__sidebar-icon" type="button" data-tab-trigger aria-label="Display">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="4" width="20" height="14" rx="2"></rect>
+                        <line x1="12" y1="18" x2="12" y2="22"></line>
+                        <line x1="8" y1="22" x2="16" y2="22"></line>
+                      </svg>
+                    </button>
+                    <button class="nozomi-ui__sidebar-icon" type="button" data-tab-trigger aria-label="Settings">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h.09a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                      </svg>
+                    </button>
+                    <button class="nozomi-ui__sidebar-icon" type="button" data-tab-trigger aria-label="Scripts">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 5h12"></path>
+                        <path d="M9 3v2"></path>
+                        <rect x="3" y="5" width="12" height="14" rx="2"></rect>
+                        <path d="M15 8h2a2 2 0 0 1 2 2v9"></path>
+                        <path d="M13 18h6"></path>
+                      </svg>
+                    </button>
+                    <button class="nozomi-ui__sidebar-icon" type="button" data-tab-trigger aria-label="Games">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="7" width="20" height="10" rx="2"></rect>
+                        <circle cx="8" cy="12" r="1"></circle>
+                        <circle cx="16" cy="12" r="1"></circle>
+                        <path d="M12 7v10"></path>
+                      </svg>
+                    </button>
+                  </nav>
+                  <div class="nozomi-ui__content">
+                    <section class="nozomi-section">
+                      <p class="nozomi-section__label">main settings</p>
 
-                  <div class="nozomi-demo__stats" data-demo-stats>
-                    <div>
-                      <span>Player</span>
-                      <strong data-demo-player>latte-soft</strong>
-                    </div>
-                    <div>
-                      <span>Ping</span>
-                      <strong data-demo-ping>32 ms</strong>
-                    </div>
-                    <div>
-                      <span>FPS</span>
-                      <strong data-demo-fps>60</strong>
-                    </div>
-                  </div>
+                      <div class="nozomi-control">
+                        <span class="nozomi-control__label">enabled</span>
+                        <button class="nozomi-toggle is-on" type="button" data-toggle="enabled" aria-pressed="true">
+                          <span class="nozomi-toggle__knob"></span>
+                        </button>
+                      </div>
 
-                  <div class="nozomi-demo__footer">
-                    <p class="nozomi-demo__footnote">Live Nozomi interface preview — already running.</p>
+                      <div class="nozomi-control">
+                        <span class="nozomi-control__label">aim mode</span>
+                        <div class="nozomi-select" data-select>
+                          <button class="nozomi-select__trigger" type="button" data-select-trigger>
+                            <span data-select-value>camera</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                              <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                          </button>
+                          <ul class="nozomi-select__menu">
+                            <li data-select-option="camera">camera</li>
+                            <li data-select-option="mouse">mouse</li>
+                            <li data-select-option="silent">silent</li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div class="nozomi-slider" data-range data-range-precision="0">
+                        <div class="nozomi-slider__label-row">
+                          <span class="nozomi-control__label">fov</span>
+                          <span class="nozomi-slider__value" data-range-value>300</span>
+                        </div>
+                        <input type="range" min="0" max="360" value="300" step="5" data-range-input />
+                      </div>
+
+                      <div class="nozomi-slider" data-range data-range-precision="1">
+                        <div class="nozomi-slider__label-row">
+                          <span class="nozomi-control__label">smoothness</span>
+                          <span class="nozomi-slider__value" data-range-value>3.0</span>
+                        </div>
+                        <input type="range" min="0" max="10" value="3" step="0.1" data-range-input />
+                      </div>
+
+                      <div class="nozomi-slider" data-range data-range-precision="2">
+                        <div class="nozomi-slider__label-row">
+                          <span class="nozomi-control__label">prediction</span>
+                          <span class="nozomi-slider__value" data-range-value>0.15</span>
+                        </div>
+                        <input type="range" min="0" max="1" value="0.15" step="0.01" data-range-input />
+                      </div>
+                    </section>
+
+                    <section class="nozomi-section">
+                      <p class="nozomi-section__label">targeting</p>
+
+                      <div class="nozomi-control">
+                        <span class="nozomi-control__label">target part</span>
+                        <div class="nozomi-select" data-select>
+                          <button class="nozomi-select__trigger" type="button" data-select-trigger>
+                            <span data-select-value>Head</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                              <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                          </button>
+                          <ul class="nozomi-select__menu">
+                            <li data-select-option="Head">Head</li>
+                            <li data-select-option="Torso">Torso</li>
+                            <li data-select-option="Random">Random</li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div class="nozomi-control">
+                        <span class="nozomi-control__label">team check</span>
+                        <button class="nozomi-toggle is-on" type="button" data-toggle="team" aria-pressed="true">
+                          <span class="nozomi-toggle__knob"></span>
+                        </button>
+                      </div>
+
+                      <div class="nozomi-control">
+                        <span class="nozomi-control__label">visibility check</span>
+                        <button class="nozomi-toggle is-on" type="button" data-toggle="visibility" aria-pressed="true">
+                          <span class="nozomi-toggle__knob"></span>
+                        </button>
+                      </div>
+                    </section>
                   </div>
                 </div>
               </div>
