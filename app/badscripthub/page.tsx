@@ -919,7 +919,7 @@ export default function BadScriptHubPage() {
                   >
                     badscripthub
                   </span>
-                  ://nozomi — v2.0
+                  ://nozomi
                 </div>
                 <div className="flex gap-3">
                   <button
