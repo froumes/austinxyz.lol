@@ -3,715 +3,94 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta
-      name="description"
-      content="austinxyz.lol – portfolio for austin, creator of BadScriptsHub and the Nozomi Roblox UI library."
-    />
+    <meta name="description" content="austinxyz.lol – portfolio for austin, creator of BadScriptsHub and the Nozomi Roblox UI library." />
     <title>austin xyz • badscriptshub creator</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header class="site-header">
-      <div class="container site-header__inner">
-        <a class="brand" href="#home" aria-label="Austinxyz home" data-nav-home>
-          <span class="brand__dot"></span>
-          <span class="brand__text">austinxyz.lol</span>
-        </a>
-        <nav class="primary-nav" aria-label="Primary" data-portfolio-nav style="display: none;">
-          <a href="#projects">Projects</a>
-          <a href="#nozomi">Nozomi UI</a>
-          <a href="#stack">Stack</a>
-          <a href="#contact">Contact</a>
+    <header class="header">
+      <div class="container">
+        <nav class="nav">
+          <a href="#" class="logo">austinxyz.lol</a>
+          <div class="nav-links">
+            <a href="#portfolio">Portfolio</a>
+            <a href="#badscripthub">BadScriptsHub</a>
+          </div>
         </nav>
-        <div class="header-actions">
-          <button
-            class="button button--ghost"
-            type="button"
-            data-toggle-theme
-            aria-label="Toggle theme"
-          >
-            Toggle theme
-          </button>
-        </div>
       </div>
     </header>
 
     <main>
-      <section class="landing" id="home">
-        <div class="container landing__inner">
-          <div class="landing__content" data-animate data-animate-delay="0">
-            <p class="landing__eyebrow">welcome to austinxyz.lol</p>
-            <h1 class="landing__title">
-              choose your
-              <span class="hero__name" data-typewriter data-type-text="destination" data-type-speed="90"></span>
+      <section class="hero">
+        <div class="container">
+          <div class="hero-content">
+            <h1 class="hero-title">
+              Choose your
+              <span class="gradient-text">destination</span>
             </h1>
-            <p class="landing__description">
-              explore my portfolio or dive into BadScriptsHub — pick your path.
+            <p class="hero-description">
+              Explore my portfolio or dive into BadScriptsHub — pick your path.
             </p>
           </div>
-          
-          <div class="landing__choices">
-            <a href="#portfolio" class="choice-card" data-choice="portfolio" data-animate data-animate-delay="0.1">
-              <div class="choice-card__icon">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+
+          <div class="choices">
+            <a href="#portfolio" class="choice-card" data-choice="portfolio">
+              <div class="choice-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
                 </svg>
               </div>
-              <h2 class="choice-card__title">Portfolio</h2>
-              <p class="choice-card__description">
-                view my work, projects, and the tech stack behind BadScriptsHub and Nozomi UI.
-              </p>
-              <div class="choice-card__arrow">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </div>
+              <h2>Portfolio</h2>
+              <p>View my work, projects, and the tech stack behind BadScriptsHub and Nozomi UI.</p>
+              <div class="choice-arrow">→</div>
             </a>
 
-            <a href="#badscripthub" class="choice-card" data-choice="badscripthub" data-animate data-animate-delay="0.2">
-              <div class="choice-card__icon">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <a href="#badscripthub" class="choice-card" data-choice="badscripthub">
+              <div class="choice-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                   <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
                 </svg>
               </div>
-              <h2 class="choice-card__title">BadScriptsHub</h2>
-              <p class="choice-card__description">
-                discover the luaarmor-secured loader, game scripts, and the Nozomi UI library in action.
-              </p>
-              <div class="choice-card__arrow">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </div>
+              <h2>BadScriptsHub</h2>
+              <p>Discover the luaarmor-secured loader, game scripts, and the Nozomi UI library in action.</p>
+              <div class="choice-arrow">→</div>
             </a>
           </div>
         </div>
       </section>
 
-      <section class="hero portfolio-content" id="portfolio" style="display: none;">
-        <div class="container hero__inner">
-          <div class="hero__content">
-            <p class="hero__eyebrow" data-animate data-animate-delay="0">
-              badscriptshub author · roblox automation
-            </p>
-            <h1 data-animate data-animate-delay="0.1">
-              hey, i'm
-              <span
-                class="hero__name"
-                data-typewriter
-                data-type-text="austin"
-                data-type-speed="90"
-              ></span>
-              — i build roblox tooling that feels handcrafted.
-            </h1>
-            <p class="hero__description" data-animate data-animate-delay="0.18">
-              i'm the maker behind <strong>BadScriptsHub</strong>, a luaarmor-secured
-              loader that sniffs out the current place, fetches private scripts from
-              GitHub, and wraps everything in the <strong>Nozomi UI library</strong>.
-              think of it as automation with manners.
-            </p>
-            <div class="hero__actions" data-animate data-animate-delay="0.26">
-              <a class="button" href="#projects">explore badscriptshub</a>
-              <a class="button button--subtle" href="#nozomi">see Nozomi demo</a>
-            </div>
-            <ul class="hero__meta" role="list">
-              <li data-animate data-animate-delay="0.34">
-                <span class="hero__meta-label">latest drop</span>
-                <span>dynamic island loader v3</span>
-              </li>
-              <li data-animate data-animate-delay="0.42">
-                <span class="hero__meta-label">secure hosting</span>
-                <span>luaarmor + private GitHub</span>
-              </li>
-              <li data-animate data-animate-delay="0.5">
-                <span class="hero__meta-label">status</span>
-                <span>open to collabs & commissions</span>
-              </li>
-            </ul>
+      <div class="portfolio-content" id="portfolio" style="display: none;">
+        <section class="section">
+          <div class="container">
+            <h2>Portfolio Content</h2>
+            <p>Your portfolio content will go here.</p>
           </div>
-          <div class="hero__visual" data-animate data-animate-delay="0.2">
-            <div class="hero-card">
-              <div class="hero-card__header">
-                <span class="hero-card__title">loader snapshot</span>
-                <span class="hero-card__tag">live telemetry</span>
-              </div>
-              <div class="hero-card__body">
-                <dl class="hero-card__stats">
-                  <div>
-                    <dt>supported games</dt>
-                    <dd>12+</dd>
-                  </div>
-                  <div>
-                    <dt>script delivery</dt>
-                    <dd>private GitHub</dd>
-                  </div>
-                  <div>
-                    <dt>protection</dt>
-                    <dd>luaarmor + key rotation</dd>
-                  </div>
-                </dl>
-                <p>
-                  "austin obsessed over the onboarding until it disappeared — players
-                  just see the game."
-                </p>
-              </div>
-              <div class="hero-card__footer">
-                <span>featured on: <strong>Nozomi UI showcase</strong></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div class="portfolio-content" style="display: none;">
-      <section class="section section--primary" id="projects">
-        <div class="container">
-          <div class="section__heading" data-animate>
-            <p class="section__eyebrow">badscriptshub ecosystem</p>
-            <h2>one loader, all the vibes.</h2>
-            <p>
-              BadScriptsHub watches the current place, validates the key with luaarmor, and
-              beams down the right script with zero friction. every supported game gets
-              its own tuning, theme, and telemetry hooks.
-            </p>
-          </div>
-          <div class="grid grid--projects">
-            <article class="card" data-animate data-animate-delay="0.1">
-              <div class="card__meta">
-                <span class="card__badge">universal loader</span>
-                <span class="card__tag">roblox lua</span>
-              </div>
-              <h3>BadScriptsHub loader</h3>
-              <p>
-                place detection, key validation, and a dynamic island status center that
-                keeps players in the loop without pulling them out of the world.
-              </p>
-              <ul class="card__list">
-                <li>secure token-based GitHub delivery</li>
-                <li>dynamic island progress + live stats</li>
-                <li>discord onboarding & clipboard helpers</li>
-              </ul>
-              <div class="card__actions">
-                <a
-                  class="button button--ghost"
-                  href="https://github.com/froumes/badscripthub"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  view repository
-                </a>
-                <a class="button button--subtle" href="#nozomi">UI in action</a>
-              </div>
-            </article>
-            <article class="card" data-animate data-animate-delay="0.18">
-              <div class="card__meta">
-                <span class="card__badge">featured titles</span>
-                <span class="card__tag">automation</span>
-              </div>
-              <h3>curated game scripts</h3>
-              <p>
-                anime eternal, dig to earth, clash clicker, jules RNG, rebirth champions
-                — every script inherits nozomi themes and gets custom toggles for how that
-                community actually plays.
-              </p>
-              <ul class="card__list">
-                <li>game-aware farming & progression tools</li>
-                <li>per-place theme overrides & telemetry</li>
-                <li>modular layout for fast season updates</li>
-              </ul>
-              <div class="card__actions">
-                <a
-                  class="button button--ghost"
-                  href="mailto:hello@austinxyz.lol?subject=BadScriptsHub%20Access"
-                >
-                  request access
-                </a>
-              </div>
-            </article>
-            <article class="card" data-animate data-animate-delay="0.26">
-              <div class="card__meta">
-                <span class="card__badge">workflow</span>
-                <span class="card__tag">automation ops</span>
-              </div>
-              <h3>secure delivery pipeline</h3>
-              <p>
-                luaarmor handles the key math, i handle the experience: key caching,
-                expiry pings, discord rpc, and graceful fallback UI for executors that
-                don't like fancy stuff.
-              </p>
-              <ul class="card__list">
-                <li>key storage & expiry detection</li>
-                <li>failsafe loader when libraries misbehave</li>
-                <li>executor-aware asset caching pipeline</li>
-              </ul>
-              <div class="card__actions">
-                <a
-                  class="button button--ghost"
-                  href="https://discord.gg/fA8jDgtHg9"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  join community
-                </a>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section section--contrast" id="nozomi">
-        <div class="container">
-          <div class="section__heading" data-animate>
-            <p class="section__eyebrow">Nozomi UI library</p>
-            <h2>theme-aware roblox UI with a dynamic island heart.</h2>
-            <p>
-              Nozomi started as my playground for glassmorphism on Roblox. now it's a full
-              toolkit: sliders, dropdowns, confirm dialogs, and that signature floating
-              island that keeps stats front-and-center.
-            </p>
-          </div>
-
-          <div class="grid grid--two">
-            <div class="panel" data-animate data-animate-delay="0.1">
-              <h3>feature highlights</h3>
-              <ul class="feature-list">
-                <li>
-                  theme presets with live tween updates (&ldquo;Sakura Dark&rdquo;,
-                  &ldquo;Nord&rdquo;, &ldquo;Soft Mint&rdquo;, and more)
-                </li>
-                <li>
-                  asset manager that caches Lucide icons via
-                  <code>getcustomasset</code>
-                </li>
-                <li>
-                  dynamic island plug-in with stats telemetry + animations
-                </li>
-                <li>
-                  complete UI toolkit: toggles, sliders, dropdowns, color-pickers,
-                  confirm dialogs
-                </li>
-              </ul>
-              <div class="panel__actions">
-                <a
-                  class="button"
-                  href="mailto:hello@austinxyz.lol?subject=Nozomi%20Library%20Access"
-                >
-                  request nozomi access
-                </a>
-                <a class="button button--ghost" href="mailto:hello@austinxyz.lol?subject=Nozomi%20Library%20Showcase">
-                  ask for a demo
-                </a>
-              </div>
-            </div>
-
-            <div class="panel island-panel" data-island data-animate data-animate-delay="0.18">
-              <div class="island-demo" data-state="idle">
-                <div class="island-demo__header">
-                  <span class="island-demo__title">dynamic island loader</span>
-                  <span class="island-demo__chip">Nozomi demo</span>
-                </div>
-                <div class="island-demo__body">
-                  <div class="island-demo__status" data-status-wrapper>
-                    <span class="island-demo__status-text" data-status-text>
-                      ready to demo
-                    </span>
-                    <div class="island-demo__progress">
-                      <div
-                        class="island-demo__progress-fill"
-                        data-progress-fill
-                      ></div>
-                    </div>
-                  </div>
-                  <div class="island-demo__stats" data-stats>
-                    <div>
-                      <span>player</span>
-                      <strong data-display-name>latte-soft</strong>
-                    </div>
-                    <div>
-                      <span>ping</span>
-                      <strong data-ping>0ms</strong>
-                    </div>
-                    <div>
-                      <span>fps</span>
-                      <strong data-fps>0 FPS</strong>
-                    </div>
-                  </div>
-                </div>
-                <button
-                  class="button island-demo__cta"
-                  type="button"
-                  data-action="start-demo"
-                >
-                  play loading animation
-                </button>
-              </div>
-              <div class="island-meta">
-                <p>
-                  this demo mirrors what Nozomi drops in-game: animated progress, theme-aware
-                  surfaces, and live telemetry that fades into the background.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="stack">
-        <div class="container">
-          <div class="section__heading">
-            <p class="section__eyebrow">Toolkit</p>
-            <h2>The stack behind BadScriptsHub & Nozomi.</h2>
-          </div>
-          <div class="grid grid--stack">
-            <div class="stack-card">
-              <h3>Core Languages</h3>
-              <p>LuaU · TypeScript · JavaScript · HTML · CSS</p>
-            </div>
-            <div class="stack-card">
-              <h3>Roblox Platform</h3>
-              <p>Players/RunService APIs · HttpService · TweenService</p>
-            </div>
-            <div class="stack-card">
-              <h3>Security & Delivery</h3>
-              <p>LuaArmor · GitHub REST · Executor-aware caching</p>
-            </div>
-            <div class="stack-card">
-              <h3>Design System</h3>
-              <p>Nozomi themes · Dynamic Island · Glassmorphism</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section section--cta" id="contact">
-        <div class="container section__cta">
-          <div>
-            <h2>Let’s ship your next Roblox experience.</h2>
-            <p>
-              Need a white-label loader, a custom UI library, or game automation
-              that feels premium? I collaborate with studios and creators to
-              deliver secure, themed experiences.
-            </p>
-          </div>
-          <div class="cta-actions">
-            <a class="button" href="mailto:hello@austinxyz.lol">
-              hello@austinxyz.lol
-            </a>
-            <a
-              class="button button--subtle"
-              href="https://discord.gg/fA8jDgtHg9"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Discord community
-            </a>
-          </div>
-        </div>
-      </section>
+        </section>
       </div>
 
       <div class="badscripthub-content" id="badscripthub" style="display: none;">
-        <section class="hero">
-          <div class="container hero__inner">
-            <div class="hero__content">
-              <p class="hero__eyebrow" data-animate data-animate-delay="0">
-                luaarmor-secured · roblox automation
-              </p>
-              <h1 data-animate data-animate-delay="0.1">
-                welcome to
-                <span class="hero__name" data-typewriter data-type-text="BadScriptsHub" data-type-speed="90"></span>
-              </h1>
-              <p class="hero__description" data-animate data-animate-delay="0.18">
-                BadScriptsHub is a secure, luaarmor-protected loader that automatically detects
-                the current Roblox place, validates your key, and delivers game-specific scripts
-                from private GitHub repositories. everything is wrapped in the <strong>Nozomi UI library</strong>
-                for a premium, theme-aware experience.
-              </p>
-              <div class="hero__actions" data-animate data-animate-delay="0.26">
-                <a class="button" href="https://github.com/froumes/badscripthub" target="_blank" rel="noreferrer">
-                  view on GitHub
-                </a>
-                <a class="button button--subtle" href="mailto:hello@austinxyz.lol?subject=BadScriptsHub%20Access">
-                  request access
-                </a>
-              </div>
-            </div>
-            <div class="hero__visual" data-animate data-animate-delay="0.2">
-              <div class="hero-card">
-                <div class="hero-card__header">
-                  <span class="hero-card__title">loader status</span>
-                  <span class="hero-card__tag">live</span>
-                </div>
-                <div class="hero-card__body">
-                  <dl class="hero-card__stats">
-                    <div>
-                      <dt>supported games</dt>
-                      <dd>12+</dd>
-                    </div>
-                    <div>
-                      <dt>script delivery</dt>
-                      <dd>private GitHub</dd>
-                    </div>
-                    <div>
-                      <dt>protection</dt>
-                      <dd>luaarmor + key rotation</dd>
-                    </div>
-                  </dl>
-                  <p>
-                    "place detection, key validation, and seamless script delivery — all wrapped
-                    in Nozomi's beautiful UI."
-                  </p>
-                </div>
-                <div class="hero-card__footer">
-                  <span>powered by: <strong>Nozomi UI</strong></span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="section section--primary">
+        <section class="section">
           <div class="container">
-            <div class="section__heading" data-animate>
-              <p class="section__eyebrow">badscriptshub features</p>
-              <h2>secure automation, delivered beautifully.</h2>
-              <p>
-                BadScriptsHub combines luaarmor security with Nozomi UI aesthetics to deliver
-                game-specific scripts that feel premium and work seamlessly.
-              </p>
-            </div>
-            <div class="grid grid--projects">
-              <article class="card" data-animate data-animate-delay="0.1">
-                <div class="card__meta">
-                  <span class="card__badge">core loader</span>
-                  <span class="card__tag">roblox lua</span>
-                </div>
-                <h3>universal loader</h3>
-                <p>
-                  automatically detects the current Roblox place, validates your luaarmor key,
-                  and fetches the appropriate script from private GitHub repositories.
-                </p>
-                <ul class="card__list">
-                  <li>place detection & validation</li>
-                  <li>luaarmor key management</li>
-                  <li>private GitHub script delivery</li>
-                  <li>dynamic island progress UI</li>
-                </ul>
-                <div class="card__actions">
-                  <a
-                    class="button button--ghost"
-                    href="https://github.com/froumes/badscripthub"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    view repository
-                  </a>
-                </div>
-              </article>
-              <article class="card" data-animate data-animate-delay="0.18">
-                <div class="card__meta">
-                  <span class="card__badge">game scripts</span>
-                  <span class="card__tag">automation</span>
-                </div>
-                <h3>curated game support</h3>
-                <p>
-                  scripts for anime eternal, dig to earth, clash clicker, jules RNG, rebirth champions,
-                  and more. each script is tuned for its specific game with custom toggles and themes.
-                </p>
-                <ul class="card__list">
-                  <li>game-aware farming tools</li>
-                  <li>per-place theme customization</li>
-                  <li>modular layout system</li>
-                  <li>telemetry & stats tracking</li>
-                </ul>
-                <div class="card__actions">
-                  <a
-                    class="button button--ghost"
-                    href="mailto:hello@austinxyz.lol?subject=BadScriptsHub%20Access"
-                  >
-                    request access
-                  </a>
-                </div>
-              </article>
-              <article class="card" data-animate data-animate-delay="0.26">
-                <div class="card__meta">
-                  <span class="card__badge">nozomi UI</span>
-                  <span class="card__tag">design system</span>
-                </div>
-                <h3>beautiful interface</h3>
-                <p>
-                  every BadScriptsHub script uses the Nozomi UI library for a consistent, theme-aware
-                  experience with dynamic islands, glassmorphism, and smooth animations.
-                </p>
-                <ul class="card__list">
-                  <li>theme presets (Sakura Dark, Nord, Soft Mint)</li>
-                  <li>dynamic island with live stats</li>
-                  <li>complete UI toolkit</li>
-                  <li>executor-aware asset caching</li>
-                </ul>
-                <div class="card__actions">
-                  <a class="button button--ghost" href="#nozomi">see Nozomi demo</a>
-                </div>
-              </article>
-            </div>
-          </div>
-        </section>
-
-        <section class="section section--contrast" id="nozomi">
-          <div class="container">
-            <div class="section__heading" data-animate>
-              <p class="section__eyebrow">Nozomi UI library</p>
-              <h2>theme-aware roblox UI with a dynamic island heart.</h2>
-              <p>
-                Nozomi started as my playground for glassmorphism on Roblox. now it's a full
-                toolkit: sliders, dropdowns, confirm dialogs, and that signature floating
-                island that keeps stats front-and-center.
-              </p>
-            </div>
-
-            <div class="grid grid--two">
-              <div class="panel" data-animate data-animate-delay="0.1">
-                <h3>feature highlights</h3>
-                <ul class="feature-list">
-                  <li>
-                    theme presets with live tween updates (&ldquo;Sakura Dark&rdquo;,
-                    &ldquo;Nord&rdquo;, &ldquo;Soft Mint&rdquo;, and more)
-                  </li>
-                  <li>
-                    asset manager that caches Lucide icons via
-                    <code>getcustomasset</code>
-                  </li>
-                  <li>
-                    dynamic island plug-in with stats telemetry + animations
-                  </li>
-                  <li>
-                    complete UI toolkit: toggles, sliders, dropdowns, color-pickers,
-                    confirm dialogs
-                  </li>
-                </ul>
-                <div class="panel__actions">
-                  <a
-                    class="button"
-                    href="mailto:hello@austinxyz.lol?subject=Nozomi%20Library%20Access"
-                  >
-                    request nozomi access
-                  </a>
-                  <a class="button button--ghost" href="mailto:hello@austinxyz.lol?subject=Nozomi%20Library%20Showcase">
-                    ask for a demo
-                  </a>
-                </div>
-              </div>
-
-              <div class="panel island-panel" data-island data-animate data-animate-delay="0.18">
-                <div class="island-demo" data-state="idle">
-                  <div class="island-demo__header">
-                    <span class="island-demo__title">dynamic island loader</span>
-                    <span class="island-demo__chip">Nozomi demo</span>
-                  </div>
-                  <div class="island-demo__body">
-                    <div class="island-demo__status" data-status-wrapper>
-                      <span class="island-demo__status-text" data-status-text>
-                        ready to demo
-                      </span>
-                      <div class="island-demo__progress">
-                        <div
-                          class="island-demo__progress-fill"
-                          data-progress-fill
-                        ></div>
-                      </div>
-                    </div>
-                    <div class="island-demo__stats" data-stats>
-                      <div>
-                        <span>player</span>
-                        <strong data-display-name>latte-soft</strong>
-                      </div>
-                      <div>
-                        <span>ping</span>
-                        <strong data-ping>0ms</strong>
-                      </div>
-                      <div>
-                        <span>fps</span>
-                        <strong data-fps>0 FPS</strong>
-                      </div>
-                    </div>
-                  </div>
-                  <button
-                    class="button island-demo__cta"
-                    type="button"
-                    data-action="start-demo"
-                  >
-                    play loading animation
-                  </button>
-                </div>
-                <div class="island-meta">
-                  <p>
-                    this demo mirrors what Nozomi drops in-game: animated progress, theme-aware
-                    surfaces, and live telemetry that fades into the background.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="section section--cta">
-          <div class="container section__cta">
-            <div>
-              <h2>Get started with BadScriptsHub.</h2>
-              <p>
-                Need access to BadScriptsHub or want to learn more about the loader?
-                Reach out to discuss access, custom scripts, or collaboration opportunities.
-              </p>
-            </div>
-            <div class="cta-actions">
-              <a class="button" href="mailto:hello@austinxyz.lol?subject=BadScriptsHub%20Inquiry">
-                hello@austinxyz.lol
-              </a>
-              <a
-                class="button button--subtle"
-                href="https://discord.gg/fA8jDgtHg9"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Discord community
-              </a>
-            </div>
+            <h2>BadScriptsHub Content</h2>
+            <p>Your BadScriptsHub content will go here.</p>
           </div>
         </section>
       </div>
     </main>
 
-    <footer class="site-footer">
-      <div class="container site-footer__inner">
-        <p>&copy; <span id="year"></span> Austin XYZ · Built with Nozomi-inspired UX.</p>
-        <div class="site-footer__links">
-          <a
-            href="https://github.com/froumes"
-            target="_blank"
-            rel="noreferrer"
-          >
-            GitHub
-          </a>
-          <a
-            href="https://austinxyz.lol"
-            target="_blank"
-            rel="noreferrer"
-          >
-            austinxyz.lol
-          </a>
-          <a href="#home">Back to top</a>
-        </div>
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; <span id="year"></span> Austin XYZ</p>
       </div>
     </footer>
 
-    <script src="script.js" type="module"></script>
+    <script src="script.js"></script>
   </body>
 </html>
-
