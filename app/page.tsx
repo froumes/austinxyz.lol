@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { ArrowRight, Code, Target } from "lucide-react"
+import { ArrowRight, Code, Target, Key, ExternalLink } from "lucide-react"
 import Link from "next/link"
 
 interface Theme {
@@ -270,7 +270,66 @@ export default function HomePage() {
           </Link>
         </div>
 
-        <div className="text-center mt-16 animate-fade-in-up animation-delay-800">
+        {/* Key Links Section */}
+        <div className="mt-20 max-w-4xl mx-auto animate-fade-in-up animation-delay-800">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3 flex items-center justify-center gap-3">
+              <Key className="w-8 h-8 text-primary" />
+              Key Links
+            </h2>
+            <p className="text-muted-foreground">Get your keys to access scripts and services</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4">
+            {/* Key Link 1 - Replace with your actual key link */}
+            <a
+              href="https://keyauth.com/your-key-link-1"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-xl p-6 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:border-primary"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    <Key className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
+                      Get Your Key
+                    </h3>
+                    <p className="text-sm text-muted-foreground">Access BadScriptHub scripts</p>
+                  </div>
+                </div>
+                <ExternalLink className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+              </div>
+            </a>
+
+            {/* Key Link 2 - Replace with your actual key link */}
+            <a
+              href="https://keyauth.com/your-key-link-2"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-xl p-6 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 hover:border-primary"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    <Key className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
+                      Premium Access
+                    </h3>
+                    <p className="text-sm text-muted-foreground">Unlock premium features</p>
+                  </div>
+                </div>
+                <ExternalLink className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div className="text-center mt-16 animate-fade-in-up animation-delay-1000">
           <p className="text-muted-foreground text-sm">Choose your path and discover what I can do</p>
         </div>
       </div>
