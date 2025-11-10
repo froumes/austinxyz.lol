@@ -333,6 +333,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  align-items: center;
 }
 
 .bsh-note {
@@ -450,10 +451,7 @@ body {
 }
 
 .nozomi-demo__footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  display: block;
 }
 
 .nozomi-demo__footnote {

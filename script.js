@@ -3,6 +3,8 @@ const landingSection = document.querySelector('.hero');
 const portfolioContent = document.querySelector('.portfolio-content');
 const badscripthubContent = document.querySelector('.badscripthub-content');
 const choiceCards = document.querySelectorAll('.choice-card');
+let startNozomiDemo = () => {};
+let resetNozomiPreview = () => {};
 
 const showContent = (contentType) => {
   // Hide landing page
@@ -22,9 +24,11 @@ const showContent = (contentType) => {
   if (contentType === 'portfolio' && portfolioContent) {
     portfolioContent.style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    resetNozomiPreview();
   } else if (contentType === 'badscripthub' && badscripthubContent) {
     badscripthubContent.style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    startNozomiDemo();
   }
 };
 
@@ -38,6 +42,7 @@ const showLanding = () => {
   if (badscripthubContent) {
     badscripthubContent.style.display = 'none';
   }
+  resetNozomiPreview();
 };
 
 // Handle choice card clicks
@@ -133,7 +138,6 @@ const statsPanel = nozomiDemo?.querySelector('[data-demo-stats]');
 const playerLabel = nozomiDemo?.querySelector('[data-demo-player]');
 const pingLabel = nozomiDemo?.querySelector('[data-demo-ping]');
 const fpsLabel = nozomiDemo?.querySelector('[data-demo-fps]');
-const demoStartButtons = document.querySelectorAll('[data-demo-start]');
 
 const demoSteps = [
   { status: 'Initializing loader…', phase: 'Handshake', progress: 0.2 },
@@ -211,12 +215,6 @@ const runDemo = () => {
   advance();
 };
 
-demoStartButtons.forEach((button) => {
-  button.addEventListener('click', () => {
-    runDemo();
-  });
-});
-
 document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     window.clearInterval(statsInterval);
@@ -224,6 +222,14 @@ document.addEventListener('visibilitychange', () => {
     startStatsLoop();
   }
 });
+
+resetNozomiPreview = () => {
+  resetDemo();
+};
+
+startNozomiDemo = () => {
+  runDemo();
+};
 
 window.addEventListener('beforeunload', () => {
   window.clearTimeout(demoStepTimeout);
