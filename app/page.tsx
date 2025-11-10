@@ -172,9 +172,6 @@ export default function HomePage() {
               <span className="inline-block w-1 h-20 bg-primary ml-1 animate-blink" />
             </span>
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground font-light animate-fade-in-up animation-delay-200">
-            showcase of capabilities
-          </p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
