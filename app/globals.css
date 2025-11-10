@@ -556,7 +556,7 @@ body {
 }
 
 .scroll-animate.visible {
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 .scroll-fade-up {
