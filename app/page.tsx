@@ -114,6 +114,8 @@ export default function HomePage() {
           transition: "transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
           // Ensure opacity stays 1 once visible - use !important via inline style
           opacity: shouldBeVisible ? 1 : 0,
+          // Force visibility with important to prevent CSS from overriding
+          visibility: shouldBeVisible ? "visible" : "hidden",
           ...props.style,
         }}
         {...props}

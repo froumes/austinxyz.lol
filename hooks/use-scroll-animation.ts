@@ -17,10 +17,14 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
     delay = 0,
   } = options
 
-  const [isVisible, setIsVisible] = useState(false)
-  const [hasAnimated, setHasAnimated] = useState(false)
   const elementRef = useRef<HTMLElement>(null)
   const hasBeenVisibleRef = useRef(false) // Persistent ref that never resets
+  const visibilityTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  
+  // Use a ref for state to avoid re-renders resetting it
+  const isVisibleRef = useRef(false)
+  const [isVisible, setIsVisible] = useState(false)
+  const [hasAnimated, setHasAnimated] = useState(false)
 
   useEffect(() => {
     const element = elementRef.current
@@ -41,15 +45,23 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
 
       if (isInViewport && !hasBeenVisibleRef.current) {
         hasBeenVisibleRef.current = true // Mark as seen immediately
+        isVisibleRef.current = true // Set ref immediately
+        
         if (delay > 0) {
-          setTimeout(() => {
+          // Clear any existing timeout
+          if (visibilityTimeoutRef.current) {
+            clearTimeout(visibilityTimeoutRef.current)
+          }
+          visibilityTimeoutRef.current = setTimeout(() => {
             setIsVisible(true)
+            isVisibleRef.current = true
             if (triggerOnce) {
               setHasAnimated(true)
             }
           }, delay)
         } else {
           setIsVisible(true)
+          isVisibleRef.current = true
           if (triggerOnce) {
             setHasAnimated(true)
           }
@@ -88,15 +100,23 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
         entries.forEach((entry) => {
           if (entry.isIntersecting && !hasBeenVisibleRef.current) {
             hasBeenVisibleRef.current = true // Mark as seen immediately
+            isVisibleRef.current = true // Set ref immediately
+            
             if (delay > 0) {
-              setTimeout(() => {
+              // Clear any existing timeout
+              if (visibilityTimeoutRef.current) {
+                clearTimeout(visibilityTimeoutRef.current)
+              }
+              visibilityTimeoutRef.current = setTimeout(() => {
                 setIsVisible(true)
+                isVisibleRef.current = true
                 if (triggerOnce) {
                   setHasAnimated(true)
                 }
               }, delay)
             } else {
               setIsVisible(true)
+              isVisibleRef.current = true
               if (triggerOnce) {
                 setHasAnimated(true)
               }
@@ -123,20 +143,27 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
     
     if (isAlreadyVisible && !hasBeenVisibleRef.current) {
       hasBeenVisibleRef.current = true // Mark as seen immediately
+      isVisibleRef.current = true // Set ref immediately
       
       // Trigger the callback manually
       observer.takeRecords() // This will process any pending observations
       
       // Also manually call our handler
       if (delay > 0) {
-        setTimeout(() => {
+        // Clear any existing timeout
+        if (visibilityTimeoutRef.current) {
+          clearTimeout(visibilityTimeoutRef.current)
+        }
+        visibilityTimeoutRef.current = setTimeout(() => {
           setIsVisible(true)
+          isVisibleRef.current = true
           if (triggerOnce) {
             setHasAnimated(true)
           }
         }, delay)
       } else {
         setIsVisible(true)
+        isVisibleRef.current = true
         if (triggerOnce) {
           setHasAnimated(true)
         }
@@ -145,12 +172,17 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
 
     return () => {
       observer.disconnect()
+      // Clear timeout on cleanup
+      if (visibilityTimeoutRef.current) {
+        clearTimeout(visibilityTimeoutRef.current)
+      }
     }
-  }, [threshold, rootMargin, triggerOnce, delay, hasAnimated])
+  }, [threshold, rootMargin, triggerOnce, delay]) // Removed hasAnimated from deps to prevent re-runs
 
   // Once visible, always return true (never go back to false)
+  // Check refs first as they're most reliable
   const finalIsVisible = triggerOnce 
-    ? (hasBeenVisibleRef.current || hasAnimated || isVisible)
+    ? (hasBeenVisibleRef.current || isVisibleRef.current || hasAnimated || isVisible)
     : isVisible
 
   return {
