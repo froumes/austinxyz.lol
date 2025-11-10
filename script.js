@@ -143,6 +143,11 @@ const initializeTypewriters = () => {
   }
 
   typewriterTargets.forEach((element) => {
+    // Skip if typewriter has already completed
+    if (element.dataset.typeComplete === 'true') {
+      return;
+    }
+
     ensureTypewriterText(element);
     cancelTypewriter(element);
 
