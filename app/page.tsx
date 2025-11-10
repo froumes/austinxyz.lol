@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { ArrowRight, Code, Target } from "lucide-react"
 import Link from "next/link"
+import { LogoSimple } from "@/components/logo"
 
 interface Theme {
   BackgroundColor: string
@@ -243,9 +244,11 @@ export default function HomePage() {
 
             <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 -m-8">
               <div className="w-16 h-16 bg-accent/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-accent/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                <Target className="w-8 h-8 group-hover:scale-110 transition-all duration-300" style={{
-                  color: hoveredOption === "badscripthub" ? "rgb(255, 122, 144)" : "rgb(255, 255, 255)"
-                }} />
+                <LogoSimple
+                  size={40}
+                  className="group-hover:scale-110 transition-all duration-300"
+                  alt="BadScriptHub Logo"
+                />
               </div>
 
               <h2 className="text-3xl font-bold mb-3 transition-colors duration-300" style={{

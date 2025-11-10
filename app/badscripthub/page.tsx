@@ -28,7 +28,7 @@ import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
-import { AbstractLogo } from "@/components/abstract-logo"
+import { LogoSimple } from "@/components/logo"
 
 // Discord Icon Component
 const DiscordIcon = ({ className, style }: { className?: string; style?: React.CSSProperties }) => (
@@ -431,15 +431,11 @@ export default function BadScriptHubPage() {
                 transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
               }}
             />
-            {/* Abstract Logo - you can customize the variant: "default" | "minimal" | "geometric" | "layered" */}
-            <AbstractLogo
-              variant="default"
+            {/* Logo - Replace /logo.png with your actual filename after uploading to public folder */}
+            <LogoSimple
               size={24}
               className="group-hover:scale-110 transition-transform duration-300"
-              style={{
-                color: currentTheme.AccentColor,
-                transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
-              }}
+              alt="BadScriptHub Logo"
             />
             <div 
               className="text-sm font-semibold transition-colors duration-[1000ms] ease-in-out" 
@@ -789,29 +785,36 @@ export default function BadScriptHubPage() {
 
       <div className="relative z-10 container mx-auto px-6 py-12 flex flex-col items-center">
         <div className="text-center mb-12 animate-fade-in-up">
-          <div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 animate-pulse-slow transition-colors duration-[1000ms] ease-in-out"
-            style={{ 
-              backgroundColor: currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.1)"),
-              transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1)",
-            }}
-            >
-            <DiscordIcon 
-              className="w-4 h-4" 
-              style={{ 
-                color: currentTheme.AccentColor,
-                transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
-              }} 
+          <div className="flex flex-col items-center gap-4 mb-6">
+            <LogoSimple
+              size={64}
+              className="animate-pulse-slow"
+              alt="BadScriptHub Logo"
             />
-            <span
-              className="text-sm font-semibold" 
+            <div
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full animate-pulse-slow transition-colors duration-[1000ms] ease-in-out"
               style={{ 
-                color: currentTheme.AccentColor,
-                transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+                backgroundColor: currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.1)"),
+                transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1)",
               }}
             >
-              @froumes
-            </span>
+              <DiscordIcon 
+                className="w-4 h-4" 
+                style={{ 
+                  color: currentTheme.AccentColor,
+                  transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+                }} 
+              />
+              <span
+                className="text-sm font-semibold" 
+                style={{ 
+                  color: currentTheme.AccentColor,
+                  transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+                }}
+              >
+                @froumes
+              </span>
+            </div>
           </div>
 
           <h1
@@ -878,10 +881,17 @@ export default function BadScriptHubPage() {
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
             >
-              <div className="flex gap-2 mb-6">
-                <div className="w-3 h-3 rounded-full bg-[#ff5f57] animate-pulse" />
-                <div className="w-3 h-3 rounded-full bg-[#febc2e] animate-pulse animation-delay-200" />
-                <div className="w-3 h-3 rounded-full bg-[#28c840] animate-pulse animation-delay-400" />
+              <div className="flex flex-col items-center gap-3 mb-6">
+                <LogoSimple
+                  size={32}
+                  className="animate-pulse-slow"
+                  alt="BadScriptHub Logo"
+                />
+                <div className="flex gap-2">
+                  <div className="w-3 h-3 rounded-full bg-[#ff5f57] animate-pulse" />
+                  <div className="w-3 h-3 rounded-full bg-[#febc2e] animate-pulse animation-delay-200" />
+                  <div className="w-3 h-3 rounded-full bg-[#28c840] animate-pulse animation-delay-400" />
+                </div>
               </div>
 
               <div className="flex flex-col gap-6 w-full">
