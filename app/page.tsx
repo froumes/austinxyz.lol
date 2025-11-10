@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { ArrowRight, Code, Target } from "lucide-react"
 import Link from "next/link"
+import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 interface Theme {
   BackgroundColor: string
@@ -22,6 +23,33 @@ export default function HomePage() {
   const [isTransitioning, setIsTransitioning] = useState(false)
   const bgLayerRef = useRef<HTMLDivElement>(null)
   const fullText = "austinxyz.lol"
+
+  // Scroll animation component
+  function ScrollAnimatedElement({ 
+    children, 
+    delay = 0, 
+    className = "scroll-fade-up" 
+  }: { 
+    children: React.ReactNode
+    delay?: number
+    className?: string
+  }) {
+    const { ref, isVisible } = useScrollAnimation({ 
+      threshold: 0.1, 
+      rootMargin: "0px 0px -50px 0px",
+      triggerOnce: true,
+      delay 
+    })
+
+    return (
+      <div
+        ref={ref as React.RefObject<HTMLDivElement>}
+        className={`scroll-animate ${className} ${isVisible ? "visible" : ""}`}
+      >
+        {children}
+      </div>
+    )
+  }
   
   // Default landing theme colors
   const defaultTheme: Theme = {
@@ -177,11 +205,12 @@ export default function HomePage() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          <Link
-            href="/portfolio"
-            onMouseEnter={() => setHoveredOption("portfolio")}
-            onMouseLeave={() => setHoveredOption(null)}
-            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 animate-fade-in-up animation-delay-400 perspective-1000"
+          <ScrollAnimatedElement delay={400}>
+            <Link
+              href="/portfolio"
+              onMouseEnter={() => setHoveredOption("portfolio")}
+              onMouseLeave={() => setHoveredOption(null)}
+              className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 perspective-1000"
             style={{
               transform: hoveredOption === "portfolio" ? "rotateX(2deg) rotateY(-2deg)" : "rotateX(0) rotateY(0)",
               transformStyle: "preserve-3d",
@@ -219,12 +248,14 @@ export default function HomePage() {
               </div>
             </div>
           </Link>
+          </ScrollAnimatedElement>
 
-          <Link
-            href="/badscripthub"
-            onMouseEnter={() => setHoveredOption("badscripthub")}
-            onMouseLeave={() => setHoveredOption(null)}
-            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 animate-fade-in-up animation-delay-600 perspective-1000"
+          <ScrollAnimatedElement delay={600}>
+            <Link
+              href="/badscripthub"
+              onMouseEnter={() => setHoveredOption("badscripthub")}
+              onMouseLeave={() => setHoveredOption(null)}
+              className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 perspective-1000"
             style={{
               transform: hoveredOption === "badscripthub" ? "rotateX(2deg) rotateY(2deg)" : "rotateX(0) rotateY(0)",
               transformStyle: "preserve-3d",
@@ -268,11 +299,14 @@ export default function HomePage() {
               </div>
             </div>
           </Link>
+          </ScrollAnimatedElement>
         </div>
 
-        <div className="text-center mt-16 animate-fade-in-up animation-delay-1000">
-          <p className="text-muted-foreground text-sm">Choose your path and discover what I can do</p>
-        </div>
+        <ScrollAnimatedElement delay={1000}>
+          <div className="text-center mt-16">
+            <p className="text-muted-foreground text-sm">Choose your path and discover what I can do</p>
+          </div>
+        </ScrollAnimatedElement>
       </div>
       </div>
     </>

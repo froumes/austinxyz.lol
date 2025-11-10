@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef, useMemo } from "react"
+import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 import {
   Crosshair,
   Eye,
@@ -220,6 +221,33 @@ export default function BadScriptHubPage() {
   const [copied, setCopied] = useState(false)
   
   const loadstring = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/froumes/austinxyz.lol/main/badscripthub/loader.lua"))()'
+
+  // Scroll animation component
+  function ScrollAnimatedElement({ 
+    children, 
+    delay = 0, 
+    className = "scroll-fade-up" 
+  }: { 
+    children: React.ReactNode
+    delay?: number
+    className?: string
+  }) {
+    const { ref, isVisible } = useScrollAnimation({ 
+      threshold: 0.1, 
+      rootMargin: "0px 0px -50px 0px",
+      triggerOnce: true,
+      delay 
+    })
+
+    return (
+      <div
+        ref={ref as React.RefObject<HTMLDivElement>}
+        className={`scroll-animate ${className} ${isVisible ? "visible" : ""}`}
+      >
+        {children}
+      </div>
+    )
+  }
 
   const navItems = [
     { icon: Crosshair, label: "Aim", active: true },
@@ -1342,13 +1370,12 @@ export default function BadScriptHubPage() {
           ].map((feature, i) => {
             const FeatureIcon = feature.icon
             return (
+              <ScrollAnimatedElement key={i} delay={i * 100} className="scroll-scale">
               <div
-                key={i}
-                className="backdrop-blur-sm rounded-xl p-6 transition-all duration-500 hover:scale-105 hover:shadow-xl animate-fade-in-up"
+                className="backdrop-blur-sm rounded-xl p-6 transition-all duration-500 hover:scale-105 hover:shadow-xl"
                 style={{
                   backgroundColor: currentTheme.SurfaceColor.replace("rgb", "rgba").replace(")", ", 0.5)"),
                   border: "1px solid " + currentTheme.BorderColor,
-                  animationDelay: String((i + 6) * 100) + "ms",
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = currentTheme.AccentColor
@@ -1390,16 +1417,18 @@ export default function BadScriptHubPage() {
                   {feature.desc}
                 </p>
               </div>
+              </ScrollAnimatedElement>
             )
           })}
         </div>
 
         {/* Scripts Section */}
+        <ScrollAnimatedElement delay={200} className="scroll-fade-up">
         <div
-          className="max-w-6xl mx-auto mb-16 animate-fade-in-up animation-delay-600"
+          className="max-w-6xl mx-auto mb-16"
         >
           <h2
-            className="text-4xl md:text-5xl font-black mb-12 text-center transition-colors duration-[1000ms] ease-in-out animate-fade-in-up"
+            className="text-4xl md:text-5xl font-black mb-12 text-center transition-colors duration-[1000ms] ease-in-out"
             style={{ 
               color: currentTheme.TextColor,
               transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -1455,13 +1484,12 @@ export default function BadScriptHubPage() {
             ].map((script, i) => {
               const IconComponent = script.icon
               return (
+              <ScrollAnimatedElement key={i} delay={i * 50} className="scroll-fade-up">
               <div
-                key={i}
-                className="group relative backdrop-blur-sm rounded-2xl p-6 border-2 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 animate-scale-in hover-lift"
+                className="group relative backdrop-blur-sm rounded-2xl p-6 border-2 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 hover-lift"
                 style={{
                   backgroundColor: currentTheme.SurfaceColor.replace("rgb", "rgba").replace(")", ", 0.5)"),
                   borderColor: currentTheme.BorderColor,
-                  animationDelay: String((i + 8) * 100) + "ms",
                   transition: "all 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
                 }}
                 onMouseEnter={(e) => {
@@ -1529,17 +1557,20 @@ export default function BadScriptHubPage() {
                   </div>
                 </div>
               </div>
+              </ScrollAnimatedElement>
               )
             })}
           </div>
         </div>
+        </ScrollAnimatedElement>
 
         {/* FAQ Section */}
+        <ScrollAnimatedElement delay={300} className="scroll-fade-up">
         <div
-          className="max-w-4xl mx-auto mb-16 animate-fade-in-up animation-delay-800"
+          className="max-w-4xl mx-auto mb-16"
         >
           <h2
-            className="text-4xl md:text-5xl font-black mb-12 text-center transition-colors duration-[1000ms] ease-in-out animate-fade-in-up"
+            className="text-4xl md:text-5xl font-black mb-12 text-center transition-colors duration-[1000ms] ease-in-out"
             style={{ 
               color: currentTheme.TextColor,
               transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -1593,13 +1624,12 @@ export default function BadScriptHubPage() {
             ].map((faq, i) => {
               const isOpen = openFAQ === i
               return (
+                <ScrollAnimatedElement key={i} delay={i * 30} className="scroll-fade-up">
                 <div
-                  key={i}
-                  className="backdrop-blur-sm rounded-xl border-2 overflow-hidden transition-all duration-500 animate-fade-in-scale hover-lift"
+                  className="backdrop-blur-sm rounded-xl border-2 overflow-hidden transition-all duration-500 hover-lift"
                   style={{
                     backgroundColor: currentTheme.SurfaceColor.replace("rgb", "rgba").replace(")", ", 0.5)"),
                     borderColor: currentTheme.BorderColor,
-                    animationDelay: String((i + 14) * 50) + "ms",
                     transition: "all 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
                   }}
                   onMouseEnter={(e) => {
@@ -1662,14 +1692,17 @@ export default function BadScriptHubPage() {
                     </div>
                   </div>
                 </div>
+                </ScrollAnimatedElement>
               )
             })}
           </div>
         </div>
+        </ScrollAnimatedElement>
 
         {/* About Section */}
+        <ScrollAnimatedElement delay={400} className="scroll-fade-up">
         <div
-          className="max-w-4xl mx-auto backdrop-blur-sm rounded-2xl p-8 md:p-12 animate-fade-in-up animation-delay-1000 transition-all duration-[1000ms] ease-in-out"
+          className="max-w-4xl mx-auto backdrop-blur-sm rounded-2xl p-8 md:p-12 transition-all duration-[1000ms] ease-in-out"
           style={{
             backgroundColor: currentTheme.SurfaceColor.replace("rgb", "rgba").replace(")", ", 0.8)"),
             border: "1px solid " + currentTheme.BorderColor,
@@ -1754,6 +1787,7 @@ export default function BadScriptHubPage() {
             </ul>
           </div>
         </div>
+        </ScrollAnimatedElement>
       </div>
     </div>
     </>
