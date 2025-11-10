@@ -20,6 +20,8 @@ import {
   Target,
   Dice6,
   RotateCcw,
+  Copy,
+  Check,
 } from "lucide-react"
 import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
@@ -213,6 +215,9 @@ export default function BadScriptHubPage() {
   const [currentTheme, setCurrentTheme] = useState(THEME_PRESETS["landing"])
   const [hasTransitioned, setHasTransitioned] = useState(false)
   const [openFAQ, setOpenFAQ] = useState<number | null>(null)
+  const [copied, setCopied] = useState(false)
+  
+  const loadstring = 'loadstring(game:HttpGet("https://raw.githubusercontent.com/froumes/austinxyz.lol/main/badscripthub/loader.lua"))()'
 
   const navItems = [
     { icon: Crosshair, label: "Aim", active: true },
@@ -489,6 +494,86 @@ export default function BadScriptHubPage() {
           </div>
         </div>
       </header>
+
+      {/* Prominent Loadstring Section */}
+      <div className="relative z-10 container mx-auto px-6 pt-8">
+        <div
+          className="max-w-4xl mx-auto rounded-2xl p-6 mb-8 shadow-2xl border-2 animate-fade-in-up"
+          style={{
+            backgroundColor: currentTheme.SurfaceColor,
+            borderColor: currentTheme.AccentColor,
+            boxShadow: "0 0 40px " + currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.3)"),
+            transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1)",
+          }}
+        >
+          <div className="flex items-center justify-between gap-4 mb-4">
+            <h2
+              className="text-2xl font-bold flex items-center gap-2"
+              style={{
+                color: currentTheme.TextColor,
+                transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+              }}
+            >
+              <Sparkles 
+                className="w-6 h-6"
+                style={{
+                  color: currentTheme.AccentColor,
+                  transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+                }}
+              />
+              Loadstring
+            </h2>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(loadstring)
+                setCopied(true)
+                setTimeout(() => setCopied(false), 2000)
+              }}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all hover:scale-105 active:scale-95"
+              style={{
+                backgroundColor: copied 
+                  ? currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.2)")
+                  : currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.1)"),
+                border: "1px solid " + currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.5)"),
+                color: currentTheme.AccentColor,
+                transition: "all 0.3s ease, color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+              }}
+            >
+              {copied ? (
+                <>
+                  <Check className="w-4 h-4" />
+                  <span>Copied!</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-4 h-4" />
+                  <span>Copy</span>
+                </>
+              )}
+            </button>
+          </div>
+          <div
+            className="rounded-lg p-4 font-mono text-sm break-all select-all cursor-text"
+            style={{
+              backgroundColor: currentTheme.BackgroundColor,
+              border: "1px solid " + currentTheme.BorderColor,
+              color: currentTheme.TextColor,
+              transition: "all 1s cubic-bezier(0.4, 0, 0.2, 1)",
+            }}
+          >
+            {loadstring}
+          </div>
+          <p
+            className="text-sm mt-3 opacity-70"
+            style={{
+              color: currentTheme.SecondaryTextColor,
+              transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+            }}
+          >
+            Copy and paste this into your Roblox executor to load BadScriptHub
+          </p>
+        </div>
+      </div>
 
       <div className="relative z-10 container mx-auto px-6 py-12 flex flex-col items-center">
         <div className="text-center mb-12 animate-fade-in-up">
