@@ -24,7 +24,7 @@ export const Logo: React.FC<LogoProps> = ({
       }}
     >
       <Image
-        src="https://raw.githubusercontent.com/froumes/badscripthub/main/BSHLogoNoBackground.png"
+        src="https://raw.githubusercontent.com/froumes/austinxyz.lol/main/public/BSHLogoNoBackground.png"
         alt={alt}
         width={size}
         height={size}
@@ -48,7 +48,7 @@ export const LogoSimple: React.FC<LogoProps> = ({
 }) => {
   return (
     <img
-      src="https://raw.githubusercontent.com/froumes/badscripthub/main/BSHLogoNoBackground.png"
+      src="https://raw.githubusercontent.com/froumes/austinxyz.lol/main/public/BSHLogoNoBackground.png"
       alt={alt}
       className={className}
       style={{

@@ -13,11 +13,11 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       {
-        url: "https://raw.githubusercontent.com/froumes/badscripthub/main/BSHLogoNoBackground.png",
+        url: "https://raw.githubusercontent.com/froumes/austinxyz.lol/main/public/BSHLogoNoBackground.png",
         type: "image/png",
       },
     ],
-    apple: "https://raw.githubusercontent.com/froumes/badscripthub/main/BSHLogoNoBackground.png",
+    apple: "https://raw.githubusercontent.com/froumes/austinxyz.lol/main/public/BSHLogoNoBackground.png",
   },
 }
 
