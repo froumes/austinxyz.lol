@@ -1,51 +1,35 @@
-Nozomi UI Library • Snapshot
-============================
+Nozomi UI Library • Private Snapshot
+====================================
 
-Load the library
----------------
-loadstring(game:HttpGet("https://raw.githubusercontent.com/froumes/nozomi/refs/heads/main/nozomiLib"))()
+Access
+------
+Nozomi is a private UI library maintained by austin. if you're interested in a
+demo or collaboration, reach out at hello@austinxyz.lol with your project goals.
 
-Quick start
------------
-local UI = UILibrary.new("BadScriptsHub • Control Center")
-local mainTab = UI:AddTab("Dashboard", "compass")
+What makes Nozomi different
+---------------------------
+- theme presets with live tween updates (Sakura Dark, Nord, Soft Mint, etc.)
+- asset manager that caches Lucide icons via executor-friendly APIs
+- dynamic island loader plug-in with stats telemetry + animations
+- full toolkit: toggles, sliders, dropdowns, color picker, confirm dialogs
+- executor-aware caching and Discord-style modal UX
 
--- Themeing
-UI:ApplyPreset("Sakura Dark")
+Integration Outline
+-------------------
+Once access is granted, you'll receive a secure loader endpoint and usage notes
+covering:
+- creating a themed window (`UILibrary.new`)
+- wiring core components (toggles, sliders, dropdowns)
+- connecting the dynamic island to loader telemetry
+- updating themes on the fly via `ApplyPreset`
 
--- Components
-mainTab:AddToggle("Auto-Farm", true, function(enabled)
-    print("Auto-Farm toggled:", enabled)
-end)
+Requesting a Demo
+-----------------
+Email hello@austinxyz.lol with:
+1. project/game name
+2. target executor(s)
+3. the UI/automation problems you're trying to solve
 
-mainTab:AddSlider("Walk Speed", 10, 150, 60, function(value)
-    print("Walk Speed:", value)
-end)
-
-mainTab:AddDropdown("Teleport Target", {"Spawn", "Training Area", "Secret Room"}, "Spawn", function(selection)
-    print("Teleporting to:", selection)
-end)
-
-mainTab:AddButton("Summon Dynamic Island", function()
-    UILibrary.DynamicIslandAssetLoader.ShowLoading(_G.BadScriptsHub.DynamicIsland, Color3.fromRGB(255, 122, 144))
-end)
-
-Dynamic Island Hooks
---------------------
-_G.BadScriptsHub.DynamicIsland        -- Roblox instance created by loader
-_G.BadScriptsHub.UpdateIslandTheme()  -- Tween background/text colors to match active theme
-
-Included Presets
-----------------
-- Dark Mode, Light Mode, VS Code Dark, Dracula
-- Nord, Monokai, Monkeytype Dark/Light/9009
-- Sakura Light/Dark, Soft Pastel (+ Dark), Soft Mint (+ Dark)
-- Soft Lavender, Soft Blue (both with Dark variants)
-
-Key Features
-------------
-- AssetManager caches Lucide icons via getcustomasset/getsynasset
-- Tween-driven minimize/maximize & drag/resize window behavior
-- Confirmation dialogs, multi-select, color picker, theme tab + credits tab
-- Executor-aware caching and Discord-style modal UX
+If it’s a good fit, you’ll get a bespoke walkthrough and sandbox build. public
+distribution links are intentionally withheld to keep Nozomi exclusive.
 
