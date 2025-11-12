@@ -23,6 +23,9 @@ import {
   Check,
   Key,
   ExternalLink,
+  Search,
+  Basketball,
+  TrendingUp,
 } from "lucide-react"
 import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
@@ -1486,6 +1489,34 @@ export default function BadScriptHubPage() {
                 features: ["Auto Click", "Auto Rebirth", "Egg Hatching", "Upgrade System", "Achievement Tracking", "Chest Automation"],
                 color: "rgb(132, 176, 255)"
               },
+              {
+                name: "Find Brainrot",
+                icon: Search,
+                description: "Finds items automatically and handles the repetitive searching. Saves you from clicking around the map for hours.",
+                features: ["Auto Find", "Item Detection", "Pathfinding", "Collection System", "Progress Tracking"],
+                color: "rgb(203, 166, 247)"
+              },
+              {
+                name: "Pixel Blade",
+                icon: Sword,
+                description: "Handles combat automation and progression. Farms enemies, manages upgrades, and tracks your progress through the game.",
+                features: ["Auto Combat", "Enemy Farming", "Upgrade System", "Progress Tracking", "Resource Management"],
+                color: "rgb(255, 122, 144)"
+              },
+              {
+                name: "TapEmpire",
+                icon: TrendingUp,
+                description: "Taps for you and manages your empire. Handles upgrades, tracks resources, and automates the clicking so you can focus on strategy.",
+                features: ["Auto Tap", "Empire Management", "Resource Tracking", "Upgrade Automation", "Progress System"],
+                color: "rgb(59, 130, 246)"
+              },
+              {
+                name: "Basketball Legends",
+                icon: Basketball,
+                description: "Automates gameplay and handles the repetitive parts. Manages your team, tracks stats, and handles upgrades while you're away.",
+                features: ["Auto Play", "Team Management", "Stat Tracking", "Upgrade System", "Progress Automation"],
+                color: "rgb(255, 183, 77)"
+              },
             ].map((script, i) => {
               const IconComponent = script.icon
               return (
@@ -1598,7 +1629,7 @@ export default function BadScriptHubPage() {
               },
               {
                 question: "What games are supported?",
-                answer: "Right now there's scripts for Anime Eternal, Clash Clicker, Dig To Earth, Fistborn, Jules RNG, and Rebirth Champions. Each one's built for that specific game, so the features match what actually makes sense for it."
+                answer: "Right now there's scripts for Anime Eternal, Basketball Legends, Clash Clicker, Dig To Earth, Find Brainrot, Fistborn, Jules RNG, Pixel Blade, Rebirth Champions, and TapEmpire. Each one's built for that specific game, so the features match what actually makes sense for it."
               },
               {
                 question: "Do the scripts require Nozomi UI?",
