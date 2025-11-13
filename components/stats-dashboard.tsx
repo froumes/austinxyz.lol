@@ -196,7 +196,7 @@ export default function StatsDashboard({ currentTheme }: StatsDashboardProps) {
                   cy="50%"
                   outerRadius={100}
                   innerRadius={30}
-                  paddingAngle={topGames.length > 1 ? 2 : 0}
+                  paddingAngle={0}
                 >
                   {topGames.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -273,7 +273,7 @@ export default function StatsDashboard({ currentTheme }: StatsDashboardProps) {
             className="h-[300px] w-full"
           >
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={timeStats} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+              <LineChart data={timeStats} margin={{ top: 20, right: 10, left: 10, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke={currentTheme.BorderColor} opacity={0.3} />
                 <XAxis
                   dataKey="date"
