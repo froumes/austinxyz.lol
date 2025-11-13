@@ -192,8 +192,9 @@ export async function onRequestPost(context: any) {
     }
     
     // Validate PlaceId format (should be numeric string)
+    // Roblox Place IDs can be 6-19 digits
     const placeId = String(body.gamePlaceId).trim()
-    if (!/^\d+$/.test(placeId) || placeId.length < 6 || placeId.length > 12) {
+    if (!/^\d+$/.test(placeId) || placeId.length < 6 || placeId.length > 19) {
       return new Response(
         JSON.stringify({ error: 'Invalid game PlaceId format' }),
         { 
