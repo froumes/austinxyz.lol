@@ -470,6 +470,18 @@ export default function BadScriptHubPage() {
           </Link>
 
           <div className="flex items-center gap-4">
+            <Link
+              href="/stats"
+              className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-[1000ms] ease-in-out hover:scale-105 hover-lift hover-glow"
+              style={{
+                backgroundColor: currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.1)"),
+                border: "1px solid " + currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.5)"),
+                color: currentTheme.AccentColor,
+              }}
+            >
+              <Activity className="w-4 h-4" />
+              <span className="hidden sm:inline">Statistics</span>
+            </Link>
             <Select
               value={selectedTheme}
               onValueChange={(value) => setSelectedTheme(value as keyof typeof THEME_PRESETS)}

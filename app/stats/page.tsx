@@ -44,6 +44,25 @@ export default function StatsPage() {
   }, [data])
 
   const hourly = data?.hourlyDistribution || []
+  const dayOfWeek = data?.dayOfWeekDistribution || []
+
+  // Build a small executor x target heatmap dataset (top 6 executors x top 10 targets)
+  const heatmap = useMemo(() => {
+    if (!data?.executorTargetMatrix || !data?.targetDistribution || !data?.executorDistribution) return null
+    const topExecs = data.executorDistribution.slice(0, 6).map((e: any) => e.executor)
+    const topTargets = data.targetDistribution.slice(0, 10).map((t: any) => t.label)
+    const matrix: number[][] = topExecs.map(() => topTargets.map(() => 0))
+    topExecs.forEach((exec: string, i: number) => {
+      const row = data.executorTargetMatrix[exec] || {}
+      topTargets.forEach((target: string, j: number) => {
+        matrix[i][j] = row[target] || 0
+      })
+    })
+    // Find max for color scale
+    let max = 0
+    matrix.forEach((r) => r.forEach((v) => { if (v > max) max = v }))
+    return { topExecs, topTargets, matrix, max }
+  }, [data])
 
   return (
     <div className="min-h-screen">
@@ -103,7 +122,7 @@ export default function StatsPage() {
                   <CartesianGrid strokeDasharray="3 3" stroke="#303030" />
                   <XAxis dataKey="hour" tick={{ fill: "#999", fontSize: 12 }} />
                   <YAxis tick={{ fill: "#999", fontSize: 12 }} />
-                  <Tooltip formatter={(v: any) => [`${Number(v).toLocaleString()} executions`, "Hour"]} />
+                  <Tooltip wrapperStyle={{ pointerEvents: "none" }} contentStyle={{ background: "rgba(17,17,17,0.95)", border: "1px solid #303030", color: "#ddd" }} cursor={{ fill: "#ffffff", fillOpacity: 0.04 }} formatter={(v: any) => [`${Number(v).toLocaleString()} executions`, "Hour"]} />
                   <Bar dataKey="count" fill="#FF7A90" radius={[4,4,0,0]} />
                 </BarChart>
               </ResponsiveContainer>
@@ -111,8 +130,26 @@ export default function StatsPage() {
           </div>
         </section>
 
-        {/* Unified Top Targets table */}
+        {/* Day of week distribution */}
         <section className="grid lg:grid-cols-1 gap-6">
+          <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6">
+            <div className="flex items-center gap-3 mb-4 text-white"><BarChart3 className="w-5 h-5" /><h3 className="font-semibold">Executions by Day of Week</h3></div>
+            <div className="h-[280px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={dayOfWeek.map((d: any) => ({ ...d, label: ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"][d.day] }))} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#303030" />
+                  <XAxis dataKey="label" tick={{ fill: "#999", fontSize: 12 }} />
+                  <YAxis tick={{ fill: "#999", fontSize: 12 }} />
+                  <Tooltip wrapperStyle={{ pointerEvents: "none" }} contentStyle={{ background: "rgba(17,17,17,0.95)", border: "1px solid #303030", color: "#ddd" }} cursor={{ fill: "#ffffff", fillOpacity: 0.04 }} formatter={(v: any) => [`${Number(v).toLocaleString()} executions`, "Day"]} />
+                  <Bar dataKey="count" fill="#7A90FF" radius={[4,4,0,0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+        </section>
+
+        {/* Unified Top Targets table + Heatmap */}
+        <section className="grid lg:grid-cols-2 gap-6">
           <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6">
             <div className="flex items-center gap-3 mb-3 text-white"><Gamepad2 className="w-5 h-5" /><h3 className="font-semibold">Top Targets (Games or Scripts)</h3></div>
             <div className="divide-y divide-neutral-800">
@@ -123,6 +160,36 @@ export default function StatsPage() {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Simple heatmap (top 6 executors x top 10 targets) */}
+          <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6 overflow-x-auto">
+            <div className="flex items-center gap-3 mb-3 text-white"><PieIcon className="w-5 h-5" /><h3 className="font-semibold">Executor × Target Heatmap</h3></div>
+            {heatmap && (
+              <div className="text-xs">
+                <div className="grid" style={{ gridTemplateColumns: `160px repeat(${heatmap.topTargets.length}, minmax(60px,1fr))` }}>
+                  <div></div>
+                  {heatmap.topTargets.map((t: string) => (
+                    <div key={t} className="px-2 py-1 text-neutral-300 truncate" title={t}>{t}</div>
+                  ))}
+                  {heatmap.topExecs.map((exec: string, i: number) => (
+                    <React.Fragment key={exec}>
+                      <div className="px-2 py-1 text-neutral-300 truncate" title={exec}>{exec}</div>
+                      {heatmap.matrix[i].map((v: number, j: number) => {
+                        const intensity = heatmap.max > 0 ? v / heatmap.max : 0
+                        const bg = `rgba(255,122,144,${0.08 + intensity * 0.6})`
+                        const color = intensity > 0.6 ? "#111" : "#ddd"
+                        return (
+                          <div key={`${i}-${j}`} className="px-2 py-3 text-center border border-neutral-800" style={{ background: bg, color }} title={`${v.toLocaleString()} executions`}>
+                            {v > 0 ? v : ''}
+                          </div>
+                        )
+                      })}
+                    </React.Fragment>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </section>
       </main>

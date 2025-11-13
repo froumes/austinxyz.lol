@@ -39,6 +39,8 @@ export async function onRequestGet(context: any) {
           weeklyStats: [],
           monthlyStats: [],
           targetDistribution: [],
+          executorTargetMatrix: {},
+          dayOfWeekDistribution: [],
         }),
         {
           status: 200,
@@ -93,6 +95,26 @@ export async function onRequestGet(context: any) {
         percentage: totalExecutions > 0 ? (count / totalExecutions) * 100 : 0,
       }))
       .sort((a: any, b: any) => b.count - a.count)
+
+    // Executor x Target matrix (counts)
+    const matrix: Record<string, Record<string, number>> = {}
+    events.forEach((event) => {
+      const execRaw = (event.executor && String(event.executor)) || "Unknown"
+      const exec = execRaw.trim() === "" ? "Unknown" : execRaw
+      const target = (event.gameName && String(event.gameName)) || (event.scriptName && String(event.scriptName)) || "Unknown"
+      matrix[exec] = matrix[exec] || {}
+      matrix[exec][target] = (matrix[exec][target] || 0) + 1
+    })
+
+    // Day-of-week distribution (0=Sun..6=Sat)
+    const dowCounts = new Array(7).fill(0)
+    events.forEach((event) => {
+      if (event.timestamp) {
+        const d = new Date(event.timestamp)
+        dowCounts[d.getUTCDay()]++
+      }
+    })
+    const dayOfWeekDistribution = dowCounts.map((count, day) => ({ day, count }))
 
     // Calculate daily stats (last 30 days)
     const dailyStatsMap: Record<string, number> = {}
@@ -154,6 +176,8 @@ export async function onRequestGet(context: any) {
         weeklyStats,
         monthlyStats,
         targetDistribution,
+        executorTargetMatrix: matrix,
+        dayOfWeekDistribution,
       }),
       {
         status: 200,
