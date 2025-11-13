@@ -33,6 +33,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import Link from "next/link"
 import { LogoSimple } from "@/components/logo"
 import dynamic from "next/dynamic"
+import { Reveal } from "@/components/reveal"
 
 const StatsDashboard = dynamic(() => import("@/components/stats-dashboard"), {
   ssr: false,
@@ -469,23 +470,24 @@ export default function BadScriptHubPage() {
             </div>
           </Link>
 
-          <div className="flex items-center gap-4">
-            <Link
-              href="/stats"
-              className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-[1000ms] ease-in-out hover:scale-105 hover-lift hover-glow"
-              style={{
-                backgroundColor: currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.1)"),
-                border: "1px solid " + currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.5)"),
-                color: currentTheme.AccentColor,
-              }}
-            >
-              <Activity className="w-4 h-4" />
-              <span className="hidden sm:inline">Statistics</span>
-            </Link>
-            <Select
-              value={selectedTheme}
-              onValueChange={(value) => setSelectedTheme(value as keyof typeof THEME_PRESETS)}
-            >
+          <Reveal asChild delay={100}>
+            <div className="flex items-center gap-4">
+              <Link
+                href="/stats"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-[1000ms] ease-in-out hover:scale-105 hover-lift hover-glow"
+                style={{
+                  backgroundColor: currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.1)"),
+                  border: "1px solid " + currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.5)"),
+                  color: currentTheme.AccentColor,
+                }}
+              >
+                <Activity className="w-4 h-4" />
+                <span className="hidden sm:inline">Statistics</span>
+              </Link>
+              <Select
+                value={selectedTheme}
+                onValueChange={(value) => setSelectedTheme(value as keyof typeof THEME_PRESETS)}
+              >
               <SelectTrigger
                 className="w-48 border-none rounded-lg transition-colors duration-[1000ms] ease-in-out"
                 style={{

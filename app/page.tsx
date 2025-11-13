@@ -177,7 +177,7 @@ export default function HomePage() {
         </Reveal>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          <Reveal delay={100}>
+          <Reveal asChild delay={100}>
           <Link
             href="/portfolio"
             onMouseEnter={() => setHoveredOption("portfolio")}
@@ -222,7 +222,7 @@ export default function HomePage() {
           </Link>
           </Reveal>
 
-          <Reveal delay={200}>
+          <Reveal asChild delay={200}>
           <Link
             href="/badscripthub"
             onMouseEnter={() => setHoveredOption("badscripthub")}
@@ -274,7 +274,7 @@ export default function HomePage() {
             </div>
           </Link>
           </Reveal>
-          <Reveal delay={300}>
+          <Reveal asChild delay={300}>
           <Link
             href="/stats"
             onMouseEnter={() => setHoveredOption("stats")}
