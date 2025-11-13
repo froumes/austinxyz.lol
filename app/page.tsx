@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { ArrowRight, Code, Target } from "lucide-react"
+import { ArrowRight, Code, Target, BarChart3 } from "lucide-react"
 import Link from "next/link"
 import { LogoSimple } from "@/components/logo"
 
@@ -175,7 +175,7 @@ export default function HomePage() {
           </h1>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           <Link
             href="/portfolio"
             onMouseEnter={() => setHoveredOption("portfolio")}
@@ -265,6 +265,34 @@ export default function HomePage() {
                 color: hoveredOption === "badscripthub" ? "rgb(255, 122, 144)" : "rgb(255, 255, 255)"
               }}>
                 View Script
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+              </div>
+            </div>
+          </Link>
+          <Link
+            href="/stats"
+            onMouseEnter={() => setHoveredOption("stats")}
+            onMouseLeave={() => setHoveredOption(null)}
+            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 perspective-1000"
+            style={{
+              transform: hoveredOption === "stats" ? "rotateX(2deg) rotateY(0deg)" : "rotateX(0) rotateY(0)",
+              transformStyle: "preserve-3d",
+            }}
+          >
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl opacity-0 group-hover:opacity-75 transition duration-500 blur-sm animate-gradient-rotate" />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/10 to-primary/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 -m-8">
+              <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                <BarChart3 className="w-8 h-8 text-primary group-hover:scale-110 transition-transform duration-300" />
+              </div>
+              <h2 className="text-3xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
+                Statistics
+              </h2>
+              <p className="text-muted-foreground mb-6 leading-relaxed">
+                Explore in-depth, anonymous usage trends across scripts, games, and executors
+              </p>
+              <div className="flex items-center text-primary font-semibold group-hover:gap-3 gap-2 transition-all">
+                View Statistics
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
               </div>
             </div>
