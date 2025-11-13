@@ -22,6 +22,58 @@ async function verifySignature(body: string, signature: string, secret: string):
   return signature.toLowerCase() === expectedSignature.toLowerCase()
 }
 
+export async function onRequestDelete(context: any) {
+  const { request, env } = context
+  
+  try {
+    if (!env.TELEMETRY_KV) {
+      return new Response(
+        JSON.stringify({ error: 'Storage not configured' }),
+        {
+          status: 503,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      )
+    }
+
+    // Get API key from environment
+    const API_KEY = env.TELEMETRY_API_KEY || ''
+    
+    // Require API key for clearing data
+    const providedKey = request.headers.get('X-API-Key')
+    if (API_KEY && providedKey !== API_KEY) {
+      return new Response(
+        JSON.stringify({ error: 'Invalid API key' }),
+        { 
+          status: 401,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      )
+    }
+
+    // Delete all telemetry data
+    const TELEMETRY_KEY = 'telemetry:events'
+    await env.TELEMETRY_KV.delete(TELEMETRY_KEY)
+
+    return new Response(
+      JSON.stringify({ success: true, message: 'Telemetry data cleared' }),
+      {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    )
+  } catch (error) {
+    console.error('Error clearing telemetry:', error)
+    return new Response(
+      JSON.stringify({ error: 'Internal server error' }),
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      }
+    )
+  }
+}
+
 export async function onRequestPost(context: any) {
   const { request, env } = context
   
