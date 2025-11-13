@@ -196,7 +196,7 @@ export default function StatsDashboard({ currentTheme }: StatsDashboardProps) {
                   cy="45%"
                   outerRadius={100}
                   innerRadius={30}
-                  paddingAngle={2}
+                  paddingAngle={topGames.length > 1 ? 2 : 0}
                 >
                   {topGames.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
