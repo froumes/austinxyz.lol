@@ -470,7 +470,7 @@ export default function BadScriptHubPage() {
             </div>
           </Link>
 
-          <Reveal asChild delay={100}>
+          <Reveal delay={100}>
             <div className="flex items-center gap-4">
               <Link
                 href="/stats"
