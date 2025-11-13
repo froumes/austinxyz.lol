@@ -176,50 +176,52 @@ export default function StatsDashboard({ currentTheme }: StatsDashboardProps) {
               Game Distribution
             </h3>
           </div>
-          <ChartContainer
-            config={topGames.reduce((acc, game, index) => {
-              acc[game.gameName] = {
-                label: game.gameName,
-                color: COLORS[index % COLORS.length],
-              }
-              return acc
-            }, {} as Record<string, { label: string; color: string }>)}
-            className="h-[350px] w-full"
-          >
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={topGames}
-                  dataKey="count"
-                  nameKey="gameName"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={100}
-                  innerRadius={30}
-                  paddingAngle={0}
-                >
-                  {topGames.map((_, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <ChartTooltip 
-                  content={<ChartTooltipContent 
-                    formatter={(value, name) => [
-                      `${value.toLocaleString()} executions`,
-                      name
-                    ]}
-                  />} 
-                />
-                <ChartLegend 
-                  content={<ChartLegendContent 
+          <div className="w-full overflow-x-auto">
+            <ChartContainer
+              config={topGames.reduce((acc, game, index) => {
+                acc[game.gameName] = {
+                  label: game.gameName,
+                  color: COLORS[index % COLORS.length],
+                }
+                return acc
+              }, {} as Record<string, { label: string; color: string }>)}
+              className="h-[320px] w-full min-w-[280px]"
+            >
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={topGames}
+                    dataKey="count"
                     nameKey="gameName"
-                    className="mt-4"
-                  />}
-                  verticalAlign="bottom"
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          </ChartContainer>
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={90}
+                    innerRadius={28}
+                    paddingAngle={0}
+                  >
+                    {topGames.map((_, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <ChartTooltip 
+                    content={<ChartTooltipContent 
+                      formatter={(value, name) => [
+                        `${value.toLocaleString()} executions`,
+                        name
+                      ]}
+                    />} 
+                  />
+                  <ChartLegend 
+                    content={<ChartLegendContent 
+                      nameKey="gameName"
+                      className="mt-4"
+                    />}
+                    verticalAlign="bottom"
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          </div>
         </div>
 
         {/* Time-based Stats Chart */}
@@ -263,56 +265,58 @@ export default function StatsDashboard({ currentTheme }: StatsDashboardProps) {
               ))}
             </div>
           </div>
-          <ChartContainer
-            config={{
-              executions: {
-                label: "Executions",
-                color: currentTheme.AccentColor,
-              },
-            }}
-            className="h-[300px] w-full"
-          >
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={timeStats} margin={{ top: 20, right: 10, left: 10, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke={currentTheme.BorderColor} opacity={0.3} />
-                <XAxis
-                  dataKey="date"
-                  stroke={currentTheme.SecondaryTextColor}
-                  style={{ fontSize: "12px" }}
-                  tickFormatter={(value) => {
-                    const date = new Date(value)
-                    if (timeRange === "daily") {
-                      return date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
-                    } else if (timeRange === "weekly") {
-                      return date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
-                    } else {
-                      return date.toLocaleDateString("en-US", { month: "short", year: "2-digit" })
-                    }
-                  }}
-                />
-                <YAxis
-                  stroke={currentTheme.SecondaryTextColor}
-                  style={{ fontSize: "12px" }}
-                />
-                <ChartTooltip
-                  content={<ChartTooltipContent />}
-                  contentStyle={{
-                    backgroundColor: currentTheme.SurfaceColor,
-                    borderColor: currentTheme.BorderColor,
-                    color: currentTheme.TextColor,
-                  }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="count"
-                  stroke={currentTheme.AccentColor}
-                  strokeWidth={2}
-                  dot={{ fill: currentTheme.AccentColor, r: 4 }}
-                  activeDot={{ r: 6 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </ChartContainer>
+          <div className="w-full overflow-x-auto">
+            <ChartContainer
+              config={{
+                executions: {
+                  label: "Executions",
+                  color: currentTheme.AccentColor,
+                },
+              }}
+              className="h-[280px] w-full min-w-[320px]"
+            >
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={timeStats} margin={{ top: 12, right: 8, left: 8, bottom: 4 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke={currentTheme.BorderColor} opacity={0.3} />
+                  <XAxis
+                    dataKey="date"
+                    stroke={currentTheme.SecondaryTextColor}
+                    style={{ fontSize: "12px" }}
+                    tickFormatter={(value) => {
+                      const date = new Date(value)
+                      if (timeRange === "daily") {
+                        return date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
+                      } else if (timeRange === "weekly") {
+                        return date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
+                      } else {
+                        return date.toLocaleDateString("en-US", { month: "short", year: "2-digit" })
+                      }
+                    }}
+                  />
+                  <YAxis
+                    stroke={currentTheme.SecondaryTextColor}
+                    style={{ fontSize: "12px" }}
+                  />
+                  <ChartTooltip
+                    content={<ChartTooltipContent />}
+                    contentStyle={{
+                      backgroundColor: currentTheme.SurfaceColor,
+                      borderColor: currentTheme.BorderColor,
+                      color: currentTheme.TextColor,
+                    }}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="count"
+                    stroke={currentTheme.AccentColor}
+                    strokeWidth={2}
+                    dot={{ fill: currentTheme.AccentColor, r: 3 }}
+                    activeDot={{ r: 5 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </ChartContainer>
+          </div>
         </div>
       </div>
 
