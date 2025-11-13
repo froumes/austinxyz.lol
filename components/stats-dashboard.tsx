@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts"
+import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from "@/components/ui/chart"
 import { TrendingUp, Gamepad2, Calendar } from "lucide-react"
 
@@ -155,7 +155,7 @@ export default function StatsDashboard({ currentTheme }: StatsDashboardProps) {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid gap-6 lg:grid-cols-2">
         {/* Game Distribution Chart */}
         <div
           className="backdrop-blur-sm border-2 rounded-xl p-6 transition-all duration-300"
@@ -184,39 +184,41 @@ export default function StatsDashboard({ currentTheme }: StatsDashboardProps) {
               }
               return acc
             }, {} as Record<string, { label: string; color: string }>)}
-            className="h-[350px]"
+            className="h-[350px] w-full"
           >
-            <PieChart>
-              <Pie
-                data={topGames}
-                dataKey="count"
-                nameKey="gameName"
-                cx="50%"
-                cy="45%"
-                outerRadius={100}
-                innerRadius={30}
-                paddingAngle={2}
-              >
-                {topGames.map((_, index) => (
-                  <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                ))}
-              </Pie>
-              <ChartTooltip 
-                content={<ChartTooltipContent 
-                  formatter={(value, name) => [
-                    `${value.toLocaleString()} executions`,
-                    name
-                  ]}
-                />} 
-              />
-              <ChartLegend 
-                content={<ChartLegendContent 
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={topGames}
+                  dataKey="count"
                   nameKey="gameName"
-                  className="mt-4"
-                />}
-                verticalAlign="bottom"
-              />
-            </PieChart>
+                  cx="50%"
+                  cy="45%"
+                  outerRadius={100}
+                  innerRadius={30}
+                  paddingAngle={2}
+                >
+                  {topGames.map((_, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <ChartTooltip 
+                  content={<ChartTooltipContent 
+                    formatter={(value, name) => [
+                      `${value.toLocaleString()} executions`,
+                      name
+                    ]}
+                  />} 
+                />
+                <ChartLegend 
+                  content={<ChartLegendContent 
+                    nameKey="gameName"
+                    className="mt-4"
+                  />}
+                  verticalAlign="bottom"
+                />
+              </PieChart>
+            </ResponsiveContainer>
           </ChartContainer>
         </div>
 
@@ -268,46 +270,48 @@ export default function StatsDashboard({ currentTheme }: StatsDashboardProps) {
                 color: currentTheme.AccentColor,
               },
             }}
-            className="h-[300px]"
+            className="h-[300px] w-full"
           >
-            <LineChart data={timeStats}>
-              <CartesianGrid strokeDasharray="3 3" stroke={currentTheme.BorderColor} opacity={0.3} />
-              <XAxis
-                dataKey="date"
-                stroke={currentTheme.SecondaryTextColor}
-                style={{ fontSize: "12px" }}
-                tickFormatter={(value) => {
-                  const date = new Date(value)
-                  if (timeRange === "daily") {
-                    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
-                  } else if (timeRange === "weekly") {
-                    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
-                  } else {
-                    return date.toLocaleDateString("en-US", { month: "short", year: "2-digit" })
-                  }
-                }}
-              />
-              <YAxis
-                stroke={currentTheme.SecondaryTextColor}
-                style={{ fontSize: "12px" }}
-              />
-              <ChartTooltip
-                content={<ChartTooltipContent />}
-                contentStyle={{
-                  backgroundColor: currentTheme.SurfaceColor,
-                  borderColor: currentTheme.BorderColor,
-                  color: currentTheme.TextColor,
-                }}
-              />
-              <Line
-                type="monotone"
-                dataKey="count"
-                stroke={currentTheme.AccentColor}
-                strokeWidth={2}
-                dot={{ fill: currentTheme.AccentColor, r: 4 }}
-                activeDot={{ r: 6 }}
-              />
-            </LineChart>
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={timeStats}>
+                <CartesianGrid strokeDasharray="3 3" stroke={currentTheme.BorderColor} opacity={0.3} />
+                <XAxis
+                  dataKey="date"
+                  stroke={currentTheme.SecondaryTextColor}
+                  style={{ fontSize: "12px" }}
+                  tickFormatter={(value) => {
+                    const date = new Date(value)
+                    if (timeRange === "daily") {
+                      return date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
+                    } else if (timeRange === "weekly") {
+                      return date.toLocaleDateString("en-US", { month: "short", day: "numeric" })
+                    } else {
+                      return date.toLocaleDateString("en-US", { month: "short", year: "2-digit" })
+                    }
+                  }}
+                />
+                <YAxis
+                  stroke={currentTheme.SecondaryTextColor}
+                  style={{ fontSize: "12px" }}
+                />
+                <ChartTooltip
+                  content={<ChartTooltipContent />}
+                  contentStyle={{
+                    backgroundColor: currentTheme.SurfaceColor,
+                    borderColor: currentTheme.BorderColor,
+                    color: currentTheme.TextColor,
+                  }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="count"
+                  stroke={currentTheme.AccentColor}
+                  strokeWidth={2}
+                  dot={{ fill: currentTheme.AccentColor, r: 4 }}
+                  activeDot={{ r: 6 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
           </ChartContainer>
         </div>
       </div>
@@ -365,4 +369,3 @@ export default function StatsDashboard({ currentTheme }: StatsDashboardProps) {
     </div>
   )
 }
-
