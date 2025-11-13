@@ -24,7 +24,7 @@ import {
   Key,
   ExternalLink,
   Search,
-  Basketball,
+  Activity,
   TrendingUp,
 } from "lucide-react"
 import { Switch } from "@/components/ui/switch"
@@ -1536,7 +1536,7 @@ export default function BadScriptHubPage() {
               },
               {
                 name: "Basketball Legends",
-                icon: Basketball,
+                icon: Activity,
                 description: "Automates gameplay and handles the repetitive parts. Manages your team, tracks stats, and handles upgrades while you're away.",
                 features: ["Auto Play", "Team Management", "Stat Tracking", "Upgrade System", "Progress Automation"],
                 color: "rgb(255, 183, 77)"
