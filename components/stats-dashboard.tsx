@@ -193,7 +193,7 @@ export default function StatsDashboard({ currentTheme }: StatsDashboardProps) {
                   dataKey="count"
                   nameKey="gameName"
                   cx="50%"
-                  cy="45%"
+                  cy="50%"
                   outerRadius={100}
                   innerRadius={30}
                   paddingAngle={topGames.length > 1 ? 2 : 0}
