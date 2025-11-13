@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Removed output: 'export' to support API routes
+  output: 'export', // Static export for Cloudflare Pages
   typescript: {
     ignoreBuildErrors: true,
   },

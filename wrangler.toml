@@ -1,0 +1,10 @@
+name = "austinxyz-lol"
+compatibility_date = "2024-01-01"
+
+# KV namespace binding for telemetry data
+# Note: Create the KV namespace in Cloudflare Dashboard and bind it here
+# The namespace should be named "TELEMETRY_KV"
+[[kv_namespaces]]
+binding = "TELEMETRY_KV"
+id = "YOUR_KV_NAMESPACE_ID"  # Replace with actual KV namespace ID from Cloudflare Dashboard
+
