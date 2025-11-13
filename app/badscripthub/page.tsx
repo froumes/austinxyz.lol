@@ -470,7 +470,6 @@ export default function BadScriptHubPage() {
             </div>
           </Link>
 
-          <Reveal delay={100}>
             <div className="flex items-center gap-4">
               <Link
                 href="/stats"
@@ -548,7 +547,6 @@ export default function BadScriptHubPage() {
               <span className="hidden sm:inline">Discord</span>
             </a>
           </div>
-        </Reveal>
       </header>
 
       {/* Prominent Loadstring Section */}
