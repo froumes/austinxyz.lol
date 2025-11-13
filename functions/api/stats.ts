@@ -34,9 +34,11 @@ export async function onRequestGet(context: any) {
         JSON.stringify({
           totalExecutions: 0,
           gameDistribution: [],
+          executorDistribution: [],
           dailyStats: [],
           weeklyStats: [],
           monthlyStats: [],
+          targetDistribution: [],
         }),
         {
           status: 200,
@@ -48,6 +50,21 @@ export async function onRequestGet(context: any) {
     // Calculate total executions
     const totalExecutions = events.length
 
+    // Executor distribution (normalized)
+    const executorCounts: Record<string, number> = {}
+    events.forEach((event) => {
+      const raw = (event.executor && String(event.executor)) || "Unknown"
+      const exec = raw.trim() === "" ? "Unknown" : raw
+      executorCounts[exec] = (executorCounts[exec] || 0) + 1
+    })
+    const executorDistribution = Object.entries(executorCounts)
+      .map(([executor, count]) => ({
+        executor,
+        count,
+        percentage: totalExecutions > 0 ? (count / totalExecutions) * 100 : 0,
+      }))
+      .sort((a: any, b: any) => b.count - a.count)
+
     // Calculate game distribution
     const gameCounts: Record<string, number> = {}
     events.forEach((event) => {
@@ -58,6 +75,20 @@ export async function onRequestGet(context: any) {
     const gameDistribution = Object.entries(gameCounts)
       .map(([gameName, count]) => ({
         gameName,
+        count,
+        percentage: totalExecutions > 0 ? (count / totalExecutions) * 100 : 0,
+      }))
+      .sort((a: any, b: any) => b.count - a.count)
+
+    // Unified target distribution (prefer gameName from loader mapping; fallback to scriptName)
+    const targetCounts: Record<string, number> = {}
+    events.forEach((event) => {
+      const label = (event.gameName && String(event.gameName)) || (event.scriptName && String(event.scriptName)) || "Unknown"
+      targetCounts[label] = (targetCounts[label] || 0) + 1
+    })
+    const targetDistribution = Object.entries(targetCounts)
+      .map(([label, count]) => ({
+        label,
         count,
         percentage: totalExecutions > 0 ? (count / totalExecutions) * 100 : 0,
       }))
@@ -118,9 +149,11 @@ export async function onRequestGet(context: any) {
       JSON.stringify({
         totalExecutions,
         gameDistribution,
+        executorDistribution,
         dailyStats,
         weeklyStats,
         monthlyStats,
+        targetDistribution,
       }),
       {
         status: 200,

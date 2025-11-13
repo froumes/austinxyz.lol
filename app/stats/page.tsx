@@ -38,14 +38,9 @@ export default function StatsPage() {
     return data.executorDistribution.map((d: any) => ({ label: d.executor, count: d.count, percentage: d.percentage }))
   }, [data])
 
-  const scripts: Dist[] = useMemo(() => {
-    if (!data?.scriptDistribution) return []
-    return data.scriptDistribution.map((d: any) => ({ label: d.scriptName, count: d.count, percentage: d.percentage }))
-  }, [data])
-
-  const games: Dist[] = useMemo(() => {
-    if (!data?.gameDistribution) return []
-    return data.gameDistribution.map((d: any) => ({ label: d.gameName, count: d.count, percentage: d.percentage }))
+  const targets: Dist[] = useMemo(() => {
+    if (!data?.targetDistribution) return []
+    return data.targetDistribution.map((d: any) => ({ label: d.label, count: d.count, percentage: d.percentage }))
   }, [data])
 
   const hourly = data?.hourlyDistribution || []
@@ -77,9 +72,9 @@ export default function StatsPage() {
             <div className="text-neutral-500 text-xs">{execs[0] ? `${execs[0].count.toLocaleString()} (${execs[0].percentage.toFixed(1)}%)` : "No data"}</div>
           </div>
           <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6">
-            <div className="flex items-center gap-3 mb-3 text-white"><Gamepad2 className="w-5 h-5" /><h2 className="font-semibold">Top Game</h2></div>
-            <div className="text-neutral-300 text-sm">{loading ? "—" : (games[0]?.label || "Unknown")}</div>
-            <div className="text-neutral-500 text-xs">{games[0] ? `${games[0].count.toLocaleString()} (${games[0].percentage.toFixed(1)}%)` : "No data"}</div>
+            <div className="flex items-center gap-3 mb-3 text-white"><Gamepad2 className="w-5 h-5" /><h2 className="font-semibold">Top Target</h2></div>
+            <div className="text-neutral-300 text-sm">{loading ? "—" : (targets[0]?.label || "Unknown")}</div>
+            <div className="text-neutral-500 text-xs">{targets[0] ? `${targets[0].count.toLocaleString()} (${targets[0].percentage.toFixed(1)}%)` : "No data"}</div>
           </div>
         </div>
 
@@ -116,26 +111,15 @@ export default function StatsPage() {
           </div>
         </section>
 
-        {/* Scripts and Games tables */}
-        <section className="grid lg:grid-cols-2 gap-6">
+        {/* Unified Top Targets table */}
+        <section className="grid lg:grid-cols-1 gap-6">
           <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6">
-            <div className="flex items-center gap-3 mb-3 text-white"><PieIcon className="w-5 h-5" /><h3 className="font-semibold">Top Scripts</h3></div>
+            <div className="flex items-center gap-3 mb-3 text-white"><Gamepad2 className="w-5 h-5" /><h3 className="font-semibold">Top Targets (Games or Scripts)</h3></div>
             <div className="divide-y divide-neutral-800">
-              {(scripts.slice(0, 12)).map((s, i) => (
-                <div key={s.label + i} className="flex items-center justify-between py-2 text-sm">
-                  <span className="text-neutral-300 truncate pr-3">{i + 1}. {s.label}</span>
-                  <span className="text-neutral-400">{s.count.toLocaleString()} · {s.percentage.toFixed(1)}%</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6">
-            <div className="flex items-center gap-3 mb-3 text-white"><Gamepad2 className="w-5 h-5" /><h3 className="font-semibold">Top Games</h3></div>
-            <div className="divide-y divide-neutral-800">
-              {(games.slice(0, 12)).map((g, i) => (
-                <div key={g.label + i} className="flex items-center justify-between py-2 text-sm">
-                  <span className="text-neutral-300 truncate pr-3">{i + 1}. {g.label}</span>
-                  <span className="text-neutral-400">{g.count.toLocaleString()} · {g.percentage.toFixed(1)}%</span>
+              {(targets.slice(0, 20)).map((t, i) => (
+                <div key={t.label + i} className="flex items-center justify-between py-2 text-sm">
+                  <span className="text-neutral-300 truncate pr-3">{i + 1}. {t.label}</span>
+                  <span className="text-neutral-400">{t.count.toLocaleString()} · {t.percentage.toFixed(1)}%</span>
                 </div>
               ))}
             </div>
