@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react"
 import { PieChart, Pie, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid } from "recharts"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent } from "@/components/ui/chart"
 import { TrendingUp, Gamepad2, Calendar } from "lucide-react"
 
 interface GameStats {
@@ -178,13 +178,13 @@ export default function StatsDashboard({ currentTheme }: StatsDashboardProps) {
           </div>
           <ChartContainer
             config={topGames.reduce((acc, game, index) => {
-              acc[`game${index}`] = {
+              acc[game.gameName] = {
                 label: game.gameName,
                 color: COLORS[index % COLORS.length],
               }
               return acc
             }, {} as Record<string, { label: string; color: string }>)}
-            className="h-[300px]"
+            className="h-[350px]"
           >
             <PieChart>
               <Pie
@@ -192,15 +192,30 @@ export default function StatsDashboard({ currentTheme }: StatsDashboardProps) {
                 dataKey="count"
                 nameKey="gameName"
                 cx="50%"
-                cy="50%"
-                outerRadius={80}
-                label={(entry) => `${entry.gameName}: ${entry.count}`}
+                cy="45%"
+                outerRadius={100}
+                innerRadius={30}
+                paddingAngle={2}
               >
                 {topGames.map((_, index) => (
                   <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                 ))}
               </Pie>
-              <ChartTooltip content={<ChartTooltipContent />} />
+              <ChartTooltip 
+                content={<ChartTooltipContent 
+                  formatter={(value, name) => [
+                    `${value.toLocaleString()} executions`,
+                    name
+                  ]}
+                />} 
+              />
+              <ChartLegend 
+                content={<ChartLegendContent 
+                  nameKey="gameName"
+                  className="mt-4"
+                />}
+                verticalAlign="bottom"
+              />
             </PieChart>
           </ChartContainer>
         </div>
