@@ -43,7 +43,6 @@ export default function StatsPage() {
     return data.targetDistribution.map((d: any) => ({ label: d.label, count: d.count, percentage: d.percentage }))
   }, [data])
 
-  const hourly = data?.hourlyDistribution || []
   const dayOfWeek = data?.dayOfWeekDistribution || []
 
   // Build a small executor x target heatmap dataset (top 6 executors x top 10 targets)
@@ -97,8 +96,8 @@ export default function StatsPage() {
           </div>
         </div>
 
-        {/* Executor distribution */}
-        <section className="grid lg:grid-cols-2 gap-6">
+        {/* Executors distribution */}
+        <section className="grid lg:grid-cols-1 gap-6">
           <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6">
             <div className="flex items-center gap-3 mb-4 text-white"><PieIcon className="w-5 h-5" /><h3 className="font-semibold">Executors</h3></div>
             <div className="h-[320px]">
@@ -107,24 +106,8 @@ export default function StatsPage() {
                   <Pie data={execs} dataKey="count" nameKey="label" cx="50%" cy="50%" outerRadius={110} innerRadius={40}>
                     {execs.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
                   </Pie>
-                  <Tooltip formatter={(v: any, n: any, p: any) => [`${Number(v).toLocaleString()} executions`, p?.payload?.label]} />
+                  <Tooltip wrapperStyle={{ pointerEvents: "none" }} contentStyle={{ background: "rgba(17,17,17,0.95)", border: "1px solid #303030", color: "#ddd" }} cursor={{ fill: "#ffffff", fillOpacity: 0.04 }} formatter={(v: any, n: any, p: any) => [`${Number(v).toLocaleString()} executions`, p?.payload?.label]} />
                 </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          {/* Hourly distribution */}
-          <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6">
-            <div className="flex items-center gap-3 mb-4 text-white"><BarChart3 className="w-5 h-5" /><h3 className="font-semibold">Executions by Hour</h3></div>
-            <div className="h-[320px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={hourly} margin={{ top: 10, right: 10, left: 10, bottom: 10 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#303030" />
-                  <XAxis dataKey="hour" tick={{ fill: "#999", fontSize: 12 }} />
-                  <YAxis tick={{ fill: "#999", fontSize: 12 }} />
-                  <Tooltip wrapperStyle={{ pointerEvents: "none" }} contentStyle={{ background: "rgba(17,17,17,0.95)", border: "1px solid #303030", color: "#ddd" }} cursor={{ fill: "#ffffff", fillOpacity: 0.04 }} formatter={(v: any) => [`${Number(v).toLocaleString()} executions`, "Hour"]} />
-                  <Bar dataKey="count" fill="#FF7A90" radius={[4,4,0,0]} />
-                </BarChart>
               </ResponsiveContainer>
             </div>
           </div>
