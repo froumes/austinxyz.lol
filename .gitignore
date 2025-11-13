@@ -25,3 +25,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# sensitive config files (keep wrangler.toml but use .example for templates)
+*.secret
+.env.local
+.env.production

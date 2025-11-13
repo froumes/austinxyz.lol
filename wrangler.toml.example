@@ -1,0 +1,11 @@
+name = "austinxyz-lol"
+compatibility_date = "2024-01-01"
+pages_build_output_dir = "out"
+
+# KV namespace binding for telemetry data
+# Get your KV namespace ID from Cloudflare Dashboard
+# Workers & Pages > KV > Your namespace
+[[kv_namespaces]]
+binding = "TELEMETRY_KV"
+id = "YOUR_KV_NAMESPACE_ID_HERE"
+
