@@ -9,6 +9,13 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "austinxyz.lol",
   description: "notabadcoder",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+    viewportFit: "cover",
+  },
   icons: {
     icon: [
       {
@@ -45,8 +52,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body className={`font-sans antialiased`}>
+    <html lang="en" className="dark h-full">
+      <body className={`font-sans antialiased min-h-screen overflow-x-hidden`}>
         {children}
       </body>
     </html>
