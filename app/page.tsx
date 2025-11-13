@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import { ArrowRight, Code, Target, BarChart3 } from "lucide-react"
 import Link from "next/link"
 import { LogoSimple } from "@/components/logo"
+import { Reveal } from "@/components/reveal"
 
 interface Theme {
   BackgroundColor: string
@@ -161,7 +162,7 @@ export default function HomePage() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.1),transparent_50%)] animate-pulse-slow" />
 
       <div className="relative z-10 max-w-6xl w-full">
-        <div className="text-center mb-16 animate-fade-in-up">
+        <Reveal className="text-center mb-16">
           <h1 className="text-6xl md:text-8xl font-black text-foreground mb-4 tracking-tight min-h-[120px] flex items-center justify-center">
             <span>
               {displayedText.split(".").map((part, i) => (
@@ -173,9 +174,10 @@ export default function HomePage() {
               <span className="inline-block w-1 h-20 bg-primary ml-1 animate-blink" />
             </span>
           </h1>
-        </div>
+        </Reveal>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <Reveal delay={100}>
           <Link
             href="/portfolio"
             onMouseEnter={() => setHoveredOption("portfolio")}
@@ -218,7 +220,9 @@ export default function HomePage() {
               </div>
             </div>
           </Link>
+          </Reveal>
 
+          <Reveal delay={200}>
           <Link
             href="/badscripthub"
             onMouseEnter={() => setHoveredOption("badscripthub")}
@@ -269,6 +273,8 @@ export default function HomePage() {
               </div>
             </div>
           </Link>
+          </Reveal>
+          <Reveal delay={300}>
           <Link
             href="/stats"
             onMouseEnter={() => setHoveredOption("stats")}
@@ -297,6 +303,7 @@ export default function HomePage() {
               </div>
             </div>
           </Link>
+          </Reveal>
         </div>
 
         <div className="text-center mt-16 animate-fade-in-up animation-delay-1000">
