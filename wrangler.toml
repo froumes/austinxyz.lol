@@ -3,10 +3,7 @@ compatibility_date = "2024-01-01"
 pages_build_output_dir = "out"
 
 # KV namespace binding for telemetry data
-# Note: Create the KV namespace in Cloudflare Dashboard and bind it here
-# The namespace should be named "TELEMETRY_KV"
-# For Cloudflare Pages, bind KV in the dashboard under Settings > Functions
-# [[kv_namespaces]]
-# binding = "TELEMETRY_KV"
-# id = "YOUR_KV_NAMESPACE_ID"  # Replace with actual KV namespace ID from Cloudflare Dashboard
+[[kv_namespaces]]
+binding = "TELEMETRY_KV"
+id = "758f48e91fbb4d96b72d7420c180bdae"
 
