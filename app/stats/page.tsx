@@ -64,8 +64,8 @@ export default function StatsPage() {
   }, [data])
 
   return (
-    <div className="min-h-screen">
-      <header className="sticky top-0 z-10 backdrop-blur border-b border-neutral-800 bg-black/40">
+    <div className="min-h-screen relative bg-[radial-gradient(800px_400px_at_10%_0%,rgba(255,122,144,0.12),transparent),radial-gradient(800px_400px_at_90%_100%,rgba(122,144,255,0.12),transparent)]">
+      <header className="sticky top-0 z-10 backdrop-blur-md border-b border-white/10 bg-white/5">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 text-neutral-300 hover:text-white transition-colors">
             <ArrowLeft className="w-4 h-4" />
@@ -80,16 +80,16 @@ export default function StatsPage() {
 
       <main className="max-w-6xl mx-auto px-6 py-8 space-y-8">
         <div className="grid md:grid-cols-3 gap-6">
-          <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6">
+          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 shadow-xl transition-colors">
             <div className="flex items-center gap-3 mb-3 text-white"><BarChart3 className="w-5 h-5" /><h2 className="font-semibold">Total Executions</h2></div>
             <div className="text-3xl font-bold text-pink-300">{loading ? "—" : (data?.totalExecutions ?? 0).toLocaleString()}</div>
           </div>
-          <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6">
+          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 shadow-xl transition-colors">
             <div className="flex items-center gap-3 mb-3 text-white"><Cpu className="w-5 h-5" /><h2 className="font-semibold">Top Executor</h2></div>
             <div className="text-neutral-300 text-sm">{loading ? "—" : (execs[0]?.label || "Unknown")}</div>
             <div className="text-neutral-500 text-xs">{execs[0] ? `${execs[0].count.toLocaleString()} (${execs[0].percentage.toFixed(1)}%)` : "No data"}</div>
           </div>
-          <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6">
+          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 shadow-xl transition-colors">
             <div className="flex items-center gap-3 mb-3 text-white"><Gamepad2 className="w-5 h-5" /><h2 className="font-semibold">Top Target</h2></div>
             <div className="text-neutral-300 text-sm">{loading ? "—" : (targets[0]?.label || "Unknown")}</div>
             <div className="text-neutral-500 text-xs">{targets[0] ? `${targets[0].count.toLocaleString()} (${targets[0].percentage.toFixed(1)}%)` : "No data"}</div>
@@ -98,7 +98,7 @@ export default function StatsPage() {
 
         {/* Executors distribution */}
         <section className="grid lg:grid-cols-1 gap-6">
-          <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6">
+          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 shadow-xl transition-colors">
             <div className="flex items-center gap-3 mb-4 text-white"><PieIcon className="w-5 h-5" /><h3 className="font-semibold">Executors</h3></div>
             <div className="h-[320px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -115,7 +115,7 @@ export default function StatsPage() {
 
         {/* Day of week distribution */}
         <section className="grid lg:grid-cols-1 gap-6">
-          <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6">
+          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 shadow-xl transition-colors">
             <div className="flex items-center gap-3 mb-4 text-white"><BarChart3 className="w-5 h-5" /><h3 className="font-semibold">Executions by Day of Week</h3></div>
             <div className="h-[280px]">
               <ResponsiveContainer width="100%" height="100%">
@@ -133,7 +133,7 @@ export default function StatsPage() {
 
         {/* Unified Top Targets table + Heatmap */}
         <section className="grid lg:grid-cols-2 gap-6">
-          <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6">
+          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 shadow-xl transition-colors">
             <div className="flex items-center gap-3 mb-3 text-white"><Gamepad2 className="w-5 h-5" /><h3 className="font-semibold">Top Targets (Games or Scripts)</h3></div>
             <div className="divide-y divide-neutral-800">
               {(targets.slice(0, 20)).map((t, i) => (
@@ -146,7 +146,7 @@ export default function StatsPage() {
           </div>
 
           {/* Simple heatmap (top 6 executors x top 10 targets) */}
-          <div className="rounded-xl border border-neutral-800 bg-neutral-900/50 p-6 overflow-x-auto">
+          <div className="rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md p-6 shadow-xl transition-colors overflow-x-auto">
             <div className="flex items-center gap-3 mb-3 text-white"><PieIcon className="w-5 h-5" /><h3 className="font-semibold">Executor × Target Heatmap</h3></div>
             {heatmap && (
               <div className="text-xs">
