@@ -32,7 +32,16 @@ import { Slider } from "@/components/ui/slider"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
 import { LogoSimple } from "@/components/logo"
-import StatsDashboard from "@/components/stats-dashboard"
+import dynamic from "next/dynamic"
+
+const StatsDashboard = dynamic(() => import("@/components/stats-dashboard"), {
+  ssr: false,
+  loading: () => (
+    <div className="backdrop-blur-sm border-2 rounded-xl p-8 text-center">
+      <p>Loading statistics...</p>
+    </div>
+  ),
+})
 
 // Discord Icon Component
 const DiscordIcon = ({ className, style }: { className?: string; style?: React.CSSProperties }) => (
