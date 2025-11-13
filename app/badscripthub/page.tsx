@@ -32,6 +32,7 @@ import { Slider } from "@/components/ui/slider"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
 import { LogoSimple } from "@/components/logo"
+import StatsDashboard from "@/components/stats-dashboard"
 
 // Discord Icon Component
 const DiscordIcon = ({ className, style }: { className?: string; style?: React.CSSProperties }) => (
@@ -783,6 +784,20 @@ export default function BadScriptHubPage() {
               </div>
             </a>
           </div>
+        </div>
+
+        {/* Statistics Dashboard */}
+        <div className="mt-12 w-full max-w-6xl animate-fade-in-up animation-delay-200">
+          <h2
+            className="text-2xl font-bold mb-6 text-center"
+            style={{
+              color: currentTheme.TextColor,
+              transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
+            }}
+          >
+            Statistics
+          </h2>
+          <StatsDashboard currentTheme={currentTheme} />
         </div>
       </div>
 
