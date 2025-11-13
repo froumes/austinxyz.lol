@@ -548,7 +548,7 @@ export default function BadScriptHubPage() {
               <span className="hidden sm:inline">Discord</span>
             </a>
           </div>
-        </div>
+        </Reveal>
       </header>
 
       {/* Prominent Loadstring Section */}
