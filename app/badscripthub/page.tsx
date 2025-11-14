@@ -26,6 +26,7 @@ import {
   Search,
   Activity,
   TrendingUp,
+  Wand2,
 } from "lucide-react"
 import { Switch } from "@/components/ui/switch"
 import { Slider } from "@/components/ui/slider"
@@ -1489,7 +1490,7 @@ export default function BadScriptHubPage() {
                 icon: Sword,
                 description: "Does basically everything in Anime Eternal. Farms enemies, handles teleports, manages rank ups and prestige, runs gacha pulls, tracks dungeons—you name it.",
                 features: ["Auto Farm", "Teleport System", "Rank Up Automation", "Prestige System", "Gacha Automation", "Dungeon Tracker", "Quest System", "Spirit Upgrades"],
-                color: "rgb(255, 122, 144)"
+                color: "rgb(59, 130, 246)"
               },
               {
                 name: "Clash Clicker",
@@ -1503,42 +1504,42 @@ export default function BadScriptHubPage() {
                 icon: Hammer,
                 description: "Has a money dupe that actually works, plus it'll craft pets, buy upgrades, and collect gems while you're away.",
                 features: ["Money Dupe", "Pet Crafting", "Auto Upgrades", "Gem Automation", "Spin Prize System"],
-                color: "rgb(134, 205, 186)"
+                color: "rgb(59, 130, 246)"
               },
               {
                 name: "Fistborn",
                 icon: Target,
                 description: "Farms money by detecting jobs and pathfinding to them. Teleports around when needed. Pretty straightforward.",
                 features: ["Auto Farm", "Job Detection", "Pathfinding", "Teleportation", "Money Tracking"],
-                color: "rgb(186, 157, 255)"
+                color: "rgb(59, 130, 246)"
               },
               {
                 name: "Jules RNG",
                 icon: Dice6,
                 description: "Handles roll buffers and lets you configure custom rolls. Automates the RNG stuff so you don't have to manually roll everything.",
                 features: ["Roll Buffer", "Custom Configs", "Auto Roll", "Buffer Management", "RNG Optimization"],
-                color: "rgb(255, 183, 77)"
+                color: "rgb(59, 130, 246)"
               },
               {
                 name: "Rebirth Champions",
                 icon: RotateCcw,
                 description: "Clicks, rebirths, hatches eggs, and tracks achievements. Set it and forget it kind of thing.",
                 features: ["Auto Click", "Auto Rebirth", "Egg Hatching", "Upgrade System", "Achievement Tracking", "Chest Automation"],
-                color: "rgb(132, 176, 255)"
+                color: "rgb(59, 130, 246)"
               },
               {
                 name: "Find Brainrot",
                 icon: Search,
                 description: "Finds items automatically and handles the repetitive searching. Saves you from clicking around the map for hours.",
                 features: ["Auto Find", "Item Detection", "Pathfinding", "Collection System", "Progress Tracking"],
-                color: "rgb(203, 166, 247)"
+                color: "rgb(59, 130, 246)"
               },
               {
                 name: "Pixel Blade",
                 icon: Sword,
                 description: "Handles combat automation and progression. Farms enemies, manages upgrades, and tracks your progress through the game.",
                 features: ["Auto Combat", "Enemy Farming", "Upgrade System", "Progress Tracking", "Resource Management"],
-                color: "rgb(255, 122, 144)"
+                color: "rgb(59, 130, 246)"
               },
               {
                 name: "TapEmpire",
@@ -1552,7 +1553,21 @@ export default function BadScriptHubPage() {
                 icon: Activity,
                 description: "Automates gameplay and handles the repetitive parts. Manages your team, tracks stats, and handles upgrades while you're away.",
                 features: ["Auto Play", "Team Management", "Stat Tracking", "Upgrade System", "Progress Automation"],
-                color: "rgb(255, 183, 77)"
+                color: "rgb(59, 130, 246)"
+              },
+              {
+                name: "Grace",
+                icon: Wand2,
+                description: "Master farming script with three powerful modes: Auto Farm (highest room), More Bricks (all rooms), and Reprieve Farm (beacon collection). Auto-detects SafeRooms, includes lobby utilities, and adjustable speeds.",
+                features: ["Auto Farm", "More Bricks Mode", "Reprieve Farm", "SafeRoom Detection", "Beacon Collection", "Lobby Tools", "Adjustable Speeds"],
+                color: "rgb(59, 130, 246)"
+              },
+              {
+                name: "Lobby",
+                icon: Gamepad2,
+                description: "Lobby utilities and helpers. Customize your experience and manage lobby settings with ease.",
+                features: ["Lobby Tools", "Settings Management", "Customization", "Utilities"],
+                color: "rgb(59, 130, 246)"
               },
             ].map((script, i) => {
               const IconComponent = script.icon
