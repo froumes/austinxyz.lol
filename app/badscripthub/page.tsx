@@ -1490,70 +1490,60 @@ export default function BadScriptHubPage() {
                 icon: Sword,
                 description: "Does basically everything in Anime Eternal. Farms enemies, handles teleports, manages rank ups and prestige, runs gacha pulls, tracks dungeons—you name it.",
                 features: ["Auto Farm", "Teleport System", "Rank Up Automation", "Prestige System", "Gacha Automation", "Dungeon Tracker", "Quest System", "Spirit Upgrades"],
-                color: "rgb(59, 130, 246)"
               },
               {
                 name: "Clash Clicker",
                 icon: MousePointerClick,
                 description: "Clicks for you and buys upgrades automatically. Tracks your elixir and handles card purchases so you don't have to babysit it.",
                 features: ["Auto Click", "Auto Upgrade", "Card Automation", "Auto Level", "Purchase Modes", "Elixir Tracking"],
-                color: "rgb(59, 130, 246)"
               },
               {
                 name: "Dig To Earth",
                 icon: Hammer,
                 description: "Has a money dupe that actually works, plus it'll craft pets, buy upgrades, and collect gems while you're away.",
                 features: ["Money Dupe", "Pet Crafting", "Auto Upgrades", "Gem Automation", "Spin Prize System"],
-                color: "rgb(59, 130, 246)"
               },
               {
                 name: "Fistborn",
                 icon: Target,
                 description: "Farms money by detecting jobs and pathfinding to them. Teleports around when needed. Pretty straightforward.",
                 features: ["Auto Farm", "Job Detection", "Pathfinding", "Teleportation", "Money Tracking"],
-                color: "rgb(59, 130, 246)"
               },
               {
                 name: "Jules RNG",
                 icon: Dice6,
                 description: "Handles roll buffers and lets you configure custom rolls. Automates the RNG stuff so you don't have to manually roll everything.",
                 features: ["Roll Buffer", "Custom Configs", "Auto Roll", "Buffer Management", "RNG Optimization"],
-                color: "rgb(59, 130, 246)"
               },
               {
                 name: "Rebirth Champions",
                 icon: RotateCcw,
                 description: "Clicks, rebirths, hatches eggs, and tracks achievements. Set it and forget it kind of thing.",
                 features: ["Auto Click", "Auto Rebirth", "Egg Hatching", "Upgrade System", "Achievement Tracking", "Chest Automation"],
-                color: "rgb(59, 130, 246)"
               },
               {
                 name: "Find Brainrot",
                 icon: Search,
                 description: "Finds items automatically and handles the repetitive searching. Saves you from clicking around the map for hours.",
                 features: ["Auto Find", "Item Detection", "Pathfinding", "Collection System", "Progress Tracking"],
-                color: "rgb(59, 130, 246)"
               },
               {
                 name: "Pixel Blade",
                 icon: Sword,
                 description: "Handles combat automation and progression. Farms enemies, manages upgrades, and tracks your progress through the game.",
                 features: ["Auto Combat", "Enemy Farming", "Upgrade System", "Progress Tracking", "Resource Management"],
-                color: "rgb(59, 130, 246)"
               },
               {
                 name: "TapEmpire",
                 icon: TrendingUp,
                 description: "Taps for you and manages your empire. Handles upgrades, tracks resources, and automates the clicking so you can focus on strategy.",
                 features: ["Auto Tap", "Empire Management", "Resource Tracking", "Upgrade Automation", "Progress System"],
-                color: "rgb(59, 130, 246)"
               },
               {
                 name: "Basketball Legends",
                 icon: Activity,
                 description: "Automates gameplay and handles the repetitive parts. Manages your team, tracks stats, and handles upgrades while you're away.",
                 features: ["Auto Play", "Team Management", "Stat Tracking", "Upgrade System", "Progress Automation"],
-                color: "rgb(59, 130, 246)"
               },
               {
                 name: "Grace",
