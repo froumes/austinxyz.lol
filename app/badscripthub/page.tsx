@@ -1560,17 +1560,10 @@ export default function BadScriptHubPage() {
                 icon: Wand2,
                 description: "Master farming script with three powerful modes: Auto Farm (highest room), More Bricks (all rooms), and Reprieve Farm (beacon collection). Auto-detects SafeRooms, includes lobby utilities, and adjustable speeds.",
                 features: ["Auto Farm", "More Bricks Mode", "Reprieve Farm", "SafeRoom Detection", "Beacon Collection", "Lobby Tools", "Adjustable Speeds"],
-                color: "rgb(59, 130, 246)"
-              },
-              {
-                name: "Lobby",
-                icon: Gamepad2,
-                description: "Lobby utilities and helpers. Customize your experience and manage lobby settings with ease.",
-                features: ["Lobby Tools", "Settings Management", "Customization", "Utilities"],
-                color: "rgb(59, 130, 246)"
               },
             ].map((script, i) => {
               const IconComponent = script.icon
+              const scriptColor = currentTheme.AccentColor
               return (
               <div
                 key={i}
@@ -1581,11 +1574,11 @@ export default function BadScriptHubPage() {
                   animationDelay: String((i + 8) * 100) + "ms",
                   transition: "all 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = script.color
-                  e.currentTarget.style.boxShadow = "0 0 30px " + script.color.replace("rgb", "rgba").replace(")", ", 0.3)")
+                onMouseEnter={(e: any) => {
+                  e.currentTarget.style.borderColor = scriptColor
+                  e.currentTarget.style.boxShadow = "0 0 30px " + scriptColor.replace("rgb", "rgba").replace(")", ", 0.3)")
                 }}
-                onMouseLeave={(e) => {
+                onMouseLeave={(e: any) => {
                   e.currentTarget.style.borderColor = currentTheme.BorderColor
                   e.currentTarget.style.boxShadow = "none"
                 }}
@@ -1594,8 +1587,8 @@ export default function BadScriptHubPage() {
                   <div
                     className="p-2 rounded-lg transition-all duration-300 hover-scale group-hover:animate-bounce-subtle"
                     style={{
-                      backgroundColor: script.color.replace("rgb", "rgba").replace(")", ", 0.1)"),
-                      color: script.color,
+                      backgroundColor: scriptColor.replace("rgb", "rgba").replace(")", ", 0.1)"),
+                      color: scriptColor,
                     }}
                   >
                     <IconComponent className="w-6 h-6" />
