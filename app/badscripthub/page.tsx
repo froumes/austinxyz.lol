@@ -1553,14 +1553,14 @@ export default function BadScriptHubPage() {
               },
             ].map((script, i) => {
               const IconComponent = script.icon
-              const scriptColor = currentTheme.AccentColor
+              const scriptColor = currentTheme?.AccentColor || "rgb(59, 130, 246)"
               return (
               <div
                 key={i}
                 className="group relative backdrop-blur-sm rounded-2xl p-6 border-2 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 animate-scale-in hover-lift"
                 style={{
-                  backgroundColor: currentTheme.SurfaceColor.replace("rgb", "rgba").replace(")", ", 0.5)"),
-                  borderColor: currentTheme.BorderColor,
+                  backgroundColor: currentTheme?.SurfaceColor?.replace("rgb", "rgba").replace(")", ", 0.5)") || "rgba(23, 23, 23, 0.5)",
+                  borderColor: currentTheme?.BorderColor || "rgb(38, 38, 38)",
                   animationDelay: String((i + 8) * 100) + "ms",
                   transition: "all 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
                 }}
@@ -1569,7 +1569,7 @@ export default function BadScriptHubPage() {
                   e.currentTarget.style.boxShadow = "0 0 30px " + scriptColor.replace("rgb", "rgba").replace(")", ", 0.3)")
                 }}
                 onMouseLeave={(e: any) => {
-                  e.currentTarget.style.borderColor = currentTheme.BorderColor
+                  e.currentTarget.style.borderColor = currentTheme?.BorderColor || "rgb(38, 38, 38)"
                   e.currentTarget.style.boxShadow = "none"
                 }}
               >
