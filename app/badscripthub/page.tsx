@@ -1607,7 +1607,7 @@ export default function BadScriptHubPage() {
                   <p
                     className="text-xs font-semibold uppercase tracking-wider mb-2 transition-colors duration-300"
                     style={{ 
-                      color: script.color,
+                      color: scriptColor,
                     }}
                   >
                     Features
@@ -1618,9 +1618,9 @@ export default function BadScriptHubPage() {
                         key={j}
                         className="px-2 py-1 rounded-lg text-xs font-medium transition-all duration-300 hover:scale-110 animate-fade-in-scale"
                         style={{
-                          backgroundColor: script.color.replace("rgb", "rgba").replace(")", ", 0.1)"),
-                          color: script.color,
-                          border: "1px solid " + script.color.replace("rgb", "rgba").replace(")", ", 0.3)"),
+                          backgroundColor: scriptColor.replace("rgb", "rgba").replace(")", ", 0.1)"),
+                          color: scriptColor,
+                          border: "1px solid " + scriptColor.replace("rgb", "rgba").replace(")", ", 0.3)"),
                           animationDelay: String(j * 50) + "ms",
                         }}
                       >
