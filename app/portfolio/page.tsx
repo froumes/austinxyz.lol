@@ -123,7 +123,7 @@ export default function PortfolioPage() {
       color: "rgb(59, 130, 246)",
       link: "https://github.com/froumes/badinfiniteyield",
       features: ["400+ Commands", "Developer Tools", "Modern UI", "Plugin System", "Anti-Cheat Protection"],
-      stats: { commands: "400+", version: "6.3.4" },
+      stats: { commands: "400+" },
     },
     {
       name: "BadScriptHub",

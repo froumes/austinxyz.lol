@@ -106,7 +106,14 @@ export default function StatsPage() {
                   <Pie data={execs} dataKey="count" nameKey="label" cx="50%" cy="50%" outerRadius={110} innerRadius={40}>
                     {execs.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
                   </Pie>
-                  <Tooltip wrapperStyle={{ pointerEvents: "none" }} contentStyle={{ background: "rgba(17,17,17,0.95)", border: "1px solid #303030", color: "#ddd" }} cursor={{ fill: "#ffffff", fillOpacity: 0.04 }} formatter={(v: any, n: any, p: any) => [`${Number(v).toLocaleString()} executions`, p?.payload?.label]} />
+                  <Tooltip 
+                    wrapperStyle={{ pointerEvents: "none" }} 
+                    contentStyle={{ background: "rgba(17,17,17,0.95)", border: "1px solid #303030", color: "#ddd" }} 
+                    itemStyle={{ color: "#ddd" }}
+                    labelStyle={{ color: "#ddd" }}
+                    cursor={{ fill: "#ffffff", fillOpacity: 0.04 }} 
+                    formatter={(v: any, n: any, p: any) => [`${Number(v).toLocaleString()} executions`, p?.payload?.label]} 
+                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>
