@@ -4,19 +4,11 @@ import React, { useState, useEffect, useRef } from "react"
 import {
   ArrowLeft,
   Github,
-  Code,
   Terminal,
-  Zap,
-  Shield,
-  Rocket,
   Star,
   ExternalLink,
-  FileCode,
   Gamepad2,
   Globe,
-  Database,
-  Cpu,
-  Palette,
   TrendingUp,
   Users,
   Award,
@@ -131,7 +123,7 @@ export default function PortfolioPage() {
       color: "rgb(59, 130, 246)",
       link: "https://github.com/froumes/badinfiniteyield",
       features: ["400+ Commands", "Developer Tools", "Modern UI", "Plugin System", "Anti-Cheat Protection"],
-      stats: { stars: "100+", commands: "400+", version: "6.3.4" },
+      stats: { commands: "400+", version: "6.3.4" },
     },
     {
       name: "BadScriptHub",
@@ -153,16 +145,6 @@ export default function PortfolioPage() {
     },
   ]
 
-  const skills = [
-    { name: "TypeScript/JavaScript", level: 95, icon: Code },
-    { name: "React/Next.js", level: 90, icon: Rocket },
-    { name: "Lua", level: 85, icon: FileCode },
-    { name: "Roblox Development", level: 90, icon: Gamepad2 },
-    { name: "UI/UX Design", level: 80, icon: Palette },
-    { name: "Backend Development", level: 75, icon: Database },
-    { name: "System Architecture", level: 85, icon: Cpu },
-    { name: "Performance Optimization", level: 90, icon: Zap },
-  ]
 
   const achievements = [
     { icon: Star, title: "Open Source Contributor", desc: "Maintaining multiple active repositories" },
@@ -485,83 +467,6 @@ export default function PortfolioPage() {
           </div>
         </div>
 
-        {/* Skills Section */}
-        <div className="relative z-10 container mx-auto px-6 py-12">
-          <h2
-            className="text-4xl md:text-5xl font-black mb-12 text-center transition-colors duration-[1000ms] ease-in-out animate-fade-in-up"
-            style={{ 
-              color: currentTheme.TextColor,
-              transition: "color 1s cubic-bezier(0.4, 0, 0.2, 1)",
-            }}
-          >
-            Skills & Technologies
-          </h2>
-          
-          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {skills.map((skill, i) => {
-              const IconComponent = skill.icon
-              return (
-                <div
-                  key={i}
-                  className="backdrop-blur-sm rounded-xl p-6 border-2 transition-all duration-500 hover:scale-105 animate-fade-in-up"
-                  style={{
-                    backgroundColor: currentTheme.SurfaceColor.replace("rgb", "rgba").replace(")", ", 0.5)"),
-                    borderColor: currentTheme.BorderColor,
-                    animationDelay: String((i + 4) * 100) + "ms",
-                  }}
-                  onMouseEnter={(e: any) => {
-                    e.currentTarget.style.borderColor = currentTheme.AccentColor
-                    e.currentTarget.style.boxShadow = "0 0 20px " + currentTheme.AccentColor.replace("rgb", "rgba").replace(")", ", 0.2)")
-                  }}
-                  onMouseLeave={(e: any) => {
-                    e.currentTarget.style.borderColor = currentTheme.BorderColor
-                    e.currentTarget.style.boxShadow = "none"
-                  }}
-                >
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-3">
-                      <IconComponent 
-                        className="w-5 h-5" 
-                        style={{ color: currentTheme.AccentColor }}
-                      />
-                      <h3
-                        className="text-lg font-bold transition-colors duration-300"
-                        style={{ 
-                          color: currentTheme.TextColor,
-                        }}
-                      >
-                        {skill.name}
-                      </h3>
-                    </div>
-                    <span
-                      className="text-sm font-bold transition-colors duration-300"
-                      style={{ 
-                        color: currentTheme.AccentColor,
-                      }}
-                    >
-                      {skill.level}%
-                    </span>
-                  </div>
-                  <div
-                    className="h-2 rounded-full overflow-hidden"
-                    style={{
-                      backgroundColor: currentTheme.BackgroundColor,
-                    }}
-                  >
-                    <div
-                      className="h-full rounded-full transition-all duration-1000 ease-out"
-                      style={{
-                        width: `${skill.level}%`,
-                        backgroundColor: currentTheme.AccentColor,
-                      }}
-                    />
-                  </div>
-                </div>
-              )
-            })}
-          </div>
-        </div>
-
         {/* Achievements Section */}
         <div className="relative z-10 container mx-auto px-6 py-12">
           <h2
@@ -646,11 +551,10 @@ export default function PortfolioPage() {
             >
               Quick Stats
             </h2>
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 gap-6 max-w-md mx-auto">
               {[
                 { icon: GitBranch, label: "Repositories", value: "10+" },
                 { icon: Package, label: "Projects", value: "15+" },
-                { icon: Star, label: "Stars", value: "200+" },
               ].map((stat, i) => {
                 const IconComponent = stat.icon
                 return (
