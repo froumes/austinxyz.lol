@@ -89,13 +89,18 @@ export default function ChristmasPage() {
   }, [])
 
   useEffect(() => {
-    // Initialize audio
+    // Initialize audio - user can add their own music file to /public/christmas-music.mp3
     const audioElement = new Audio()
-    // Christmas music - replace with your own music file URL if desired
-    // You can add a file to /public/christmas-music.mp3 and use "/christmas-music.mp3"
-    audioElement.src = "https://archive.org/download/JingleBells_201912/Jingle%20Bells.mp3"
+    
+    // Try to load from public folder first, fallback to empty if not found
+    audioElement.src = "/christmas-music.mp3"
     audioElement.loop = true
     audioElement.volume = 0.4
+    
+    audioElement.addEventListener('error', (e) => {
+      console.log("Audio file not found - music disabled. Add /public/christmas-music.mp3 to enable music.")
+      setIsPlaying(false)
+    })
     
     audioElement.addEventListener('ended', () => {
       audioElement.currentTime = 0
@@ -118,10 +123,12 @@ export default function ChristmasPage() {
       setIsPlaying(false)
     } else {
       audio.play().catch((error) => {
-        console.error("Error playing audio:", error)
-        // If autoplay is blocked, show a message or just don't play
+        console.log("Music file not available. Add /public/christmas-music.mp3 to enable music.")
+        setIsPlaying(false)
       })
-      setIsPlaying(true)
+      if (audio.readyState >= 2) { // HAVE_CURRENT_DATA
+        setIsPlaying(true)
+      }
     }
   }
 
@@ -163,7 +170,7 @@ export default function ChristmasPage() {
         <div 
           className="absolute inset-0 animate-pulse-slow"
           style={{
-            background: 'radial-gradient(circle at 20% 30%, rgba(220, 38, 38, 0.3) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(34, 197, 94, 0.3) 0%, transparent 50%), radial-gradient(circle at 50% 50%, rgba(234, 179, 8, 0.2) 0%, transparent 50%)',
+            background: 'radial-gradient(circle at 20% 30%, rgba(220, 38, 38, 0.4) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(34, 197, 94, 0.4) 0%, transparent 50%), radial-gradient(circle at 50% 50%, rgba(220, 38, 38, 0.2) 0%, transparent 50%)',
           }}
         />
       </div>
@@ -252,31 +259,26 @@ export default function ChristmasPage() {
         {isChristmas ? (
           <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
             <div className="relative mb-8">
-              <div className="text-8xl sm:text-9xl mb-4 animate-bounce">🎄</div>
-              <div className="absolute -top-4 -left-4 text-4xl animate-pulse">✨</div>
-              <div className="absolute -top-4 -right-4 text-4xl animate-pulse animation-delay-200">✨</div>
-              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 text-4xl animate-pulse animation-delay-400">✨</div>
+              <TreePine className="w-32 h-32 sm:w-40 sm:h-40 text-green-400 mb-4 animate-bounce mx-auto" />
+              <div className="absolute -top-4 -left-4 w-8 h-8 bg-red-400 rounded-full animate-pulse" />
+              <div className="absolute -top-4 -right-4 w-8 h-8 bg-green-400 rounded-full animate-pulse animation-delay-200" />
+              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-8 h-8 bg-red-400 rounded-full animate-pulse animation-delay-400" />
             </div>
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-black mb-6 bg-gradient-to-r from-red-400 via-yellow-400 to-green-400 bg-clip-text text-transparent">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-black mb-6 bg-gradient-to-r from-red-400 to-green-400 bg-clip-text text-transparent">
               Merry Christmas!
             </h1>
             <p className="text-xl sm:text-2xl text-neutral-300 mb-4">Hope you have a wonderful day!</p>
-            <div className="flex gap-4 mt-6">
-              <span className="text-3xl animate-bounce animation-delay-100">🎁</span>
-              <span className="text-3xl animate-bounce animation-delay-200">🎅</span>
-              <span className="text-3xl animate-bounce animation-delay-300">❄️</span>
-            </div>
           </div>
         ) : (
           <>
             {/* Main Title Section */}
             <div className="text-center mb-12 sm:mb-16">
               <div className="inline-flex items-center gap-3 sm:gap-4 mb-6">
-                <Star className="w-8 h-8 sm:w-10 sm:h-10 text-yellow-400 fill-yellow-400 animate-pulse" />
-                <h1 className="text-4xl sm:text-6xl md:text-7xl font-black bg-gradient-to-r from-red-400 via-yellow-400 to-green-400 bg-clip-text text-transparent">
+                <Star className="w-8 h-8 sm:w-10 sm:h-10 text-red-400 fill-red-400 animate-pulse" />
+                <h1 className="text-4xl sm:text-6xl md:text-7xl font-black bg-gradient-to-r from-red-400 to-green-400 bg-clip-text text-transparent">
                   Christmas Countdown
                 </h1>
-                <Star className="w-8 h-8 sm:w-10 sm:h-10 text-yellow-400 fill-yellow-400 animate-pulse animation-delay-200" />
+                <Star className="w-8 h-8 sm:w-10 sm:h-10 text-green-400 fill-green-400 animate-pulse animation-delay-200" />
               </div>
               <p className="text-lg sm:text-xl text-neutral-300 font-light">
                 Counting down to the most wonderful time of the year
@@ -287,8 +289,8 @@ export default function ChristmasPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-12 sm:mb-16">
               <TimeCard value={timeLeft.days} label="Days" color="#ef4444" />
               <TimeCard value={timeLeft.hours} label="Hours" color="#22c55e" />
-              <TimeCard value={timeLeft.minutes} label="Minutes" color="#eab308" />
-              <TimeCard value={timeLeft.seconds} label="Seconds" color="#3b82f6" />
+              <TimeCard value={timeLeft.minutes} label="Minutes" color="#ef4444" />
+              <TimeCard value={timeLeft.seconds} label="Seconds" color="#22c55e" />
             </div>
 
             {/* Info Cards */}
@@ -340,19 +342,19 @@ export default function ChristmasPage() {
               <div 
                 className="relative rounded-3xl p-6 sm:p-8 border-2 shadow-2xl overflow-hidden group hover:scale-105 transition-all duration-300 sm:col-span-2 lg:col-span-1"
                 style={{
-                  background: 'linear-gradient(135deg, rgba(234, 179, 8, 0.15) 0%, rgba(234, 179, 8, 0.05) 100%)',
-                  borderColor: 'rgba(234, 179, 8, 0.4)',
+                  background: 'linear-gradient(135deg, rgba(34, 197, 94, 0.15) 0%, rgba(34, 197, 94, 0.05) 100%)',
+                  borderColor: 'rgba(34, 197, 94, 0.4)',
                 }}
               >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-500/10 rounded-full blur-3xl" />
+                <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-full blur-3xl" />
                 <div className="relative z-10">
                   <div className="flex items-center gap-3 mb-4">
-                    <div className="p-3 rounded-2xl bg-yellow-500/20">
-                      <Snowflake className="w-6 h-6 text-yellow-400" />
+                    <div className="p-3 rounded-2xl bg-green-500/20">
+                      <Snowflake className="w-6 h-6 text-green-400" />
                     </div>
                     <h3 className="text-lg sm:text-xl font-bold text-white">Progress</h3>
                   </div>
-                  <div className="text-5xl sm:text-6xl font-black text-yellow-400 mb-2">
+                  <div className="text-5xl sm:text-6xl font-black text-green-400 mb-2">
                     {Math.round(((365 - (timeLeft.days + timeLeft.hours / 24)) / 365) * 100)}%
                   </div>
                   <p className="text-sm text-neutral-400">through the year</p>
@@ -365,7 +367,7 @@ export default function ChristmasPage() {
         <div className="mt-12 sm:mt-16 text-center pb-safe">
           <p className="text-neutral-500 text-sm sm:text-base">
             {isChristmas
-              ? "Enjoy the holiday season! 🎅"
+              ? "Enjoy the holiday season!"
               : "The countdown updates every second"}
           </p>
         </div>
