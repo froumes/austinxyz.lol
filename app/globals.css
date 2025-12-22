@@ -321,6 +321,18 @@ body {
   animation-delay: 1200ms;
 }
 
+.animation-delay-2000 {
+  animation-delay: 2000ms;
+}
+
+.animation-delay-3000 {
+  animation-delay: 3000ms;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4000ms;
+}
+
 /* Additional animations */
 @keyframes scale-in {
   from {
