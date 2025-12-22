@@ -9,6 +9,7 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "austinxyz.lol",
   description: "notabadcoder",
+  manifest: "/manifest.json",
   viewport: {
     width: "device-width",
     initialScale: 1,
@@ -24,6 +25,16 @@ export const metadata: Metadata = {
       },
     ],
     apple: "/BSHLogoNoBackground.png",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "austinxyz.lol",
+  },
+  other: {
+    "mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "black-translucent",
   },
   openGraph: {
     title: "austinxyz.lol",

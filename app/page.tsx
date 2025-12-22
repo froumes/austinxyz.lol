@@ -163,7 +163,7 @@ export default function HomePage() {
 
       <div className="relative z-10 max-w-6xl w-full">
         <Reveal className="text-center mb-16">
-          <h1 className="text-6xl md:text-8xl font-black text-foreground mb-4 tracking-tight min-h-[120px] flex items-center justify-center">
+          <h1 className="text-4xl sm:text-6xl md:text-8xl font-black text-foreground mb-4 tracking-tight min-h-[80px] sm:min-h-[120px] flex items-center justify-center">
             <span>
               {displayedText.split(".").map((part, i) => (
                 <span key={i}>
@@ -176,13 +176,13 @@ export default function HomePage() {
           </h1>
         </Reveal>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 max-w-6xl mx-auto">
           <Reveal asChild delay={100}>
           <Link
             href="/portfolio"
             onMouseEnter={() => setHoveredOption("portfolio")}
             onMouseLeave={() => setHoveredOption(null)}
-            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 perspective-1000"
+            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-8 sm:p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
             style={{
               transform: hoveredOption === "portfolio" ? "rotateX(2deg) rotateY(-2deg)" : "rotateX(0) rotateY(0)",
               transformStyle: "preserve-3d",
@@ -202,15 +202,15 @@ export default function HomePage() {
             </div>
 
             <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 -m-8">
-              <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                <Code className="w-8 h-8 text-primary group-hover:scale-110 transition-transform duration-300" />
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:bg-primary/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                <Code className="w-6 h-6 sm:w-8 sm:h-8 text-primary group-hover:scale-110 transition-transform duration-300" />
               </div>
 
-              <h2 className="text-3xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
+              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2 sm:mb-3 group-hover:text-primary transition-colors">
                 Portfolio
               </h2>
 
-              <p className="text-muted-foreground mb-6 leading-relaxed">
+              <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 leading-relaxed">
                 Explore my projects, skills, and professional work
               </p>
 
@@ -227,7 +227,7 @@ export default function HomePage() {
             href="/badscripthub"
             onMouseEnter={() => setHoveredOption("badscripthub")}
             onMouseLeave={() => setHoveredOption(null)}
-            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 perspective-1000"
+            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-8 sm:p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
             style={{
               transform: hoveredOption === "badscripthub" ? "rotateX(2deg) rotateY(2deg)" : "rotateX(0) rotateY(0)",
               transformStyle: "preserve-3d",
@@ -250,7 +250,7 @@ export default function HomePage() {
               <div className="w-16 h-16 bg-accent/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-accent/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                 <LogoSimple
                   size={40}
-                  className="group-hover:scale-110 transition-all duration-300"
+                  className="w-8 h-8 sm:w-10 sm:h-10 group-hover:scale-110 transition-all duration-300"
                   alt="BadScriptHub Logo"
                 />
               </div>
@@ -261,7 +261,7 @@ export default function HomePage() {
                 BadScriptHub
               </h2>
 
-              <p className="text-muted-foreground mb-6 leading-relaxed">
+              <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 leading-relaxed">
                 Advanced aim assistance script with interactive demo
               </p>
 
@@ -279,7 +279,7 @@ export default function HomePage() {
             href="/stats"
             onMouseEnter={() => setHoveredOption("stats")}
             onMouseLeave={() => setHoveredOption(null)}
-            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 perspective-1000"
+            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-8 sm:p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
             style={{
               transform: hoveredOption === "stats" ? "rotateX(2deg) rotateY(0deg)" : "rotateX(0) rotateY(0)",
               transformStyle: "preserve-3d",
@@ -288,13 +288,13 @@ export default function HomePage() {
             <div className="absolute -inset-0.5 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl opacity-0 group-hover:opacity-75 transition duration-500 blur-sm animate-gradient-rotate" />
             <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/10 to-primary/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 -m-8">
-              <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                <BarChart3 className="w-8 h-8 text-primary group-hover:scale-110 transition-transform duration-300" />
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:bg-primary/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                <BarChart3 className="w-6 h-6 sm:w-8 sm:h-8 text-primary group-hover:scale-110 transition-transform duration-300" />
               </div>
-              <h2 className="text-3xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
+              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2 sm:mb-3 group-hover:text-primary transition-colors">
                 Statistics
               </h2>
-              <p className="text-muted-foreground mb-6 leading-relaxed">
+              <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 leading-relaxed">
                 Explore in-depth, anonymous usage trends across scripts, games, and executors
               </p>
               <div className="flex items-center text-primary font-semibold group-hover:gap-3 gap-2 transition-all">
@@ -309,7 +309,7 @@ export default function HomePage() {
             href="/christmas"
             onMouseEnter={() => setHoveredOption("christmas")}
             onMouseLeave={() => setHoveredOption(null)}
-            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 perspective-1000"
+            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-8 sm:p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
             style={{
               transform: hoveredOption === "christmas" ? "rotateX(2deg) rotateY(0deg)" : "rotateX(0) rotateY(0)",
               transformStyle: "preserve-3d",
@@ -319,12 +319,12 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-gradient-to-br from-red-500/0 via-red-500/10 to-green-500/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 -m-8">
               <div className="w-16 h-16 bg-red-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-red-500/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                <TreePine className="w-8 h-8 text-red-400 group-hover:scale-110 transition-transform duration-300" />
+                <TreePine className="w-6 h-6 sm:w-8 sm:h-8 text-red-400 group-hover:scale-110 transition-transform duration-300" />
               </div>
               <h2 className="text-3xl font-bold text-foreground mb-3 group-hover:text-red-400 transition-colors">
                 Christmas
               </h2>
-              <p className="text-muted-foreground mb-6 leading-relaxed">
+              <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 leading-relaxed">
                 Countdown to the most wonderful time of the year
               </p>
               <div className="flex items-center text-red-400 font-semibold group-hover:gap-3 gap-2 transition-all">
