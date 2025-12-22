@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import Link from "next/link"
 import { ArrowLeft, Snowflake, Gift, TreePine, Star } from "lucide-react"
 
@@ -11,10 +11,29 @@ interface TimeLeft {
   seconds: number
 }
 
+interface SnowflakeData {
+  left: number
+  top: number
+  delay: number
+  duration: number
+  size: number
+}
+
 export default function ChristmasPage() {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 })
   const [isChristmas, setIsChristmas] = useState(false)
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 })
+
+  // Generate snowflake positions once on mount
+  const snowflakes = useMemo<SnowflakeData[]>(() => {
+    return Array.from({ length: 20 }, () => ({
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      delay: Math.random() * 5,
+      duration: 5 + Math.random() * 10,
+      size: 16 + Math.random() * 16,
+    }))
+  }, [])
 
   useEffect(() => {
     const calculateTimeLeft = () => {
@@ -83,17 +102,17 @@ export default function ChristmasPage() {
 
       {/* Floating snowflakes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
+        {snowflakes.map((flake, i) => (
           <Snowflake
             key={i}
             className="absolute text-white/20 animate-float"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
-              animationDuration: `${5 + Math.random() * 10}s`,
+              left: `${flake.left}%`,
+              top: `${flake.top}%`,
+              animationDelay: `${flake.delay}s`,
+              animationDuration: `${flake.duration}s`,
             }}
-            size={16 + Math.random() * 16}
+            size={flake.size}
           />
         ))}
       </div>
