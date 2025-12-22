@@ -26,6 +26,8 @@ export default function ChristmasPage() {
   const [isTouchDevice, setIsTouchDevice] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null)
+  const [santaLocation, setSantaLocation] = useState<string | null>(null)
+  const [showSantaLocation, setShowSantaLocation] = useState(false)
 
   // Generate snowflake positions once on mount
   const snowflakes = useMemo<SnowflakeData[]>(() => {
@@ -130,6 +132,60 @@ export default function ChristmasPage() {
         setIsPlaying(true)
       }
     }
+  }
+
+  const getSantaLocation = () => {
+    const now = new Date()
+    const currentYear = now.getFullYear()
+    
+    // Christmas starts at midnight Dec 25 in UTC+14 (earliest timezone - Line Islands, Kiribati)
+    // UTC+14 is 14 hours ahead of UTC, so Dec 25 00:00 UTC+14 = Dec 24 10:00 UTC
+    const christmasStartUTC = new Date(Date.UTC(currentYear, 11, 24, 10, 0, 0))
+    
+    // If it's before Christmas in the earliest timezone, Santa is at North Pole
+    if (now < christmasStartUTC) {
+      return "North Pole - Preparing for his journey!"
+    }
+    
+    // If it's Christmas Day, determine which region Santa would be in
+    // This is a simplified version - in reality, Santa would move through timezones
+    const hoursSinceChristmas = (now.getTime() - christmasStartUTC.getTime()) / (1000 * 60 * 60)
+    
+    // Regions Santa visits (simplified progression based on timezone order)
+    const regions = [
+      { name: "Pacific Islands", hours: 0 },
+      { name: "Australia & New Zealand", hours: 2 },
+      { name: "Asia", hours: 4 },
+      { name: "Middle East", hours: 6 },
+      { name: "Europe", hours: 8 },
+      { name: "Africa", hours: 10 },
+      { name: "South America", hours: 12 },
+      { name: "North America (East Coast)", hours: 14 },
+      { name: "North America (West Coast)", hours: 16 },
+      { name: "Hawaii & Pacific", hours: 18 },
+    ]
+    
+    // Find which region Santa would be in based on hours since Christmas started
+    let currentRegion = regions[0]
+    for (let i = regions.length - 1; i >= 0; i--) {
+      if (hoursSinceChristmas >= regions[i].hours) {
+        currentRegion = regions[i]
+        break
+      }
+    }
+    
+    // If it's been more than 24 hours, Santa has finished his journey
+    if (hoursSinceChristmas >= 24) {
+      return "North Pole - Finished delivering presents around the world!"
+    }
+    
+    return `Currently delivering presents in ${currentRegion.name}!`
+  }
+
+  const handleSantaLocation = () => {
+    const location = getSantaLocation()
+    setSantaLocation(location)
+    setShowSantaLocation(true)
   }
 
   const TimeCard = ({ value, label, color }: { value: number; label: string; color: string }) => (
@@ -364,7 +420,35 @@ export default function ChristmasPage() {
           </>
         )}
 
-        <div className="mt-12 sm:mt-16 text-center pb-safe">
+        {/* Santa Location Button */}
+        <div className="mt-12 sm:mt-16 flex flex-col items-center gap-6 pb-safe">
+          <button
+            onClick={handleSantaLocation}
+            className="px-8 py-4 rounded-2xl font-bold text-lg sm:text-xl transition-all duration-300 touch-manipulation active:scale-95 shadow-2xl hover:shadow-red-500/50"
+            style={{
+              background: 'linear-gradient(135deg, #ef4444 0%, #22c55e 100%)',
+              color: 'white',
+            }}
+          >
+            Where is Santa now?
+          </button>
+          
+          {showSantaLocation && santaLocation && (
+            <div 
+              className="px-6 py-4 rounded-2xl border-2 shadow-xl max-w-md text-center animate-fade-in-up"
+              style={{
+                background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(34, 197, 94, 0.2) 100%)',
+                borderColor: 'rgba(239, 68, 68, 0.4)',
+              }}
+            >
+              <div className="flex items-center justify-center gap-3 mb-2">
+                <TreePine className="w-6 h-6 text-green-400" />
+                <p className="text-xl sm:text-2xl font-bold text-white">{santaLocation}</p>
+                <TreePine className="w-6 h-6 text-red-400" />
+              </div>
+            </div>
+          )}
+          
           <p className="text-neutral-500 text-sm sm:text-base">
             {isChristmas
               ? "Enjoy the holiday season!"
