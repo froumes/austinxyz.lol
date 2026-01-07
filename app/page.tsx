@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { ArrowRight, Code, Target, BarChart3, TreePine } from "lucide-react"
+import { ArrowRight, Code, BarChart3 } from "lucide-react"
 import Link from "next/link"
 import { LogoSimple } from "@/components/logo"
 import { Reveal } from "@/components/reveal"
@@ -176,7 +176,7 @@ export default function HomePage() {
           </h1>
         </Reveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
           <Reveal asChild delay={100}>
           <Link
             href="/portfolio"
@@ -201,7 +201,7 @@ export default function HomePage() {
               <div className="absolute bottom-1/3 left-1/2 w-1 h-1 bg-primary/50 rounded-full animate-float animation-delay-400" />
             </div>
 
-            <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 -m-8 sm:-m-12">
+            <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 -m-8">
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:bg-primary/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                 <Code className="w-6 h-6 sm:w-8 sm:h-8 text-primary group-hover:scale-110 transition-transform duration-300" />
               </div>
@@ -246,7 +246,7 @@ export default function HomePage() {
               <div className="absolute bottom-1/3 right-1/2 w-1 h-1 bg-accent/50 rounded-full animate-float animation-delay-400" />
             </div>
 
-            <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 -m-8 sm:-m-12">
+            <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 -m-8">
               <div className="w-16 h-16 bg-accent/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-accent/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                 <LogoSimple
                   size={40}
@@ -287,7 +287,7 @@ export default function HomePage() {
           >
             <div className="absolute -inset-0.5 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl opacity-0 group-hover:opacity-75 transition duration-500 blur-sm animate-gradient-rotate" />
             <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/10 to-primary/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 -m-8 sm:-m-12">
+            <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 -m-8">
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:bg-primary/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                 <BarChart3 className="w-6 h-6 sm:w-8 sm:h-8 text-primary group-hover:scale-110 transition-transform duration-300" />
               </div>
@@ -299,36 +299,6 @@ export default function HomePage() {
               </p>
               <div className="flex items-center text-primary font-semibold group-hover:gap-3 gap-2 transition-all">
                 View Statistics
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-              </div>
-            </div>
-          </Link>
-          </Reveal>
-          <Reveal asChild delay={400}>
-          <Link
-            href="/christmas"
-            onMouseEnter={() => setHoveredOption("christmas")}
-            onMouseLeave={() => setHoveredOption(null)}
-            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-8 sm:p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
-            style={{
-              transform: hoveredOption === "christmas" ? "rotateX(2deg) rotateY(0deg)" : "rotateX(0) rotateY(0)",
-              transformStyle: "preserve-3d",
-            }}
-          >
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-red-500 via-green-500 to-red-500 rounded-2xl opacity-0 group-hover:opacity-75 transition duration-500 blur-sm animate-gradient-rotate" />
-            <div className="absolute inset-0 bg-gradient-to-br from-red-500/0 via-red-500/10 to-green-500/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 -m-8 sm:-m-12">
-              <div className="w-16 h-16 bg-red-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-red-500/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                <TreePine className="w-6 h-6 sm:w-8 sm:h-8 text-red-400 group-hover:scale-110 transition-transform duration-300" />
-              </div>
-              <h2 className="text-3xl font-bold text-foreground mb-3 group-hover:text-red-400 transition-colors">
-                Christmas
-              </h2>
-              <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 leading-relaxed">
-                Countdown to the most wonderful time of the year
-              </p>
-              <div className="flex items-center text-red-400 font-semibold group-hover:gap-3 gap-2 transition-all">
-                View Tracker
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
               </div>
             </div>
