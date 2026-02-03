@@ -182,7 +182,7 @@ export default function HomePage() {
             href="/portfolio"
             onMouseEnter={() => setHoveredOption("portfolio")}
             onMouseLeave={() => setHoveredOption(null)}
-            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-8 sm:p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
+            className="group relative h-full bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-8 sm:p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
             style={{
               transform: hoveredOption === "portfolio" ? "rotateX(2deg) rotateY(-2deg)" : "rotateX(0) rotateY(0)",
               transformStyle: "preserve-3d",
@@ -201,7 +201,7 @@ export default function HomePage() {
               <div className="absolute bottom-1/3 left-1/2 w-1 h-1 bg-primary/50 rounded-full animate-float animation-delay-400" />
             </div>
 
-            <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 -m-8">
+            <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 -m-8 h-full flex flex-col">
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:bg-primary/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                 <Code className="w-6 h-6 sm:w-8 sm:h-8 text-primary group-hover:scale-110 transition-transform duration-300" />
               </div>
@@ -214,7 +214,7 @@ export default function HomePage() {
                 Explore my projects, skills, and professional work
               </p>
 
-              <div className="flex items-center text-primary font-semibold group-hover:gap-3 gap-2 transition-all">
+              <div className="mt-auto flex items-center text-primary font-semibold group-hover:gap-3 gap-2 transition-all">
                 View Portfolio
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
               </div>
@@ -227,7 +227,7 @@ export default function HomePage() {
             href="/badscripthub"
             onMouseEnter={() => setHoveredOption("badscripthub")}
             onMouseLeave={() => setHoveredOption(null)}
-            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-8 sm:p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
+            className="group relative h-full bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-8 sm:p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
             style={{
               transform: hoveredOption === "badscripthub" ? "rotateX(2deg) rotateY(2deg)" : "rotateX(0) rotateY(0)",
               transformStyle: "preserve-3d",
@@ -246,7 +246,7 @@ export default function HomePage() {
               <div className="absolute bottom-1/3 right-1/2 w-1 h-1 bg-accent/50 rounded-full animate-float animation-delay-400" />
             </div>
 
-            <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 -m-8">
+            <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 -m-8 h-full flex flex-col">
               <div className="w-16 h-16 bg-accent/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-accent/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                 <LogoSimple
                   size={40}
@@ -265,7 +265,7 @@ export default function HomePage() {
                 Advanced aim assistance script with interactive demo
               </p>
 
-              <div className="flex items-center font-semibold group-hover:gap-3 gap-2 transition-all duration-300" style={{
+              <div className="mt-auto flex items-center font-semibold group-hover:gap-3 gap-2 transition-all duration-300" style={{
                 color: hoveredOption === "badscripthub" ? "rgb(255, 122, 144)" : "rgb(255, 255, 255)"
               }}>
                 View Script
@@ -279,7 +279,7 @@ export default function HomePage() {
             href="/stats"
             onMouseEnter={() => setHoveredOption("stats")}
             onMouseLeave={() => setHoveredOption(null)}
-            className="group relative bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-8 sm:p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
+            className="group relative h-full bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-8 sm:p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
             style={{
               transform: hoveredOption === "stats" ? "rotateX(2deg) rotateY(0deg)" : "rotateX(0) rotateY(0)",
               transformStyle: "preserve-3d",
@@ -287,7 +287,7 @@ export default function HomePage() {
           >
             <div className="absolute -inset-0.5 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl opacity-0 group-hover:opacity-75 transition duration-500 blur-sm animate-gradient-rotate" />
             <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/10 to-primary/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 -m-8">
+            <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 -m-8 h-full flex flex-col">
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:bg-primary/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
                 <BarChart3 className="w-6 h-6 sm:w-8 sm:h-8 text-primary group-hover:scale-110 transition-transform duration-300" />
               </div>
@@ -297,7 +297,7 @@ export default function HomePage() {
               <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 leading-relaxed">
                 Explore in-depth, anonymous usage trends across scripts, games, and executors
               </p>
-              <div className="flex items-center text-primary font-semibold group-hover:gap-3 gap-2 transition-all">
+              <div className="mt-auto flex items-center text-primary font-semibold group-hover:gap-3 gap-2 transition-all">
                 View Statistics
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
               </div>
