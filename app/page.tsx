@@ -182,7 +182,7 @@ export default function HomePage() {
             href="/portfolio"
             onMouseEnter={() => setHoveredOption("portfolio")}
             onMouseLeave={() => setHoveredOption(null)}
-            className="group relative h-full bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-8 sm:p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
+            className="group relative block h-full bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-8 sm:p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
             style={{
               transform: hoveredOption === "portfolio" ? "rotateX(2deg) rotateY(-2deg)" : "rotateX(0) rotateY(0)",
               transformStyle: "preserve-3d",
@@ -227,7 +227,7 @@ export default function HomePage() {
             href="/badscripthub"
             onMouseEnter={() => setHoveredOption("badscripthub")}
             onMouseLeave={() => setHoveredOption(null)}
-            className="group relative h-full bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-8 sm:p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
+            className="group relative block h-full bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-8 sm:p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
             style={{
               transform: hoveredOption === "badscripthub" ? "rotateX(2deg) rotateY(2deg)" : "rotateX(0) rotateY(0)",
               transformStyle: "preserve-3d",
@@ -279,7 +279,7 @@ export default function HomePage() {
             href="/stats"
             onMouseEnter={() => setHoveredOption("stats")}
             onMouseLeave={() => setHoveredOption(null)}
-            className="group relative h-full bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-8 sm:p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
+            className="group relative block h-full bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl p-8 sm:p-12 transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
             style={{
               transform: hoveredOption === "stats" ? "rotateX(2deg) rotateY(0deg)" : "rotateX(0) rotateY(0)",
               transformStyle: "preserve-3d",
