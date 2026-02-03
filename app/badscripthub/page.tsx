@@ -810,7 +810,7 @@ export default function BadScriptHubPage() {
         </div>
 
         {/* Statistics Dashboard */}
-        <div className="mt-12 w-full max-w-6xl animate-fade-in-up animation-delay-200">
+        <div className="mt-12 w-full max-w-6xl mx-auto animate-fade-in-up animation-delay-200">
           <h2
             className="text-2xl font-bold mb-6 text-center"
             style={{
