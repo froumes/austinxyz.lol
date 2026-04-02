@@ -262,7 +262,7 @@ export default function HomePage() {
               </h2>
 
               <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 leading-relaxed">
-                Advanced aim assistance script with interactive demo
+                not a roblox cheating hub.
               </p>
 
               <div className="mt-auto flex items-center font-semibold group-hover:gap-3 gap-2 transition-all duration-300" style={{
