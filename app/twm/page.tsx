@@ -1,14 +1,13 @@
 "use client"
 
 // Public, read-only stats dashboard for the TWM Hypixel SkyBlock flipping
-// bot.  All data is fetched from /api/twm/stats which reads a snapshot the
-// bot pushes to KV every ~30s.  The browser never sees the bot's IP, no
-// cross-origin requests are made, and the share link is gated by the `?t=`
-// viewer token enforced on the Cloudflare Function side.
+// bot.  Data is fetched from `/api/twm/stats/<slot_id>`, where `slot_id` is
+// an unguessable identifier the bot generated and saved on its first
+// "Share Stats" click — no env vars, no manual provisioning.
 //
 // The page is a single static export (compatible with `output: 'export'`),
-// reads the token from `window.location.search` so we don't need a dynamic
-// route segment, and degrades gracefully when:
+// reads the slot id from `window.location.search` (`?s=<slot_id>`) so we
+// don't need a dynamic route segment, and degrades gracefully when:
 //   • the link is invalid          → "share link not valid" panel
 //   • the bot has not pushed yet    → "waiting for first snapshot" panel
 //   • the bot stops pushing         → KV TTL clears the entry, page shows
@@ -125,22 +124,27 @@ function buildChartRows(ahPts: ProfitPoint[], bzPts: ProfitPoint[]): ChartRow[] 
   })
 }
 
-function getTokenFromQuery(): string {
+/**
+ * Read the slot id from the URL.  The bot hands out links of the form
+ * `https://austinxyz.lol/twm?s=<slot_id>`; the slot id is the only thing
+ * needed to identify which bot's stats this page should display.
+ */
+function getSlotFromQuery(): string {
   if (typeof window === "undefined") return ""
   const params = new URLSearchParams(window.location.search)
-  return params.get("t") || ""
+  return params.get("s") || ""
 }
 
 export default function TwmStatsPage() {
   const [state, setState] = useState<FetchState>({ status: "loading" })
   const [now, setNow] = useState<number>(() => Date.now())
-  const [token, setToken] = useState<string>("")
+  const [slotId, setSlotId] = useState<string>("")
 
-  // Resolve the viewer token once on mount.  We do not put it into React
-  // state from a useEffect-less initializer because window is undefined
-  // during the static-export pre-render.
+  // Resolve the slot id once on mount.  We do not put it into React state
+  // from a useEffect-less initializer because window is undefined during
+  // the static-export pre-render.
   useEffect(() => {
-    setToken(getTokenFromQuery())
+    setSlotId(getSlotFromQuery())
   }, [])
 
   // Re-render once a second so "X seconds ago" labels stay live without
@@ -151,11 +155,11 @@ export default function TwmStatsPage() {
   }, [])
 
   useEffect(() => {
-    if (token === "") {
-      // Wait until the first effect resolves the token; if it stays empty
-      // after a microtask we'll show the invalid-link panel.
+    if (slotId === "") {
+      // Wait until the first effect resolves the slot id; if it stays
+      // empty after a microtask we'll show the invalid-link panel.
       const id = setTimeout(() => {
-        if (getTokenFromQuery() === "") setState({ status: "invalid" })
+        if (getSlotFromQuery() === "") setState({ status: "invalid" })
       }, 50)
       return () => clearTimeout(id)
     }
@@ -165,7 +169,7 @@ export default function TwmStatsPage() {
     async function fetchOnce() {
       try {
         const resp = await fetch(
-          `/api/twm/stats?t=${encodeURIComponent(token)}`,
+          `/api/twm/stats/${encodeURIComponent(slotId)}`,
           { cache: "no-store" },
         )
         if (cancelled) return
@@ -201,7 +205,7 @@ export default function TwmStatsPage() {
       cancelled = true
       clearInterval(id)
     }
-  }, [token])
+  }, [slotId])
 
   const data = state.status === "ready" ? state.data : null
   const sessionRows = useMemo(

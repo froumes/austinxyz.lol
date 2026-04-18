@@ -2,30 +2,19 @@ name = "austinxyz-lol"
 compatibility_date = "2024-01-01"
 pages_build_output_dir = "out"
 
-# KV namespace binding for telemetry + TWM stats data.
-# (TWM reuses the same namespace under a different key, `twm:stats`.)
-# Get your KV namespace ID from Cloudflare Dashboard:
+# KV namespace binding shared by telemetry endpoints AND the TWM share-stats
+# endpoints.  TWM reuses this namespace under per-slot keys of the form
+# `twm:slot:<slot_id>`.
+#
+# Get your KV namespace ID from the Cloudflare Dashboard:
 #   Workers & Pages > KV > Your namespace
 [[kv_namespaces]]
 binding = "TELEMETRY_KV"
 id = "YOUR_KV_NAMESPACE_ID_HERE"
 
-# Required environment variables for the TWM share page (set as secrets in
-# the Cloudflare Pages dashboard, NOT committed here):
-#
-#   TWM_PUSH_SECRET    Shared HMAC secret used to authenticate the bot's
-#                      pushes to /api/twm/push.  Same value must be set as
-#                      `share_push_secret` in the bot's config.toml.
-#                      Generate with: openssl rand -hex 32
-#
-#   TWM_VIEWER_TOKEN   Token required in the `?t=` query param on
-#                      /api/twm/stats and the /twm page.  Anyone with the
-#                      share link knows this; rotate by changing the env
-#                      value (instantly revokes old links).
-#                      Generate with: openssl rand -hex 24
-#
-# Set them via:
-#   wrangler pages secret put TWM_PUSH_SECRET --project-name austinxyz-lol
-#   wrangler pages secret put TWM_VIEWER_TOKEN --project-name austinxyz-lol
-# or in the Cloudflare dashboard under Pages > Settings > Environment variables.
-
+# The TWM share-stats flow is fully self-provisioning — there are NO
+# environment variables to configure.  The bot generates an unguessable
+# `slot_id` + `push_secret` on its first "Share Stats" click and the very
+# first push to /api/twm/push/<slot_id> claims the slot via TOFU (trust on
+# first use).  No `TWM_PUSH_SECRET`, no `TWM_VIEWER_TOKEN`, no manual KV
+# setup beyond the binding above.

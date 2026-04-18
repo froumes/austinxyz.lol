@@ -65,29 +65,57 @@ export interface PublicShareStats {
 }
 
 /**
- * The KV record persisted by the push handler.  `received_at_unix` is the
- * Cloudflare-edge timestamp so the page can show "live" vs "stale" without
- * trusting the bot's clock.
+ * The KV record persisted by the push handler for one share slot.
+ *
+ * The `push_secret` is set on the very first push to a fresh `slot_id`
+ * (TOFU — trust on first use) and compared in constant time on every
+ * subsequent push.  This means the bot self-provisions: no env vars and
+ * no manual KV setup are needed.  The `slot_id` itself is unguessable
+ * (32 bytes of random hex from the bot) so collision and brute-force
+ * are infeasible.
  */
-export interface StoredTwmStats {
-  payload: PublicShareStats
+export interface StoredTwmSlot {
+  push_secret: string
+  payload: PublicShareStats | null
+  /** Unix seconds when the slot was first claimed (set once, never updated). */
+  created_at: number
+  /** Unix seconds of the most recent successful push to this slot. */
   received_at_unix: number
 }
 
 /**
- * KV key under which the latest pushed snapshot is stored.  Single global key
- * — there is only ever one bot pushing at a time, so we just overwrite.
+ * Build the KV key for a given slot.  Slots are isolated so a viewer
+ * scanning one URL learns nothing about any other.
  */
-export const TWM_KV_KEY = "twm:stats"
+export function twmSlotKey(slotId: string): string {
+  return `twm:slot:${slotId}`
+}
 
 /**
- * Auto-expire the KV entry if the bot stops pushing.  Keeps the page from
- * showing days-old numbers as if they were live.
+ * Auto-expire idle slots.  As long as the bot keeps pushing on its
+ * configured interval (default 30s) the TTL is refreshed on every write,
+ * so a healthy slot lives forever.  Stop pushing for ~12h and the slot
+ * vanishes — the next click of "Share Stats" will TOFU-claim a fresh one.
  */
-export const TWM_KV_TTL_SECONDS = 600
+export const TWM_SLOT_TTL_SECONDS = 12 * 60 * 60
 
 /**
- * Largest accepted push body.  Generous cap that still bounds memory usage
- * on the worker and prevents abuse if the push secret ever leaks.
+ * Largest accepted push body.  Generous cap that still bounds memory
+ * usage on the worker and prevents abuse if a push secret ever leaks.
  */
 export const TWM_PUSH_MAX_BYTES = 256 * 1024
+
+/**
+ * Reject obviously-bogus slot ids before doing any KV work.  The bot
+ * generates 64-hex-char strings, but we accept anything alphanumeric of
+ * a reasonable length so future encodings (base32, URL-safe base64)
+ * keep working.
+ */
+export function isValidSlotId(slotId: unknown): slotId is string {
+  return (
+    typeof slotId === "string" &&
+    slotId.length >= 16 &&
+    slotId.length <= 128 &&
+    /^[A-Za-z0-9_-]+$/.test(slotId)
+  )
+}
