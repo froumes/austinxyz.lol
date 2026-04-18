@@ -1,6 +1,13 @@
 import { NextResponse } from "next/server"
 import { buildStatsResponse, createEmptyStats } from "@/lib/stats"
 
+// Required by Next.js 16 + `output: 'export'`.  This file is a dev-mode
+// fallback only — at runtime on Cloudflare Pages the matching Function in
+// `functions/api/stats.ts` intercepts `/api/stats` before any static asset
+// is served, so the build-time response generated here is never actually
+// returned to a browser in production.
+export const dynamic = "force-static"
+
 function resolveTelemetrySource() {
   const globalKv = (globalThis as { TELEMETRY_KV?: { get: (key: string, type?: string) => Promise<unknown> } }).TELEMETRY_KV
   return globalKv
