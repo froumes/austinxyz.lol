@@ -121,6 +121,17 @@ export function twmOAuthStateKey(nonce: string): string {
 }
 
 /**
+ * Forward index: slot id → linked vanity record.  Written alongside
+ * `twm:vanity:<username>` in the OAuth callback so the bot can answer
+ * "is this slot linked yet?" with a single GET keyed on its `slot_id`
+ * (which is the only identifier it owns).  Without this, the callback
+ * would have to scan every vanity key to find one pointing at the slot.
+ */
+export function twmSlotVanityKey(slotId: string): string {
+  return `twm:slotvanity:${slotId}`
+}
+
+/**
  * KV record for a vanity → slot mapping.  Kept small so the stats
  * endpoint's extra hop on vanity lookups is cheap.
  */
@@ -157,6 +168,19 @@ export interface StoredTwmOAuthState {
   slot_id: string
   /** Unix seconds when the state was issued; also enforced by KV TTL. */
   created_at: number
+}
+
+/**
+ * Slot → vanity record (forward index).  Same data as `StoredTwmVanity`,
+ * indexed by slot so the bot can ask "what vanity is attached to my
+ * slot?" without knowing the username.  Cleaned up by the OAuth
+ * callback when a slot is reassigned.
+ */
+export interface StoredTwmSlotVanity {
+  username: string
+  discord_id: string
+  global_name: string | null
+  linked_at: number
 }
 
 /**

@@ -25,9 +25,11 @@ import {
   normaliseVanityName,
   twmDiscordKey,
   twmOAuthStateKey,
+  twmSlotVanityKey,
   twmVanityKey,
   type StoredTwmDiscordLink,
   type StoredTwmOAuthState,
+  type StoredTwmSlotVanity,
   type StoredTwmVanity,
 } from "../../../lib/twm"
 
@@ -270,6 +272,20 @@ export async function onRequestGet(context: CallbackContext): Promise<Response> 
       } catch (err) {
         console.warn("auth/discord/callback: stale vanity delete failed", err)
       }
+      // If the same Discord account moved to a fresh slot we also need
+      // to drop the slot→vanity index for the previous slot, otherwise
+      // the old bot would keep reporting itself as "linked to <old user>"
+      // until the 365-day TTL expires.
+      if (slotMoved) {
+        try {
+          await env.TELEMETRY_KV.delete(twmSlotVanityKey(previousLink.slot_id))
+        } catch (err) {
+          console.warn(
+            "auth/discord/callback: stale slot-vanity delete failed",
+            err,
+          )
+        }
+      }
     }
   }
 
@@ -286,6 +302,12 @@ export async function onRequestGet(context: CallbackContext): Promise<Response> 
     global_name: user.global_name ?? null,
     linked_at: nowSec,
   }
+  const slotVanityRecord: StoredTwmSlotVanity = {
+    username: vanity,
+    discord_id: user.id,
+    global_name: user.global_name ?? null,
+    linked_at: nowSec,
+  }
 
   try {
     await Promise.all([
@@ -295,6 +317,13 @@ export async function onRequestGet(context: CallbackContext): Promise<Response> 
       env.TELEMETRY_KV.put(twmDiscordKey(user.id), JSON.stringify(linkRecord), {
         expirationTtl: TWM_VANITY_TTL_SECONDS,
       }),
+      // Forward index — see twmSlotVanityKey doc-comment.  Same TTL as
+      // the other two entries so all three records expire together.
+      env.TELEMETRY_KV.put(
+        twmSlotVanityKey(slotId),
+        JSON.stringify(slotVanityRecord),
+        { expirationTtl: TWM_VANITY_TTL_SECONDS },
+      ),
     ])
   } catch (err) {
     console.error("auth/discord/callback: KV.put failed", err)
