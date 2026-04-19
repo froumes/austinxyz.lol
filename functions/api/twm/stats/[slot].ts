@@ -15,8 +15,12 @@
 
 import {
   isValidSlotId,
+  looksLikeSlotId,
+  normaliseVanityName,
   twmSlotKey,
+  twmVanityKey,
   type StoredTwmSlot,
+  type StoredTwmVanity,
 } from "../../../../lib/twm"
 
 interface KVNamespaceLike {
@@ -51,6 +55,33 @@ function paramSlot(params: StatsContext["params"]): string | undefined {
   return raw
 }
 
+/**
+ * Resolve an identifier (either a 64-char hex slot id or a Discord
+ * vanity name) to the underlying slot id.  Returns `null` when the
+ * identifier is structurally invalid or when a vanity lookup misses.
+ */
+async function resolveSlotId(
+  kv: KVNamespaceLike,
+  identifier: string,
+): Promise<string | null> {
+  if (looksLikeSlotId(identifier)) {
+    return identifier
+  }
+  const vanity = normaliseVanityName(identifier)
+  if (!vanity) return null
+  try {
+    const raw = (await kv.get(twmVanityKey(vanity), "json")) as
+      | StoredTwmVanity
+      | null
+    if (raw && typeof raw === "object" && isValidSlotId(raw.slot_id)) {
+      return raw.slot_id
+    }
+  } catch (err) {
+    console.error("twm/stats: vanity KV.get failed", err)
+  }
+  return null
+}
+
 export async function onRequestGet(context: StatsContext): Promise<Response> {
   const { env, params } = context
 
@@ -58,10 +89,16 @@ export async function onRequestGet(context: StatsContext): Promise<Response> {
     return jsonResponse({ error: "Storage not configured" }, 503)
   }
 
-  const slotId = paramSlot(params)
-  if (!isValidSlotId(slotId)) {
-    // 404 (not 400) so probing for valid-shape slots looks identical to
-    // probing for the route itself.
+  const identifier = paramSlot(params)
+  if (!identifier || identifier.length === 0 || identifier.length > 128) {
+    return jsonResponse({ error: "Not found" }, 404)
+  }
+
+  const slotId = await resolveSlotId(env.TELEMETRY_KV, identifier)
+  if (!slotId) {
+    // Either the vanity isn't claimed or the identifier is malformed.
+    // 404 (not 400) so probing for claimed vs unclaimed names looks
+    // identical to probing for the route itself.
     return jsonResponse({ error: "Not found" }, 404)
   }
 

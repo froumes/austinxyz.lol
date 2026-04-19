@@ -125,26 +125,47 @@ function buildChartRows(ahPts: ProfitPoint[], bzPts: ProfitPoint[]): ChartRow[] 
 }
 
 /**
- * Read the slot id from the URL.  The bot hands out links of the form
- * `https://austinxyz.lol/twm?s=<slot_id>`; the slot id is the only thing
- * needed to identify which bot's stats this page should display.
+ * Read the stats identifier from the URL.  Two URL shapes are supported:
+ *
+ *   1. `/twm?s=<slot_id>`              — raw hex slot id in the query
+ *   2. `/twm/<name-or-slot>`           — Discord vanity name or slot id
+ *                                        in the path (served by the
+ *                                        `functions/twm/[name].ts`
+ *                                        Cloudflare Pages Function)
+ *
+ * Either way the identifier is passed straight to
+ * `/api/twm/stats/<identifier>`, which resolves vanity names → slots
+ * against KV on the server side, so the page never has to care which
+ * form it received.
  */
-function getSlotFromQuery(): string {
+function getIdentifierFromUrl(): string {
   if (typeof window === "undefined") return ""
   const params = new URLSearchParams(window.location.search)
-  return params.get("s") || ""
+  const fromQuery = params.get("s")
+  if (fromQuery) return fromQuery
+  const path = window.location.pathname
+  // Strictly match `/twm/<segment>` with an optional trailing slash.
+  // Deeper paths (`/twm/foo/bar`) fall through to the empty-identifier
+  // case, where the page will show the "invalid link" panel.
+  const match = path.match(/^\/twm\/([^/]+)\/?$/)
+  if (!match) return ""
+  try {
+    return decodeURIComponent(match[1])
+  } catch {
+    return match[1]
+  }
 }
 
 export default function TwmStatsPage() {
   const [state, setState] = useState<FetchState>({ status: "loading" })
   const [now, setNow] = useState<number>(() => Date.now())
-  const [slotId, setSlotId] = useState<string>("")
+  const [identifier, setIdentifier] = useState<string>("")
 
-  // Resolve the slot id once on mount.  We do not put it into React state
-  // from a useEffect-less initializer because window is undefined during
-  // the static-export pre-render.
+  // Resolve the identifier (slot id or Discord vanity) once on mount.  We
+  // do not put it into React state from a useEffect-less initializer
+  // because window is undefined during the static-export pre-render.
   useEffect(() => {
-    setSlotId(getSlotFromQuery())
+    setIdentifier(getIdentifierFromUrl())
   }, [])
 
   // Re-render once a second so "X seconds ago" labels stay live without
@@ -155,11 +176,11 @@ export default function TwmStatsPage() {
   }, [])
 
   useEffect(() => {
-    if (slotId === "") {
-      // Wait until the first effect resolves the slot id; if it stays
-      // empty after a microtask we'll show the invalid-link panel.
+    if (identifier === "") {
+      // Wait until the first effect resolves the identifier; if it
+      // stays empty after a microtask we'll show the invalid-link panel.
       const id = setTimeout(() => {
-        if (getSlotFromQuery() === "") setState({ status: "invalid" })
+        if (getIdentifierFromUrl() === "") setState({ status: "invalid" })
       }, 50)
       return () => clearTimeout(id)
     }
@@ -169,7 +190,7 @@ export default function TwmStatsPage() {
     async function fetchOnce() {
       try {
         const resp = await fetch(
-          `/api/twm/stats/${encodeURIComponent(slotId)}`,
+          `/api/twm/stats/${encodeURIComponent(identifier)}`,
           { cache: "no-store" },
         )
         if (cancelled) return
@@ -205,7 +226,7 @@ export default function TwmStatsPage() {
       cancelled = true
       clearInterval(id)
     }
-  }, [slotId])
+  }, [identifier])
 
   const data = state.status === "ready" ? state.data : null
   const sessionRows = useMemo(

@@ -7,3 +7,18 @@ pages_build_output_dir = "out"
 binding = "TELEMETRY_KV"
 id = "758f48e91fbb4d96b72d7420c180bdae"
 
+# ─── Discord OAuth vanity-URL linking ────────────────────────────────
+# Both values below are safe to commit:
+#   - DISCORD_CLIENT_ID is the public OAuth2 client identifier embedded
+#     in every authorise URL Discord renders for users.
+#   - DISCORD_REDIRECT_URI is just the callback URL Discord bounces users
+#     back to.  It must match the entry registered under the Discord
+#     app's OAuth2 → Redirects list byte-for-byte.
+#
+# DISCORD_CLIENT_SECRET is intentionally NOT here — it's set as an
+# encrypted Secret in the Cloudflare Pages dashboard (Settings →
+# Variables and Secrets → Production → Add → Secret) so it never
+# touches git.
+[vars]
+DISCORD_CLIENT_ID = "1495524589743374618"
+DISCORD_REDIRECT_URI = "https://austinxyz.lol/auth/discord/callback"

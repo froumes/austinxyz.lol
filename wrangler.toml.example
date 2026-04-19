@@ -3,8 +3,13 @@ compatibility_date = "2024-01-01"
 pages_build_output_dir = "out"
 
 # KV namespace binding shared by telemetry endpoints AND the TWM share-stats
-# endpoints.  TWM reuses this namespace under per-slot keys of the form
-# `twm:slot:<slot_id>`.
+# endpoints.  TWM reuses this namespace under per-slot / per-vanity /
+# per-Discord-user keys of the form:
+#
+#   twm:slot:<slot_id>        - pushed stats payload keyed by slot
+#   twm:vanity:<username>     - Discord username → slot id (pretty URL)
+#   twm:discord:<user_id>     - Discord user → current vanity + slot
+#   twm:oauth_state:<nonce>   - 5-minute-TTL OAuth flow state
 #
 # Get your KV namespace ID from the Cloudflare Dashboard:
 #   Workers & Pages > KV > Your namespace
@@ -12,9 +17,37 @@ pages_build_output_dir = "out"
 binding = "TELEMETRY_KV"
 id = "YOUR_KV_NAMESPACE_ID_HERE"
 
-# The TWM share-stats flow is fully self-provisioning — there are NO
-# environment variables to configure.  The bot generates an unguessable
-# `slot_id` + `push_secret` on its first "Share Stats" click and the very
-# first push to /api/twm/push/<slot_id> claims the slot via TOFU (trust on
-# first use).  No `TWM_PUSH_SECRET`, no `TWM_VIEWER_TOKEN`, no manual KV
-# setup beyond the binding above.
+# ─── TWM stats push/view ─────────────────────────────────────────────
+# Fully self-provisioning — there are NO env vars to configure.  The bot
+# generates an unguessable slot_id + push_secret on its first "Share
+# Stats" click, and the very first push to /api/twm/push/<slot_id>
+# claims the slot via TOFU (trust on first use).
+
+# ─── Discord OAuth vanity-URL linking ────────────────────────────────
+# Optional.  Enables the "Link Discord" button in the bot panel, which
+# walks the operator through Discord OAuth and writes a vanity mapping
+# so /twm/<their-discord-username> resolves to their slot.
+#
+# Important: when wrangler.toml is committed, Cloudflare Pages locks the
+# dashboard to read-only for plaintext variables — they MUST be defined
+# below.  Only Secrets remain dashboard-managed.  See:
+#   https://developers.cloudflare.com/pages/functions/wrangler-configuration/
+#
+# What goes where:
+#   DISCORD_CLIENT_ID      — plaintext, in [vars] below.  Public.
+#   DISCORD_REDIRECT_URI   — plaintext, in [vars] below.  Must match the
+#                            entry under the Discord app's OAuth2
+#                            "Redirects" list byte-for-byte.
+#   DISCORD_CLIENT_SECRET  — SECRET.  Set in the Pages dashboard
+#                            (Settings → Variables and Secrets →
+#                            Production → Add → Secret).  NEVER commit.
+#
+# Required OAuth scope: `identify` (auto-added by /auth/discord/start).
+# No bot token, no server invite — this is pure OAuth user auth.
+#
+# Leave [vars] empty (or omit DISCORD_*) to disable the feature; the
+# bot panel will still work and /twm/?s=<slot_id> will keep serving.
+
+[vars]
+DISCORD_CLIENT_ID = "REPLACE_WITH_YOUR_DISCORD_CLIENT_ID"
+DISCORD_REDIRECT_URI = "https://austinxyz.lol/auth/discord/callback"

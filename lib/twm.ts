@@ -92,12 +92,90 @@ export function twmSlotKey(slotId: string): string {
 }
 
 /**
+ * Vanity → slot lookup written by the Discord OAuth callback.  The key is
+ * namespaced under `twm:vanity:<username>` (lower-cased Discord username)
+ * so collisions with slot keys are impossible.  `isValidVanityName` below
+ * is the gate on what `<username>` can contain.
+ */
+export function twmVanityKey(vanity: string): string {
+  return `twm:vanity:${vanity.toLowerCase()}`
+}
+
+/**
+ * Reverse mapping: Discord user id → linked slot + current username.  Used
+ * by the OAuth callback to detect renames (old username differs) and
+ * slot re-assignments (old slot differs), then clean up the stale
+ * vanity key before writing the new one.
+ */
+export function twmDiscordKey(discordUserId: string): string {
+  return `twm:discord:${discordUserId}`
+}
+
+/**
+ * Short-lived OAuth2 state key.  Generated in /auth/discord/start, carries
+ * the slot id into /auth/discord/callback across the Discord redirect
+ * bounce.  Deleted on use; auto-expires after OAUTH_STATE_TTL_SECONDS.
+ */
+export function twmOAuthStateKey(nonce: string): string {
+  return `twm:oauth_state:${nonce}`
+}
+
+/**
+ * KV record for a vanity → slot mapping.  Kept small so the stats
+ * endpoint's extra hop on vanity lookups is cheap.
+ */
+export interface StoredTwmVanity {
+  slot_id: string
+  discord_id: string
+  /** Lower-cased Discord username this vanity was claimed for. */
+  username: string
+  /** Cached Discord display name, if present. Purely informational. */
+  global_name: string | null
+  /** Unix seconds when the link was last refreshed (rewritten on every login). */
+  linked_at: number
+}
+
+/**
+ * KV record for a Discord user → slot link.  One per Discord account.
+ * Updated on every successful OAuth callback; used to detect renames
+ * and clean stale vanity keys.
+ */
+export interface StoredTwmDiscordLink {
+  slot_id: string
+  /** Lower-cased, normalised.  The exact string used for the vanity URL. */
+  username: string
+  global_name: string | null
+  linked_at: number
+}
+
+/**
+ * Pending OAuth flow.  Written by /auth/discord/start, consumed and
+ * deleted by /auth/discord/callback.  Expires after 5 minutes if the
+ * user never completes the Discord prompt.
+ */
+export interface StoredTwmOAuthState {
+  slot_id: string
+  /** Unix seconds when the state was issued; also enforced by KV TTL. */
+  created_at: number
+}
+
+/**
  * Auto-expire idle slots.  As long as the bot keeps pushing on its
  * configured interval (default 30s) the TTL is refreshed on every write,
  * so a healthy slot lives forever.  Stop pushing for ~12h and the slot
  * vanishes — the next click of "Share Stats" will TOFU-claim a fresh one.
  */
 export const TWM_SLOT_TTL_SECONDS = 12 * 60 * 60
+
+/**
+ * Vanity/Discord link TTL.  Longer than slot TTL because we don't want a
+ * user's vanity URL to 404 just because their bot was offline overnight.
+ * Refreshed on every successful Discord login.
+ */
+export const TWM_VANITY_TTL_SECONDS = 60 * 60 * 24 * 365
+
+/** OAuth2 `state` lifetime.  Kept short — the user is mid-flow. */
+export const OAUTH_STATE_TTL_SECONDS = 5 * 60
 
 /**
  * Largest accepted push body.  Generous cap that still bounds memory
@@ -118,4 +196,32 @@ export function isValidSlotId(slotId: unknown): slotId is string {
     slotId.length <= 128 &&
     /^[A-Za-z0-9_-]+$/.test(slotId)
   )
+}
+
+/**
+ * Tight form of `isValidSlotId` used to distinguish a raw slot id from a
+ * vanity name in the stats endpoint.  We only accept the exact 64-char
+ * hex the bot emits so a vanity like "deadbeef" (valid hex, valid
+ * username) doesn't accidentally route into slot lookup.
+ */
+export function looksLikeSlotId(value: string): boolean {
+  return value.length === 64 && /^[0-9a-f]{64}$/.test(value)
+}
+
+/**
+ * Discord post-Pomelo usernames are 2-32 characters of lowercase letters,
+ * digits, `.`, and `_`.  We lower-case before comparing so a rename from
+ * "Austin" → "austin" doesn't create two vanity keys.  Returns the
+ * normalised form (or null if rejected).
+ */
+export function normaliseVanityName(value: unknown): string | null {
+  if (typeof value !== "string") return null
+  const lowered = value.trim().toLowerCase()
+  if (lowered.length < 2 || lowered.length > 32) return null
+  if (!/^[a-z0-9_.]+$/.test(lowered)) return null
+  return lowered
+}
+
+export function isValidVanityName(value: unknown): value is string {
+  return normaliseVanityName(value) !== null
 }
