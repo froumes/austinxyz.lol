@@ -29,6 +29,7 @@ import {
   twmSlotKey,
   twmSlotVanityKey,
   twmVanityKey,
+  type PublicFlipEntry,
   type PublicShareStats,
   type StoredTwmSlot,
   type StoredTwmSlotVanity,
@@ -80,12 +81,12 @@ interface TwmNameContext {
 /** Brand color used for the Discord embed sidebar (purple, matches site). */
 const EMBED_THEME_COLOR = "#7c3aed"
 
-/** Static OG image — committed to /public so we don't depend on a CDN. */
-const EMBED_IMAGE_PATH = "/BSHLogoNoBackground.png"
-const EMBED_IMAGE_WIDTH = 1200
-const EMBED_IMAGE_HEIGHT = 630
-
 const SITE_NAME = "austinxyz.lol"
+
+/** How many top-profit session flips to surface in the embed. */
+const TOP_FLIPS_LIMIT = 3
+/** Truncate item names so each "1. Foo +1.2M" line stays embed-friendly. */
+const FLIP_NAME_MAX_LEN = 28
 
 interface ResolvedSlot {
   /** The path segment as the operator typed it (already URL-decoded). */
@@ -128,14 +129,73 @@ function formatRelative(unixSecs: number, nowSecs: number): string {
   return `${Math.floor(diff / 86400)}d ago`
 }
 
-/** HTML-escape attribute values.  `"` is the only one that breaks the
- *  meta tags we emit, but doing all four is cheap and future-proof. */
+/** HTML-escape attribute values.
+ *
+ *  Newlines matter here because Discord/Slack respect `\n` in
+ *  `og:description` and render them as line breaks in the embed.
+ *  We encode them as `&#10;` so the literal newline survives both
+ *  Cloudflare's `HTMLRewriter` and any whitespace-collapsing parser
+ *  on the consumer side.  Tab is encoded for the same reason. */
 function htmlAttr(s: string): string {
   return s
     .replace(/&/g, "&amp;")
     .replace(/"/g, "&quot;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
+    .replace(/\r\n/g, "\n")
+    .replace(/\n/g, "&#10;")
+    .replace(/\t/g, "&#9;")
+}
+
+/** Compact "1h12m" / "47m" / "23s" uptime formatter for the embed. */
+function formatUptime(seconds: number | null | undefined): string {
+  if (!seconds || seconds <= 0 || Number.isNaN(seconds)) return "—"
+  const s = Math.floor(seconds)
+  if (s < 60) return `${s}s`
+  const m = Math.floor(s / 60)
+  if (m < 60) return `${m}m`
+  const h = Math.floor(m / 60)
+  const rem = m % 60
+  return rem > 0 ? `${h}h${rem}m` : `${h}h`
+}
+
+/** Truncate a flip's item name so each list line stays under the
+ *  width Discord renders comfortably in a slim text card. */
+function truncateName(name: string, maxLen: number = FLIP_NAME_MAX_LEN): string {
+  const trimmed = (name || "").trim()
+  if (trimmed.length <= maxLen) return trimmed
+  return `${trimmed.slice(0, Math.max(1, maxLen - 1))}…`
+}
+
+/**
+ * Pick the highest-profit flips that landed during the current session.
+ *
+ * If the session window has no flips yet (e.g. the bot just started),
+ * fall back to the highest-profit entries in the full `recent_flips`
+ * window so the embed isn't blank for fresh sessions.  Either way we
+ * sort by absolute profit descending so the most impressive flip
+ * shows first, and skip non-positive flips (losses don't belong in a
+ * "top flips" highlight reel).
+ */
+function topSessionFlips(
+  payload: PublicShareStats,
+  limit: number = TOP_FLIPS_LIMIT,
+): PublicFlipEntry[] {
+  const all = Array.isArray(payload.recent_flips) ? payload.recent_flips : []
+  if (all.length === 0) return []
+
+  const sessionStart = payload.session_started_at_unix || 0
+  const inSession = sessionStart > 0
+    ? all.filter((f) => f && f.sold_at_unix >= sessionStart && f.profit > 0)
+    : []
+
+  const pool = inSession.length > 0
+    ? inSession
+    : all.filter((f) => f && f.profit > 0)
+
+  return [...pool]
+    .sort((a, b) => b.profit - a.profit)
+    .slice(0, Math.max(0, limit))
 }
 
 function paramName(params: TwmNameContext["params"]): string {
@@ -261,19 +321,110 @@ async function loadSlotEmbedData(
 
 interface EmbedMeta {
   title: string
+  /**
+   * Multi-line, stat-dense card description.  Newlines are intentional
+   * — Discord, Slack, and Telegram all render `\n` in `og:description`
+   * as literal line breaks (htmlAttr encodes them as `&#10;`).
+   */
   description: string
   themeColor: string
-  imageUrl: string
-  imageWidth: number
-  imageHeight: number
-  imageAlt: string
   canonicalUrl: string
+}
+
+/**
+ * Build the multi-line description that fills the slim text-card embed.
+ *
+ * Layout target (Discord renders ~6-8 lines comfortably):
+ *
+ *   Lifetime 1.23B · Session +45.5M (72M/hr in 2h12m)
+ *   Active 7 flips · Updated 2m ago
+ *
+ *   Top session flips:
+ *   1. Hyperion +5.2M
+ *   2. Necron Chestplate +3.8M
+ *   3. Bonzo's Mask +1.2M
+ *
+ * Every section is conditional so newer slots (no session, no flips
+ * yet, no first push) gracefully degrade to a shorter card instead
+ * of showing "—" placeholders that look broken.
+ */
+function buildDescription(
+  resolved: ResolvedSlot,
+  data: SlotEmbedData,
+  nowUnix: number,
+): string {
+  const payload = data.payload
+  if (!payload) {
+    if (resolved.slotId) {
+      return "Waiting for the bot's first snapshot…"
+    }
+    return "Live Hypixel SkyBlock auction-house flipping numbers."
+  }
+
+  const lines: string[] = []
+
+  // ── Headline row: lifetime + session profit + per-hour rate ──
+  const headline: string[] = []
+  headline.push(`Lifetime ${formatCoins(payload.all_time_total)}`)
+
+  const sessionPieces: string[] = []
+  const sessionSign = payload.session_total > 0 ? "+" : ""
+  if (payload.session_total) {
+    sessionPieces.push(`${sessionSign}${formatCoins(payload.session_total)}`)
+  } else {
+    sessionPieces.push("idle")
+  }
+  const rateBits: string[] = []
+  if (payload.session_per_hour) {
+    rateBits.push(`${formatCoins(payload.session_per_hour)}/hr`)
+  }
+  if (payload.session_uptime_seconds) {
+    rateBits.push(`in ${formatUptime(payload.session_uptime_seconds)}`)
+  }
+  const sessionLabel = rateBits.length > 0
+    ? `${sessionPieces[0]} (${rateBits.join(" ")})`
+    : sessionPieces[0]
+  headline.push(`Session ${sessionLabel}`)
+  lines.push(headline.join(" · "))
+
+  // ── Activity row: open auctions + bazaar + freshness ──
+  const activity: string[] = []
+  if (payload.active_auctions_count) {
+    activity.push(`${payload.active_auctions_count} active flip${payload.active_auctions_count === 1 ? "" : "s"}`)
+  }
+  if (payload.active_bazaar_orders_count) {
+    activity.push(`${payload.active_bazaar_orders_count} BZ order${payload.active_bazaar_orders_count === 1 ? "" : "s"}`)
+  }
+  if (data.receivedAtUnix) {
+    activity.push(`Updated ${formatRelative(data.receivedAtUnix, nowUnix)}`)
+  }
+  if (activity.length > 0) {
+    lines.push(activity.join(" · "))
+  }
+
+  // ── Top flips highlight reel ──
+  const top = topSessionFlips(payload, TOP_FLIPS_LIMIT)
+  if (top.length > 0) {
+    lines.push("") // blank line for visual breathing room
+    lines.push("Top session flips:")
+    top.forEach((flip, idx) => {
+      const name = truncateName(flip.item_name)
+      lines.push(`${idx + 1}. ${name} +${formatCoins(flip.profit)}`)
+    })
+  }
+
+  return lines.join("\n")
 }
 
 /**
  * Build the meta payload.  Falls back to a generic-but-still-pretty
  * card whenever we don't have live data — important because the URL
  * may be shared seconds before the bot's first push lands.
+ *
+ * No image is emitted by design: the operator wanted a stats-dense
+ * text card, not the previous big-logo card.  Discord renders the
+ * resulting OG response as a slim sidebar embed, which has way more
+ * room for description content than the large-image variant.
  */
 function buildEmbedMeta(
   origin: string,
@@ -283,8 +434,17 @@ function buildEmbedMeta(
 ): EmbedMeta {
   const friendly = data.globalName || resolved.displayName
 
+  // Title carries the headline number when we have it so the card
+  // is informative even before the user reads the description.
   let title: string
-  if (resolved.isLinkedVanity) {
+  if (data.payload) {
+    const headline = formatCoins(data.payload.all_time_total)
+    if (resolved.isLinkedVanity) {
+      title = `${friendly} · ${headline} lifetime · TWM Stats`
+    } else {
+      title = `${headline} lifetime · TWM Stats`
+    }
+  } else if (resolved.isLinkedVanity) {
     title = `${friendly} · TWM Auction House Stats`
   } else if (resolved.slotId) {
     title = `TWM Auction House Stats`
@@ -292,53 +452,26 @@ function buildEmbedMeta(
     title = `TWM Stats — ${friendly}`
   }
 
-  const parts: string[] = []
-  if (data.payload) {
-    parts.push(`${formatCoins(data.payload.all_time_total)} lifetime profit`)
-    if (data.payload.session_total) {
-      parts.push(`${formatCoins(data.payload.session_total)} this session`)
-    }
-    if (data.payload.session_per_hour) {
-      parts.push(`${formatCoins(data.payload.session_per_hour)}/hr`)
-    }
-    if (data.payload.active_auctions_count) {
-      parts.push(`${data.payload.active_auctions_count} active flips`)
-    }
-    if (data.receivedAtUnix) {
-      parts.push(`updated ${formatRelative(data.receivedAtUnix, nowUnix)}`)
-    }
-  } else if (resolved.slotId) {
-    parts.push("Waiting for the bot's first snapshot…")
-  } else {
-    parts.push("Live Hypixel SkyBlock auction-house flipping numbers.")
-  }
-  const description = parts.join(" · ")
-
-  const canonicalUrl = `${origin}/twm/${encodeURIComponent(resolved.rawIdentifier)}`
-
-  const altSubject = resolved.isLinkedVanity ? friendly : "TWM"
-
   return {
     title,
-    description,
+    description: buildDescription(resolved, data, nowUnix),
     themeColor: EMBED_THEME_COLOR,
-    imageUrl: `${origin}${EMBED_IMAGE_PATH}`,
-    imageWidth: EMBED_IMAGE_WIDTH,
-    imageHeight: EMBED_IMAGE_HEIGHT,
-    imageAlt: `${altSubject} — TWM stats card`,
-    canonicalUrl,
+    canonicalUrl: `${origin}/twm/${encodeURIComponent(resolved.rawIdentifier)}`,
   }
 }
 
 /**
  * Render the meta tags as a single HTML fragment ready to append to
- * `<head>`.  All values are HTML-attribute-escaped before substitution.
+ * `<head>`.  All values are HTML-attribute-escaped (incl. newlines)
+ * before substitution.  Note that we deliberately omit `og:image`,
+ * `twitter:image`, and `twitter:card=summary_large_image` so the
+ * rendered Discord card uses the slim text variant — there's far
+ * more room for stat lines without a 1200×630 banner eating the
+ * vertical real estate.
  */
 function renderMetaFragment(meta: EmbedMeta): string {
   const t = htmlAttr(meta.title)
   const d = htmlAttr(meta.description)
-  const i = htmlAttr(meta.imageUrl)
-  const a = htmlAttr(meta.imageAlt)
   const u = htmlAttr(meta.canonicalUrl)
   return [
     `<meta name="theme-color" content="${htmlAttr(meta.themeColor)}">`,
@@ -347,16 +480,10 @@ function renderMetaFragment(meta: EmbedMeta): string {
     `<meta property="og:title" content="${t}">`,
     `<meta property="og:description" content="${d}">`,
     `<meta property="og:url" content="${u}">`,
-    `<meta property="og:image" content="${i}">`,
-    `<meta property="og:image:secure_url" content="${i}">`,
-    `<meta property="og:image:width" content="${meta.imageWidth}">`,
-    `<meta property="og:image:height" content="${meta.imageHeight}">`,
-    `<meta property="og:image:alt" content="${a}">`,
-    `<meta name="twitter:card" content="summary_large_image">`,
+    `<meta name="twitter:card" content="summary">`,
     `<meta name="twitter:title" content="${t}">`,
     `<meta name="twitter:description" content="${d}">`,
-    `<meta name="twitter:image" content="${i}">`,
-    `<meta name="twitter:image:alt" content="${a}">`,
+    `<meta name="description" content="${d}">`,
     `<link rel="canonical" href="${u}">`,
   ].join("")
 }
@@ -404,6 +531,7 @@ export async function onRequestGet(context: TwmNameContext): Promise<Response> {
     .on('meta[property^="og:"]', { element: (el) => el.remove() })
     .on('meta[name^="twitter:"]', { element: (el) => el.remove() })
     .on('meta[name="theme-color"]', { element: (el) => el.remove() })
+    .on('meta[name="description"]', { element: (el) => el.remove() })
     .on('link[rel="canonical"]', { element: (el) => el.remove() })
     .on("title", {
       element: (el) => el.setInnerContent(meta.title),
