@@ -7,6 +7,10 @@ pages_build_output_dir = "out"
 binding = "TELEMETRY_KV"
 id = "758f48e91fbb4d96b72d7420c180bdae"
 
+[[kv_namespaces]]
+binding = "TWM_AUTH_KV"
+id = "758f48e91fbb4d96b72d7420c180bdae"
+
 # ─── Discord OAuth vanity-URL linking ────────────────────────────────
 # Both values below are safe to commit:
 #   - DISCORD_CLIENT_ID is the public OAuth2 client identifier embedded
@@ -19,6 +23,10 @@ id = "758f48e91fbb4d96b72d7420c180bdae"
 # encrypted Secret in the Cloudflare Pages dashboard (Settings →
 # Variables and Secrets → Production → Add → Secret) so it never
 # touches git.
+#
+# TWM_AUTH_BASE_URL is used by the central TWM licensing flow at /api/twm/*.
+# TWM_ADMIN_API_KEY is intentionally NOT here — set it as an encrypted Secret.
 [vars]
 DISCORD_CLIENT_ID = "1495524589743374618"
 DISCORD_REDIRECT_URI = "https://austinxyz.lol/auth/discord/callback"
+TWM_AUTH_BASE_URL = "https://auth.austinxyz.lol"

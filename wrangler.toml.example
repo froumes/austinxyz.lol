@@ -17,16 +17,19 @@ pages_build_output_dir = "out"
 binding = "TELEMETRY_KV"
 id = "YOUR_KV_NAMESPACE_ID_HERE"
 
+[[kv_namespaces]]
+binding = "TWM_AUTH_KV"
+id = "YOUR_KV_NAMESPACE_ID_HERE"
+
 # ─── TWM stats push/view ─────────────────────────────────────────────
 # Fully self-provisioning — there are NO env vars to configure.  The bot
 # generates an unguessable slot_id + push_secret on its first "Share
 # Stats" click, and the very first push to /api/twm/push/<slot_id>
 # claims the slot via TOFU (trust on first use).
 
-# ─── Discord OAuth vanity-URL linking ────────────────────────────────
-# Optional.  Enables the "Link Discord" button in the bot panel, which
-# walks the operator through Discord OAuth and writes a vanity mapping
-# so /twm/<their-discord-username> resolves to their slot.
+# ─── Discord OAuth vanity-URL linking + TWM central licensing ────────
+# Optional.  Enables Discord OAuth features for stats vanity URLs and
+# the central TWM licensing flow at /api/twm/*.
 #
 # Important: when wrangler.toml is committed, Cloudflare Pages locks the
 # dashboard to read-only for plaintext variables — they MUST be defined
@@ -36,18 +39,15 @@ id = "YOUR_KV_NAMESPACE_ID_HERE"
 # What goes where:
 #   DISCORD_CLIENT_ID      — plaintext, in [vars] below.  Public.
 #   DISCORD_REDIRECT_URI   — plaintext, in [vars] below.  Must match the
-#                            entry under the Discord app's OAuth2
-#                            "Redirects" list byte-for-byte.
-#   DISCORD_CLIENT_SECRET  — SECRET.  Set in the Pages dashboard
-#                            (Settings → Variables and Secrets →
-#                            Production → Add → Secret).  NEVER commit.
+#                            vanity URL callback in Discord.
+#   TWM_AUTH_BASE_URL      — plaintext, in [vars] below.  Must match the
+#                            central auth domain, e.g. https://auth.example.com.
+#   DISCORD_CLIENT_SECRET  — SECRET.  Set in Pages dashboard.  NEVER commit.
+#   TWM_ADMIN_API_KEY      — SECRET.  Set in Pages dashboard.  NEVER commit.
 #
-# Required OAuth scope: `identify` (auto-added by /auth/discord/start).
-# No bot token, no server invite — this is pure OAuth user auth.
-#
-# Leave [vars] empty (or omit DISCORD_*) to disable the feature; the
-# bot panel will still work and /twm/?s=<slot_id> will keep serving.
+# Required OAuth scope: `identify`.
 
 [vars]
 DISCORD_CLIENT_ID = "REPLACE_WITH_YOUR_DISCORD_CLIENT_ID"
 DISCORD_REDIRECT_URI = "https://austinxyz.lol/auth/discord/callback"
+TWM_AUTH_BASE_URL = "https://auth.austinxyz.lol"
