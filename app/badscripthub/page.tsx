@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useMemo, useState } from "react"
+import { useState } from "react"
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import {
@@ -9,24 +9,18 @@ import {
   ArrowLeft,
   ArrowUpRight,
   Check,
+  Code2,
   Copy,
-  Crosshair,
-  Eye,
+  Gamepad2,
   Github,
   KeyRound,
   Radio,
-  Settings2,
   ShieldCheck,
-  SlidersHorizontal,
   TerminalSquare,
   WandSparkles,
-  Zap,
 } from "lucide-react"
 import { LogoSimple } from "@/components/logo"
 import { Reveal } from "@/components/reveal"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Slider } from "@/components/ui/slider"
-import { Switch } from "@/components/ui/switch"
 
 const StatsDashboard = dynamic(() => import("@/components/stats-dashboard"), {
   ssr: false,
@@ -48,23 +42,23 @@ const theme = {
   BorderColor: "rgb(45, 67, 61)",
 }
 
-const modules = [
-  { label: "Aim", icon: Crosshair, active: true },
-  { label: "Visuals", icon: Eye, active: false },
-  { label: "Movement", icon: Zap, active: false },
-  { label: "Settings", icon: Settings2, active: false },
+const scripts = [
+  { name: "Anime Eternal", type: "farm loop", status: "active" },
+  { name: "Clash Clicker", type: "progression", status: "active" },
+  { name: "Prospecting", type: "collection", status: "active" },
+  { name: "Hunty Zombie", type: "combat", status: "active" },
+  { name: "Steal a Brainrot", type: "utility", status: "active" },
+  { name: "Multi-game tools", type: "shared systems", status: "maintained" },
+]
+
+const steps = [
+  { icon: KeyRound, title: "Get a key", body: "Use either access route and finish the short verification." },
+  { icon: Copy, title: "Copy loader", body: "Paste the loadstring into your executor after verification." },
+  { icon: TerminalSquare, title: "Run script", body: "Launch BadScriptHub and pick the supported game module." },
 ]
 
 export default function BadScriptHubPage() {
-  const [enabled, setEnabled] = useState(true)
-  const [teamCheck, setTeamCheck] = useState(true)
-  const [visibilityCheck, setVisibilityCheck] = useState(true)
-  const [fov, setFov] = useState(300)
-  const [smoothness, setSmoothness] = useState(3)
-  const [targetPart, setTargetPart] = useState("Head")
   const [copied, setCopied] = useState(false)
-
-  const fovSize = useMemo(() => Math.max(90, Math.min(250, fov / 1.45)), [fov])
 
   async function copyLoadstring() {
     await navigator.clipboard.writeText(loadstring)
@@ -101,22 +95,22 @@ export default function BadScriptHubPage() {
           </div>
         </header>
 
-        <section className="container-wide grid gap-12 pb-14 pt-12 lg:grid-cols-[0.95fr_1.05fr] lg:pb-20 lg:pt-24">
+        <section className="container-wide grid gap-10 pb-16 pt-12 lg:grid-cols-[minmax(0,0.88fr)_minmax(380px,0.72fr)] lg:items-center lg:pb-24 lg:pt-24">
           <Reveal>
             <div>
-              <span className="eyebrow">script hub / live access / telemetry</span>
-              <h1 className="display-title mt-7 max-w-5xl text-6xl sm:text-7xl lg:text-8xl xl:text-[7.5rem]">
-                Automation controls without the noisy shell.
+              <span className="eyebrow">script hub / keys / loader</span>
+              <h1 className="display-title mt-7 max-w-4xl text-6xl sm:text-7xl lg:text-8xl xl:text-[6.35rem]">
+                BadScriptHub, stripped down to launch.
               </h1>
               <p className="body-copy mt-8 max-w-2xl text-lg">
-                BadScriptHub gets a cleaner product surface: direct key links, a readable loader, live statistics, and a
-                compact interface preview that still feels like the actual tool.
+                A cleaner access page for the scripts: get a key, copy the loader, open the full stats dashboard,
+                and see what is currently supported without a fake interface sitting in the way.
               </p>
               <div className="mt-10 grid gap-3 sm:grid-cols-3">
                 {[
-                  ["11+", "supported scripts"],
-                  ["30s", "stats refresh"],
-                  ["Nozomi", "UI layer"],
+                  ["11+", "scripts"],
+                  ["2", "key routes"],
+                  ["live", "telemetry"],
                 ].map(([value, label]) => (
                   <div key={label} className="quiet-panel rounded-[1.35rem] p-4">
                     <div className="text-3xl font-black text-white">{value}</div>
@@ -129,146 +123,122 @@ export default function BadScriptHubPage() {
 
           <Reveal delay={120}>
             <div className="glass-panel rounded-[2rem] p-2">
-              <div className="relative overflow-hidden rounded-[1.55rem] bg-[#07100f]/92 p-5">
+              <div className="relative overflow-hidden rounded-[1.55rem] bg-[#07100f]/92 p-5 md:p-7">
                 <div className="absolute inset-x-0 top-0 h-px scanline" />
-                <div className="flex items-center justify-between gap-4 border-b border-white/10 pb-4">
-                  <div className="flex items-center gap-3">
-                    <LogoSimple size={34} alt="BadScriptHub logo" />
-                    <div>
-                      <h2 className="text-xl font-bold text-white">Nozomi preview</h2>
-                      <p className="text-sm text-white/42">Aim module / tuned controls</p>
-                    </div>
+                <div className="flex items-start justify-between gap-6 border-b border-white/10 pb-6">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary/72">launch kit</p>
+                    <h2 className="mt-3 text-2xl font-bold text-white md:text-3xl">Copy once. Run where you play.</h2>
                   </div>
-                  <Switch checked={enabled} onCheckedChange={setEnabled} aria-label="Toggle module" />
+                  <span className="grid size-13 shrink-0 place-items-center rounded-[1.2rem] bg-primary/10 text-primary">
+                    <TerminalSquare className="size-6" />
+                  </span>
                 </div>
 
-                <div className="grid gap-5 pt-5 lg:grid-cols-[170px_1fr]">
-                  <div className="space-y-2">
-                    {modules.map((module) => {
-                      const Icon = module.icon
-                      return (
-                        <button
-                          key={module.label}
-                          className={`flex w-full items-center gap-3 rounded-2xl px-3 py-3 text-left text-sm transition-all duration-700 ${
-                            module.active ? "bg-primary text-primary-foreground" : "bg-white/[0.045] text-white/58 hover:bg-white/[0.075] hover:text-white"
-                          }`}
-                        >
-                          <Icon className="size-4" />
-                          {module.label}
-                        </button>
-                      )
-                    })}
-                  </div>
+                <pre className="mt-6 max-h-[220px] overflow-x-auto rounded-[1.35rem] border border-white/10 bg-black/30 p-5 font-mono text-sm leading-relaxed text-white/72">
+                  <code>{loadstring}</code>
+                </pre>
 
-                  <div className="grid gap-4">
-                    <div className="relative min-h-[280px] overflow-hidden rounded-[1.35rem] border border-white/10 bg-[radial-gradient(circle_at_50%_50%,rgba(116,235,190,0.12),transparent_46%),linear-gradient(135deg,rgba(255,255,255,0.055),rgba(255,255,255,0.02))]">
-                      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:42px_42px] opacity-35" />
-                      <div
-                        className="absolute left-1/2 top-1/2 rounded-full border border-primary/70 bg-primary/5 shadow-[0_0_70px_rgba(116,235,190,0.12)] transition-all duration-700"
-                        style={{
-                          width: fovSize,
-                          height: fovSize,
-                          transform: "translate(-50%, -50%)",
-                          opacity: enabled ? 1 : 0.35,
-                        }}
-                      />
-                      <div className="absolute left-1/2 top-1/2 h-px w-20 -translate-x-1/2 bg-primary/70" />
-                      <div className="absolute left-1/2 top-1/2 h-20 w-px -translate-y-1/2 bg-primary/70" />
-                      <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between rounded-2xl border border-white/10 bg-black/28 p-3 font-mono text-xs text-white/60">
-                        <span>{enabled ? "module.enabled" : "module.paused"}</span>
-                        <span>target.{targetPart.toLowerCase()}</span>
-                      </div>
-                    </div>
+                <div className="mt-5 grid gap-3 sm:grid-cols-[1fr_auto]">
+                  <button
+                    onClick={copyLoadstring}
+                    className="magnetic-link group inline-flex items-center justify-center gap-3 rounded-full bg-primary px-5 py-3 text-sm font-bold text-primary-foreground"
+                  >
+                    {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
+                    {copied ? "Copied loader" : "Copy loader"}
+                  </button>
+                  <Link href="/stats" className="magnetic-link inline-flex items-center justify-center gap-3 rounded-full border border-white/10 bg-white/[0.045] px-5 py-3 text-sm font-semibold text-white/72 hover:border-primary/35 hover:text-white">
+                    View stats
+                    <ArrowUpRight className="size-4" />
+                  </Link>
+                </div>
 
-                    <div className="grid gap-4 md:grid-cols-2">
-                      <Control label="FOV" value={String(fov)}>
-                        <Slider value={[fov]} min={120} max={500} step={10} onValueChange={(value) => setFov(value[0])} />
-                      </Control>
-                      <Control label="Smoothness" value={smoothness.toFixed(1)}>
-                        <Slider value={[smoothness]} min={1} max={8} step={0.1} onValueChange={(value) => setSmoothness(value[0])} />
-                      </Control>
-                    </div>
-
-                    <div className="grid gap-4 md:grid-cols-3">
-                      <label className="quiet-panel flex items-center justify-between rounded-[1.15rem] p-4 text-sm text-white/72">
-                        Team check
-                        <Switch checked={teamCheck} onCheckedChange={setTeamCheck} />
-                      </label>
-                      <label className="quiet-panel flex items-center justify-between rounded-[1.15rem] p-4 text-sm text-white/72">
-                        Visibility
-                        <Switch checked={visibilityCheck} onCheckedChange={setVisibilityCheck} />
-                      </label>
-                      <Select value={targetPart} onValueChange={setTargetPart}>
-                        <SelectTrigger className="quiet-panel h-full rounded-[1.15rem] border-white/10 bg-transparent text-white">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {["Head", "Torso", "HumanoidRootPart"].map((part) => (
-                            <SelectItem key={part} value={part}>
-                              {part}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
+                <div className="mt-6 grid gap-3 md:grid-cols-2">
+                  <a
+                    href="https://ads.luarmor.net/get_key?for=badscripthub-rKXsLWcPlUCN"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group magnetic-link quiet-panel rounded-[1.35rem] p-4 hover:border-primary/30"
+                  >
+                    <AccessCard icon={KeyRound} title="Linkvertise" body="Primary key route" />
+                  </a>
+                  <a
+                    href="https://ads.luarmor.net/get_key?for=badscripthub-makxYXFZnUta"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group magnetic-link quiet-panel rounded-[1.35rem] p-4 hover:border-primary/30"
+                  >
+                    <AccessCard icon={ShieldCheck} title="Work.ink" body="Alternate key route" />
+                  </a>
                 </div>
               </div>
             </div>
           </Reveal>
         </section>
 
-        <section className="container-wide grid gap-5 pb-20 lg:grid-cols-[1.05fr_0.95fr]">
+        <section className="container-wide pb-20">
           <Reveal>
-            <div className="glass-panel rounded-[2rem] p-6">
-              <div className="flex flex-col justify-between gap-5 border-b border-white/10 pb-5 sm:flex-row sm:items-center">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary/72">loader</p>
-                  <h2 className="mt-2 text-3xl font-bold text-white">Copy the loadstring</h2>
-                </div>
-                <button
-                  onClick={copyLoadstring}
-                  className="magnetic-link group inline-flex items-center justify-center gap-3 rounded-full bg-primary px-5 py-3 text-sm font-bold text-primary-foreground"
-                >
-                  {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
-                  {copied ? "Copied" : "Copy"}
-                </button>
+            <div className="grid gap-5 lg:grid-cols-[0.72fr_1.28fr]">
+              <div>
+                <span className="eyebrow">supported modules</span>
+                <h2 className="display-title mt-6 text-5xl md:text-6xl">Active scripts.</h2>
+                <p className="body-copy mt-6 max-w-xl">
+                  The page now reads like a launcher, not a mock app. Supported modules are listed directly so visitors
+                  can scan what is available before copying anything.
+                </p>
               </div>
-              <pre className="mt-5 overflow-x-auto rounded-[1.35rem] bg-black/28 p-5 font-mono text-sm leading-relaxed text-white/70">
-                <code>{loadstring}</code>
-              </pre>
-            </div>
-          </Reveal>
-
-          <Reveal delay={100}>
-            <div className="grid gap-5">
-              <a
-                href="https://ads.luarmor.net/get_key?for=badscripthub-rKXsLWcPlUCN"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group magnetic-link quiet-panel rounded-[1.7rem] p-5 hover:border-primary/30"
-              >
-                <AccessCard icon={KeyRound} title="Linkvertise key" body="Complete verification through the primary access route." />
-              </a>
-              <a
-                href="https://ads.luarmor.net/get_key?for=badscripthub-makxYXFZnUta"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group magnetic-link quiet-panel rounded-[1.7rem] p-5 hover:border-primary/30"
-              >
-                <AccessCard icon={ShieldCheck} title="Work.ink key" body="Use the alternate verification route if the first one is unavailable." />
-              </a>
+              <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                {scripts.map((script, index) => (
+                  <Reveal key={script.name} delay={index * 50} asChild>
+                    <div className="quiet-panel magnetic-link rounded-[1.55rem] p-5 hover:border-primary/30 hover:bg-primary/[0.055]">
+                      <div className="flex items-start justify-between gap-4">
+                        <span className="grid size-11 place-items-center rounded-[1.1rem] bg-primary/10 text-primary">
+                          <Gamepad2 className="size-5" />
+                        </span>
+                        <span className="rounded-full border border-primary/20 bg-primary/10 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-primary">
+                          {script.status}
+                        </span>
+                      </div>
+                      <h3 className="mt-7 text-xl font-bold text-white">{script.name}</h3>
+                      <p className="mt-2 text-sm text-white/42">{script.type}</p>
+                    </div>
+                  </Reveal>
+                ))}
+              </div>
             </div>
           </Reveal>
         </section>
 
-        <section className="container-wide grid gap-5 pb-24 lg:grid-cols-[0.7fr_1.3fr]">
+        <section className="container-wide pb-20">
+          <div className="grid gap-4 md:grid-cols-3">
+            {steps.map((step, index) => {
+              const Icon = step.icon
+              return (
+                <Reveal key={step.title} delay={index * 80} asChild>
+                  <div className="glass-panel rounded-[1.7rem] p-5">
+                    <div className="flex items-center justify-between">
+                      <span className="grid size-11 place-items-center rounded-[1.1rem] bg-primary/10 text-primary">
+                        <Icon className="size-5" />
+                      </span>
+                      <span className="font-mono text-sm text-white/32">0{index + 1}</span>
+                    </div>
+                    <h3 className="mt-8 text-xl font-bold text-white">{step.title}</h3>
+                    <p className="body-copy mt-3 text-sm">{step.body}</p>
+                  </div>
+                </Reveal>
+              )
+            })}
+          </div>
+        </section>
+
+        <section className="container-wide grid gap-5 pb-24 lg:grid-cols-[0.72fr_1.28fr]">
           <Reveal>
             <div className="sticky top-8">
               <span className="eyebrow">live telemetry</span>
-              <h2 className="display-title mt-6 text-5xl md:text-6xl">Usage, without the mess.</h2>
+              <h2 className="display-title mt-6 text-5xl md:text-6xl">Usage, readable at a glance.</h2>
               <p className="body-copy mt-6">
-                The existing statistics component stays connected to the same API. The surrounding page now gives it a calmer frame.
+                The existing statistics component stays connected to the same API, framed as a secondary dashboard
+                instead of competing with the launch actions.
               </p>
               <Link href="/stats" className="magnetic-link mt-8 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.045] px-5 py-3 text-sm font-semibold text-white/72 hover:border-primary/35 hover:text-white">
                 Open full dashboard
@@ -286,9 +256,9 @@ export default function BadScriptHubPage() {
         <section className="container-wide pb-24">
           <div className="grid gap-4 md:grid-cols-3">
             {[
-              { icon: WandSparkles, title: "Fast setup", body: "Copy the loader, verify once, then launch into the script UI." },
-              { icon: SlidersHorizontal, title: "Adjustable controls", body: "The preview mirrors the kind of values users actually tune." },
-              { icon: Radio, title: "Public stats", body: "Execution data is shown through the same anonymous telemetry endpoint." },
+              { icon: WandSparkles, title: "Fast setup", body: "The key links and loader are above the fold, so the main path is obvious." },
+              { icon: Code2, title: "Plain instructions", body: "No fake product UI. Just what to copy, where to verify, and what is supported." },
+              { icon: Radio, title: "Public stats", body: "Execution data stays visible through the anonymous telemetry endpoint." },
             ].map((item, index) => {
               const Icon = item.icon
               return (
@@ -308,18 +278,6 @@ export default function BadScriptHubPage() {
   )
 }
 
-function Control({ label, value, children }: { label: string; value: string; children: React.ReactNode }) {
-  return (
-    <div className="quiet-panel rounded-[1.15rem] p-4">
-      <div className="mb-4 flex items-center justify-between text-sm">
-        <span className="text-white/62">{label}</span>
-        <span className="font-mono text-primary">{value}</span>
-      </div>
-      {children}
-    </div>
-  )
-}
-
 function AccessCard({
   icon: Icon,
   title,
@@ -331,12 +289,12 @@ function AccessCard({
 }) {
   return (
     <div className="flex items-center gap-4">
-      <span className="grid size-12 place-items-center rounded-[1.1rem] bg-primary/10 text-primary">
+      <span className="grid size-11 place-items-center rounded-[1.1rem] bg-primary/10 text-primary">
         <Icon className="size-5" />
       </span>
       <div className="min-w-0 flex-1">
-        <h3 className="text-lg font-bold text-white">{title}</h3>
-        <p className="body-copy mt-1 text-sm">{body}</p>
+        <h3 className="text-base font-bold text-white">{title}</h3>
+        <p className="body-copy mt-0.5 text-sm">{body}</p>
       </div>
       <ArrowUpRight className="size-5 text-white/34 transition-all duration-700 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-primary" />
     </div>
