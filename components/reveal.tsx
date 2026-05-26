@@ -42,9 +42,11 @@ export function Reveal({ children, className, delay = 0, asChild = false }: Reve
   }, [delay])
 
   const baseStyle: React.CSSProperties = {
-    transition: "opacity 600ms cubic-bezier(0.4,0,0.2,1), transform 600ms cubic-bezier(0.4,0,0.2,1)",
+    transition:
+      "opacity 900ms cubic-bezier(0.16,1,0.3,1), transform 900ms cubic-bezier(0.16,1,0.3,1), filter 900ms cubic-bezier(0.16,1,0.3,1)",
     opacity: visible ? 1 : 0,
-    transform: visible ? "none" : "translateY(16px)",
+    transform: visible ? "translate3d(0,0,0)" : "translate3d(0,36px,0)",
+    filter: visible ? "blur(0)" : "blur(8px)",
     willChange: "opacity, transform",
   }
 

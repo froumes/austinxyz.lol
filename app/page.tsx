@@ -1,316 +1,204 @@
-"use client"
-
-import { useState, useEffect, useRef } from "react"
-import { ArrowRight, Code, BarChart3 } from "lucide-react"
 import Link from "next/link"
+import {
+  ArrowUpRight,
+  BarChart3,
+  Code2,
+  Cpu,
+  Github,
+  Radio,
+  TerminalSquare,
+} from "lucide-react"
 import { LogoSimple } from "@/components/logo"
 import { Reveal } from "@/components/reveal"
 
-interface Theme {
-  BackgroundColor: string
-  SurfaceColor: string
-  AccentColor: string
-  TextColor: string
-  SecondaryTextColor: string
-  BorderColor: string
-}
+const routes = [
+  {
+    href: "/portfolio",
+    label: "Portfolio",
+    kicker: "Selected builds",
+    description: "A compact index of projects, experiments, and tooling that are still being maintained.",
+    icon: Code2,
+    stat: "15+",
+    meta: "projects",
+  },
+  {
+    href: "/badscripthub",
+    label: "BadScriptHub",
+    kicker: "Product page",
+    description: "Access links, live usage stats, and an interactive preview for the script hub.",
+    icon: TerminalSquare,
+    stat: "11+",
+    meta: "scripts",
+  },
+  {
+    href: "/stats",
+    label: "Usage stats",
+    kicker: "Telemetry",
+    description: "Anonymous execution trends across executors, targets, and weekly activity.",
+    icon: BarChart3,
+    stat: "live",
+    meta: "dashboard",
+  },
+]
+
+const signals = [
+  { label: "Frontend", value: "Next.js / React", icon: Cpu },
+  { label: "Automation", value: "Roblox tooling", icon: TerminalSquare },
+  { label: "Dashboards", value: "Charts + telemetry", icon: Radio },
+]
 
 export default function HomePage() {
-  const [hoveredOption, setHoveredOption] = useState<string | null>(null)
-  const [displayedText, setDisplayedText] = useState("")
-  const [isDeleting, setIsDeleting] = useState(false)
-  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 })
-  const [storedTheme, setStoredTheme] = useState<Theme | null>(null)
-  const [isTransitioning, setIsTransitioning] = useState(false)
-  const bgLayerRef = useRef<HTMLDivElement>(null)
-  const fullText = "austinxyz.lol"
-
-  
-  // Default landing theme colors
-  const defaultTheme: Theme = {
-    BackgroundColor: "rgb(10, 10, 10)",
-    SurfaceColor: "rgb(23, 23, 23)",
-    AccentColor: "rgb(59, 130, 246)",
-    TextColor: "rgb(255, 255, 255)",
-    SecondaryTextColor: "rgb(156, 163, 175)",
-    BorderColor: "rgb(38, 38, 38)",
-  }
-
-  useEffect(() => {
-    const typingSpeed = isDeleting ? 100 : 150
-    const pauseDuration = 2000
-
-    const timeout = setTimeout(() => {
-      if (!isDeleting && displayedText.length < fullText.length) {
-        setDisplayedText(fullText.slice(0, displayedText.length + 1))
-      } else if (isDeleting && displayedText.length > 0) {
-        setDisplayedText(fullText.slice(0, displayedText.length - 1))
-      } else if (!isDeleting && displayedText.length === fullText.length) {
-        setTimeout(() => setIsDeleting(true), pauseDuration)
-      } else if (isDeleting && displayedText.length === 0) {
-        setIsDeleting(false)
-      }
-    }, typingSpeed)
-
-    return () => clearTimeout(timeout)
-  }, [displayedText, isDeleting])
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setCursorPosition({ x: e.clientX, y: e.clientY })
-    }
-
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
-  }, [])
-
-  // Check for stored theme from badscripthub and transition back to default
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const stored = sessionStorage.getItem('badscripthub-theme')
-      if (stored) {
-        try {
-          const parsed = JSON.parse(stored)
-          const theme = parsed.theme
-          
-          // Set the stored theme immediately
-          setStoredTheme(theme)
-          setIsTransitioning(true)
-          
-          // Clear the stored theme from storage
-          sessionStorage.removeItem('badscripthub-theme')
-          
-          // Set initial background color and make visible
-          requestAnimationFrame(() => {
-            if (bgLayerRef.current) {
-              bgLayerRef.current.style.backgroundColor = theme.BackgroundColor
-              bgLayerRef.current.style.display = 'block'
-              bgLayerRef.current.style.opacity = '1'
-            }
-            
-            // Transition back to default after a brief moment
-            setTimeout(() => {
-              requestAnimationFrame(() => {
-                if (bgLayerRef.current) {
-                  bgLayerRef.current.style.backgroundColor = defaultTheme.BackgroundColor
-                }
-                // Allow transition to complete, then fade out
-                setTimeout(() => {
-                  if (bgLayerRef.current) {
-                    bgLayerRef.current.style.opacity = '0'
-                  }
-                  setTimeout(() => {
-                    setIsTransitioning(false)
-                    setStoredTheme(null)
-                    if (bgLayerRef.current) {
-                      bgLayerRef.current.style.display = 'none'
-                    }
-                  }, 1000)
-                }, 1000)
-              })
-            }, 300)
-          })
-        } catch (e) {
-          console.error('Failed to parse stored theme', e)
-        }
-      }
-    }
-  }, [])
-
-  const currentBg = storedTheme?.BackgroundColor || defaultTheme.BackgroundColor
-
   return (
-    <>
-      <style>{`
-        .landing-bg-layer {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          pointer-events: none;
-          z-index: -1;
-          transition: background-color 1s cubic-bezier(0.4, 0, 0.2, 1), opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
-          will-change: background-color, opacity;
-        }
-        html, body {
-          background-color: transparent !important;
-        }
-      `}</style>
-      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 relative overflow-hidden">
-        {/* Background layer for smooth theme transition */}
-        <div
-          ref={bgLayerRef}
-          className="landing-bg-layer"
-          style={{
-            backgroundColor: currentBg,
-            opacity: isTransitioning ? 1 : 0,
-            display: isTransitioning ? 'block' : 'none',
-          }}
-        />
-      <div
-        className="pointer-events-none fixed w-96 h-96 rounded-full opacity-30 blur-3xl transition-all duration-300 ease-out z-50"
-        style={{
-          left: cursorPosition.x - 192,
-          top: cursorPosition.y - 192,
-          background:
-            "radial-gradient(circle, rgba(219, 39, 119, 0.4) 0%, rgba(59, 130, 246, 0.3) 50%, transparent 70%)",
-        }}
-      />
-
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-accent/5 animate-gradient" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.1),transparent_50%)] animate-pulse-slow" />
-
-      <div className="relative z-10 max-w-6xl w-full">
-        <Reveal className="text-center mb-16">
-          <h1 className="text-4xl sm:text-6xl md:text-8xl font-black text-foreground mb-4 tracking-tight min-h-[80px] sm:min-h-[120px] flex items-center justify-center">
-            <span>
-              {displayedText.split(".").map((part, i) => (
-                <span key={i}>
-                  {i > 0 && <span className="text-primary">.</span>}
-                  {part}
-                </span>
-              ))}
-              <span className="inline-block w-1 h-20 bg-primary ml-1 animate-blink" />
+    <main className="site-shell">
+      <div className="site-content">
+        <header className="container-wide flex items-center justify-between py-6">
+          <Link href="/" className="group flex items-center gap-3">
+            <span className="grid size-11 place-items-center rounded-2xl glass-panel">
+              <LogoSimple size={25} alt="austinxyz.lol logo" className="transition-transform duration-700 group-hover:scale-110" />
             </span>
-          </h1>
-        </Reveal>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
-          <Reveal asChild delay={100}>
-          <Link
-            href="/portfolio"
-            onMouseEnter={() => setHoveredOption("portfolio")}
-            onMouseLeave={() => setHoveredOption(null)}
-            className="group relative block h-full overflow-hidden bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
-            style={{
-              transform: hoveredOption === "portfolio" ? "rotateX(2deg) rotateY(-2deg)" : "rotateX(0) rotateY(0)",
-              transformStyle: "preserve-3d",
-            }}
-          >
-            {/* Animated gradient border */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl opacity-0 group-hover:opacity-75 transition duration-500 blur-sm animate-gradient-rotate" />
-
-            {/* Glowing effect */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/10 to-primary/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-            {/* Floating particles effect */}
-            <div className="absolute inset-0 rounded-2xl overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-primary rounded-full animate-float" />
-              <div className="absolute top-1/2 right-1/4 w-1.5 h-1.5 bg-primary/70 rounded-full animate-float animation-delay-200" />
-              <div className="absolute bottom-1/3 left-1/2 w-1 h-1 bg-primary/50 rounded-full animate-float animation-delay-400" />
-            </div>
-
-            <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 sm:p-12 h-full flex flex-col">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:bg-primary/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                <Code className="w-6 h-6 sm:w-8 sm:h-8 text-primary group-hover:scale-110 transition-transform duration-300" />
-              </div>
-
-              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2 sm:mb-3 group-hover:text-primary transition-colors">
-                Portfolio
-              </h2>
-
-              <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 leading-relaxed">
-                Explore my projects, skills, and professional work
-              </p>
-
-              <div className="mt-auto flex items-center text-primary font-semibold group-hover:gap-3 gap-2 transition-all">
-                View Portfolio
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-              </div>
-            </div>
+            <span className="text-sm font-semibold tracking-wide text-white/90">
+              austinxyz<span className="text-primary">.lol</span>
+            </span>
           </Link>
+          <nav className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/[0.045] p-1 md:flex">
+            {["portfolio", "badscripthub", "stats"].map((item) => (
+              <Link
+                key={item}
+                href={`/${item}`}
+                className="rounded-full px-4 py-2 text-sm text-white/62 transition-colors duration-500 hover:bg-white/8 hover:text-white"
+              >
+                {item}
+              </Link>
+            ))}
+          </nav>
+          <a
+            href="https://github.com/froumes"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="magnetic-link inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.055] px-4 py-2 text-sm font-medium text-white/80 hover:border-primary/35 hover:bg-primary/10 hover:text-white"
+          >
+            <Github className="size-4" />
+            GitHub
+          </a>
+        </header>
+
+        <section className="container-wide grid min-h-[calc(100dvh-92px)] items-center gap-12 py-12 lg:grid-cols-[1.05fr_0.95fr] lg:py-20">
+          <Reveal>
+            <div className="max-w-4xl">
+              <span className="eyebrow">developer / builder / dashboard enjoyer</span>
+              <h1 className="display-title mt-7 text-6xl sm:text-7xl lg:text-8xl xl:text-[7rem]">
+                Useful systems, tuned sharp.
+              </h1>
+              <p className="body-copy mt-8 max-w-2xl text-lg md:text-xl">
+                I build web surfaces, automation tools, and public dashboards with a bias toward fast feedback,
+                clean interfaces, and details that do not get in the way.
+              </p>
+              <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/portfolio"
+                  className="magnetic-link group inline-flex items-center justify-center gap-3 rounded-full bg-primary px-5 py-3 text-sm font-bold text-primary-foreground"
+                >
+                  View work
+                  <span className="grid size-8 place-items-center rounded-full bg-black/12 transition-transform duration-700 group-hover:translate-x-1 group-hover:-translate-y-0.5">
+                    <ArrowUpRight className="size-4" />
+                  </span>
+                </Link>
+                <Link
+                  href="/badscripthub"
+                  className="magnetic-link inline-flex items-center justify-center rounded-full border border-white/12 bg-white/[0.055] px-5 py-3 text-sm font-semibold text-white/82 hover:border-primary/35 hover:bg-primary/10 hover:text-white"
+                >
+                  Open BadScriptHub
+                </Link>
+              </div>
+            </div>
           </Reveal>
 
-          <Reveal asChild delay={200}>
-          <Link
-            href="/badscripthub"
-            onMouseEnter={() => setHoveredOption("badscripthub")}
-            onMouseLeave={() => setHoveredOption(null)}
-            className="group relative block h-full overflow-hidden bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
-            style={{
-              transform: hoveredOption === "badscripthub" ? "rotateX(2deg) rotateY(2deg)" : "rotateX(0) rotateY(0)",
-              transformStyle: "preserve-3d",
-            }}
-          >
-            {/* Animated gradient border */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-accent via-primary to-accent rounded-2xl opacity-0 group-hover:opacity-75 transition duration-500 blur-sm animate-gradient-rotate" />
+          <Reveal delay={120}>
+            <div className="relative mx-auto w-full max-w-xl lg:ml-auto">
+              <div className="hero-orbit absolute -right-6 -top-8 hidden h-28 w-28 rounded-[2rem] border border-primary/20 bg-primary/10 md:block" />
+              <div className="glass-panel rounded-[2rem] p-2">
+                <div className="relative overflow-hidden rounded-[1.55rem] border border-white/10 bg-[#07100f]/90 p-6 md:p-8">
+                  <div className="absolute inset-x-0 top-0 h-px scanline" />
+                  <div className="flex items-center justify-between border-b border-white/10 pb-5">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary/80">live surface</p>
+                      <h2 className="mt-2 text-2xl font-bold text-white">Control room</h2>
+                    </div>
+                    <div className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                      online
+                    </div>
+                  </div>
 
-            {/* Glowing effect */}
-            <div className="absolute inset-0 bg-gradient-to-br from-accent/0 via-accent/10 to-accent/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="grid gap-3 py-6">
+                    {signals.map((signal, index) => {
+                      const Icon = signal.icon
+                      return (
+                        <div
+                          key={signal.label}
+                          className="quiet-panel magnetic-link flex items-center gap-4 rounded-2xl p-4"
+                          style={{ transitionDelay: `${index * 60}ms` }}
+                        >
+                          <span className="grid size-11 place-items-center rounded-2xl bg-primary/10 text-primary">
+                            <Icon className="size-5" />
+                          </span>
+                          <div>
+                            <p className="text-sm font-semibold text-white">{signal.label}</p>
+                            <p className="text-sm text-white/48">{signal.value}</p>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
 
-            {/* Floating particles effect */}
-            <div className="absolute inset-0 rounded-2xl overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              <div className="absolute top-1/4 right-1/4 w-2 h-2 bg-accent rounded-full animate-float" />
-              <div className="absolute top-1/2 left-1/4 w-1.5 h-1.5 bg-accent/70 rounded-full animate-float animation-delay-200" />
-              <div className="absolute bottom-1/3 right-1/2 w-1 h-1 bg-accent/50 rounded-full animate-float animation-delay-400" />
-            </div>
-
-            <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 sm:p-12 h-full flex flex-col">
-              <div className="w-16 h-16 bg-accent/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-accent/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                <LogoSimple
-                  size={40}
-                  className="w-8 h-8 sm:w-10 sm:h-10 group-hover:scale-110 transition-all duration-300"
-                  alt="BadScriptHub Logo"
-                />
+                  <div className="rounded-2xl bg-white/[0.035] p-4 font-mono text-xs text-white/64">
+                    <div className="flex items-center gap-2 text-primary">
+                      <span className="size-2 rounded-full bg-primary" />
+                      npm run build
+                    </div>
+                    <div className="mt-4 space-y-2">
+                      <p>compiled routes: portfolio, stats, scripts</p>
+                      <p>motion: transform + opacity</p>
+                      <p>palette: mineral black / green signal</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-
-              <h2 className="text-3xl font-bold mb-3 transition-colors duration-300" style={{
-                color: hoveredOption === "badscripthub" ? "rgb(255, 122, 144)" : "rgb(255, 255, 255)"
-              }}>
-                BadScriptHub
-              </h2>
-
-              <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 leading-relaxed">
-                definitely not a roblox cheating hub.
-              </p>
-
-              <div className="mt-auto flex items-center font-semibold group-hover:gap-3 gap-2 transition-all duration-300" style={{
-                color: hoveredOption === "badscripthub" ? "rgb(255, 122, 144)" : "rgb(255, 255, 255)"
-              }}>
-                View Script
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-              </div>
             </div>
-          </Link>
           </Reveal>
-          <Reveal asChild delay={300}>
-          <Link
-            href="/stats"
-            onMouseEnter={() => setHoveredOption("stats")}
-            onMouseLeave={() => setHoveredOption(null)}
-            className="group relative block h-full overflow-hidden bg-card/50 backdrop-blur-sm border-2 border-border rounded-2xl transition-all duration-500 hover:scale-[1.02] hover:-translate-y-2 active:scale-95 perspective-1000 touch-manipulation"
-            style={{
-              transform: hoveredOption === "stats" ? "rotateX(2deg) rotateY(0deg)" : "rotateX(0) rotateY(0)",
-              transformStyle: "preserve-3d",
-            }}
-          >
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-primary via-accent to-primary rounded-2xl opacity-0 group-hover:opacity-75 transition duration-500 blur-sm animate-gradient-rotate" />
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/0 via-primary/10 to-primary/0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="relative z-10 bg-card/90 backdrop-blur-sm rounded-xl p-8 sm:p-12 h-full flex flex-col">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-4 sm:mb-6 group-hover:bg-primary/20 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                <BarChart3 className="w-6 h-6 sm:w-8 sm:h-8 text-primary group-hover:scale-110 transition-transform duration-300" />
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-foreground mb-2 sm:mb-3 group-hover:text-primary transition-colors">
-                Statistics
-              </h2>
-              <p className="text-sm sm:text-base text-muted-foreground mb-4 sm:mb-6 leading-relaxed">
-                Explore in-depth, anonymous usage trends across scripts, games, and executors
-              </p>
-              <div className="mt-auto flex items-center text-primary font-semibold group-hover:gap-3 gap-2 transition-all">
-                View Statistics
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
-              </div>
-            </div>
-          </Link>
-          </Reveal>
-        </div>
+        </section>
 
-        <div className="text-center mt-16 animate-fade-in-up animation-delay-1000">
-          <p className="text-muted-foreground text-sm">Choose your path and discover what I can do</p>
-        </div>
+        <section className="container-wide pb-20">
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {routes.map((route, index) => {
+              const Icon = route.icon
+              return (
+                <Reveal key={route.href} delay={index * 80} asChild>
+                  <Link
+                    href={route.href}
+                    className="magnetic-link group quiet-panel flex min-h-[260px] flex-col rounded-[1.7rem] p-5 hover:border-primary/30 hover:bg-primary/[0.065]"
+                  >
+                    <div className="flex items-start justify-between">
+                      <span className="grid size-12 place-items-center rounded-2xl bg-white/[0.055] text-primary transition-transform duration-700 group-hover:scale-105">
+                        <Icon className="size-5" />
+                      </span>
+                      <ArrowUpRight className="size-5 text-white/32 transition-all duration-700 group-hover:translate-x-1 group-hover:-translate-y-1 group-hover:text-primary" />
+                    </div>
+                    <div className="mt-auto">
+                      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary/75">{route.kicker}</p>
+                      <h2 className="mt-3 text-2xl font-bold text-white">{route.label}</h2>
+                      <p className="body-copy mt-3 text-sm">{route.description}</p>
+                      <div className="mt-6 flex items-end justify-between border-t border-white/10 pt-4">
+                        <span className="text-3xl font-black text-white">{route.stat}</span>
+                        <span className="text-xs font-semibold uppercase tracking-[0.16em] text-white/36">{route.meta}</span>
+                      </div>
+                    </div>
+                  </Link>
+                </Reveal>
+              )
+            })}
+          </div>
+        </section>
       </div>
-      </div>
-    </>
+    </main>
   )
 }
