@@ -1,210 +1,189 @@
 import Link from "next/link"
-import { ArrowUpRight, Boxes, Code2, Globe2, Radio, Star, TerminalSquare, Users } from "lucide-react"
-import { AppFrame, Panel, StatusBadge } from "@/components/dev-os-frame"
-import { Reveal } from "@/components/reveal"
+import { ArrowUpRight, ChartColumnBig, FolderCode, Sparkles, TerminalSquare, Waves } from "lucide-react"
+import { RebuildShell } from "@/components/rebuild-shell"
 
-const projects = [
+const portfolioItems = [
   {
-    name: "Bad Infinite Yield",
-    type: "Roblox command framework",
-    description:
-      "A large command-line script with developer tooling, command discovery, plugin support, and teleport-safe loading.",
-    href: "https://github.com/froumes/badinfiniteyield",
-    icon: TerminalSquare,
-    stats: ["400+ commands", "plugin system", "dev tools"],
-    tag: "RBX_ENGINE",
-  },
-  {
-    name: "BadScriptHub",
-    type: "Automation hub",
-    description:
-      "A script hub surface with access links, live telemetry, and a compact preview of the Nozomi-style interface.",
-    href: "/badscripthub",
-    icon: Boxes,
-    stats: ["11+ scripts", "live stats", "multi-game"],
-    tag: "AUTOMATION",
-  },
-  {
-    name: "austinxyz.lol",
-    type: "Personal web system",
-    description:
-      "This site: a Next.js workspace that combines portfolio pages, telemetry dashboards, and project surfaces.",
+    title: "Cinematic Home",
+    tag: "Launch surface",
+    body: "The homepage blends layered motion, pointer parallax, and a cinematic hero while keeping the layout legible.",
     href: "/",
-    icon: Globe2,
-    stats: ["Next.js", "TypeScript", "Cloudflare"],
-    tag: "WEB",
-  },
-]
-
-const principles = [
-  {
-    title: "Build the working thing",
-    body: "Interfaces stay close to the underlying tool instead of hiding it behind marketing gloss.",
-    icon: Code2,
+    icon: Sparkles,
   },
   {
-    title: "Make state visible",
-    body: "Dashboards and product pages show status, empty states, and context without forcing a guess.",
-    icon: Radio,
+    title: "Telemetry Dashboard",
+    tag: "Observability",
+    body: "A live stats experience with charts, range toggles, and a restrained editorial presentation.",
+    href: "/stats",
+    icon: ChartColumnBig,
   },
   {
-    title: "Keep shipping small",
-    body: "The best projects here are practical, specific, and maintained instead of over-scoped.",
-    icon: Star,
+    title: "Route Shell System",
+    tag: "Layout framework",
+    body: "Shared route treatments keep the secondary pages animated, responsive, and consistent.",
+    href: "/badscripthub",
+    icon: FolderCode,
   },
   {
-    title: "Design for repeated use",
-    body: "Controls are compact, readable, and calm enough to come back to every day.",
-    icon: Users,
+    title: "Session Terminal",
+    tag: "Motion layer",
+    body: "Glass panels, pulsing status dots, and code-style logs bring feedback into the interface.",
+    href: "/badscripthub",
+    icon: TerminalSquare,
   },
-]
+] as const
 
 export default function PortfolioPage() {
   return (
-    <AppFrame
-      active="/portfolio"
-      footerMetrics={["austinxyz.lol // BUILD_REV: 0x44A2", "STATUS: ARCHIVE_ACCESSIBLE", "ITEMS: 03"]}
-      sidebar={
-        <div className="grid gap-4">
-          <Panel title="Operating principles" eyebrow="sidebar note">
-            <ul className="space-y-4">
-              {principles.slice(0, 3).map((principle, index) => {
-                const Icon = principle.icon
-                return (
-                  <li key={principle.title} className={index === 0 ? "border-l-2 border-primary pl-3" : "border-l-2 border-white/14 pl-3"}>
-                    <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
-                      <Icon className="size-4 text-primary" />
-                      {principle.title}
-                    </div>
-                    <p className="mt-1 text-sm text-white/46">{principle.body}</p>
-                  </li>
-                )
-              })}
-            </ul>
-          </Panel>
-
-          <Panel title="System stats" eyebrow="archive health">
-            <div className="grid grid-cols-2 gap-2">
-              <div className="quiet-panel rounded-[0.35rem] p-3">
-                <div className="mono-label text-[11px] text-white/42">UPTIME</div>
-                <div className="mt-2 font-mono text-xl font-bold text-foreground">99.98%</div>
-              </div>
-              <div className="quiet-panel rounded-[0.35rem] p-3">
-                <div className="mono-label text-[11px] text-white/42">DEPLOYMENTS</div>
-                <div className="mt-2 font-mono text-xl font-bold text-foreground">1,402</div>
-              </div>
-              <div className="quiet-panel col-span-2 rounded-[0.35rem] p-3">
-                <div className="flex items-center justify-between">
-                  <span className="mono-label text-[11px] text-white/42">CI/CD PIPELINE</span>
-                  <span className="mono-label text-[11px] text-primary">PASSING</span>
-                </div>
-                <div className="mt-3 h-2 overflow-hidden border border-white/10 bg-white/6">
-                  <div className="h-full w-[100%] bg-primary" />
-                </div>
-              </div>
-            </div>
-          </Panel>
-        </div>
-      }
+    <RebuildShell
+      eyebrow="route / portfolio"
+      title="A selected archive of the system."
+      body="This route now presents the site as a curated body of work: launch surface, analytics, shell system, and motion language."
+      primaryHref="/stats"
+      primaryLabel="View stats"
+      secondaryHref="/badscripthub"
+      secondaryLabel="Open BadScriptHub"
+      stats={[
+        { label: "case studies", value: "4" },
+        { label: "design mode", value: "editorial" },
+        { label: "motion", value: "layered" },
+      ]}
+      notes={[
+        {
+          title: "Unified system",
+          body: "The same palette, spacing logic, and glow treatment carry across the routes.",
+        },
+        {
+          title: "Built to navigate",
+          body: "Each card points somewhere useful so the page feels like a real archive.",
+        },
+      ]}
+      logLines={[
+        { command: "$ portfolio --scan", detail: "reviewing the current route surface" },
+        { command: "[ok] modules indexed", detail: "home, stats, launcher, and shell system" },
+        { command: "[ok] links wired", detail: "every card leads to a live route" },
+      ]}
     >
-      <section className="container-wide pb-24 pt-10 lg:pt-14">
-        <Reveal>
-          <div className="border-b border-white/10 pb-4">
-            <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-              <div>
-                <StatusBadge label="archive accessible" />
-                <h1 className="display-title mt-5 text-4xl sm:text-5xl xl:text-[4.5rem]">
-                  Project Index
-                </h1>
-              </div>
-              <div className="mono-label text-[11px] text-white/42">STATUS: ARCHIVE_ACCESSIBLE // ITEMS: 03</div>
+      <div className="grid gap-8 lg:grid-cols-[1.03fr_0.97fr]">
+        <div className="reveal-element is-visible">
+          <div className="mono-label">selected work</div>
+          <h2 className="mt-5 max-w-2xl font-[family-name:var(--font-display)] text-balance text-4xl leading-[0.96] tracking-[-0.05em] text-white sm:text-5xl">
+            A compact archive of the surfaces built for this site.
+          </h2>
+          <p className="body-copy mt-4 max-w-xl text-base sm:text-lg">
+            The portfolio route is now a curated index of the design systems and live pages that make
+            up the rebuild.
+          </p>
+
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            {portfolioItems.map((item, index) => {
+              const Icon = item.icon
+
+              return (
+                <Link
+                  key={item.title}
+                  href={item.href}
+                  className="group glass-panel rounded-[1.4rem] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:bg-primary/[0.05]"
+                >
+                  <div className="flex items-start justify-between gap-5">
+                    <div className="grid size-11 place-items-center rounded-[1rem] border border-primary/15 bg-primary/10 text-primary transition-transform duration-300 group-hover:scale-105">
+                      <Icon className="size-5" />
+                    </div>
+                    <span className="font-mono text-[0.65rem] uppercase tracking-[0.18em] text-white/38">
+                      0{index + 1}
+                    </span>
+                  </div>
+
+                  <div className="mt-6">
+                    <div className="font-mono text-[0.68rem] uppercase tracking-[0.18em] text-primary/70">
+                      {item.tag}
+                    </div>
+                    <h3 className="mt-3 text-xl font-semibold tracking-[-0.03em] text-white transition-colors group-hover:text-primary">
+                      {item.title}
+                    </h3>
+                    <p className="body-copy mt-3 text-sm">{item.body}</p>
+                  </div>
+
+                  <div className="mt-6 flex items-center gap-2 text-sm text-white/72 transition-colors group-hover:text-white">
+                    Open route
+                    <ArrowUpRight className="size-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+
+        <div className="grid gap-4">
+          <div className="reveal-element is-visible rounded-[1.5rem] border border-white/10 bg-white/[0.03] p-6">
+            <div className="mono-label text-[0.7rem] text-primary/85">portfolio lens</div>
+            <div className="mt-5 space-y-4">
+              {[
+                "The home page is now a cinematic landing surface.",
+                "Stats has a live dashboard and active telemetry feed.",
+                "BadScriptHub is a polished route instead of a dead stub.",
+                "Shared motion rules keep every page feeling like one system.",
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-3 border-b border-white/8 pb-3 text-sm text-white/72 last:border-b-0 last:pb-0">
+                  <span className="status-dot status-pulse mt-1 bg-primary" />
+                  <span>{item}</span>
+                </div>
+              ))}
             </div>
           </div>
-        </Reveal>
 
-        <Reveal delay={80}>
-          <div className="mt-4 flex gap-2 overflow-x-auto border-b border-white/10 pb-2 font-mono text-[11px] uppercase tracking-[0.14em]">
-            <button className="border border-primary bg-primary/10 px-3 py-1 text-primary">All</button>
-            <button className="border border-transparent px-3 py-1 text-white/58 hover:border-white/10 hover:text-white">Roblox</button>
-            <button className="border border-transparent px-3 py-1 text-white/58 hover:border-white/10 hover:text-white">Automation</button>
-            <button className="border border-transparent px-3 py-1 text-white/58 hover:border-white/10 hover:text-white">Web</button>
+          <div className="reveal-element is-visible rounded-[1.5rem] border border-primary/18 bg-primary/8 p-6">
+            <div className="mono-label text-[0.7rem] text-primary">next moves</div>
+            <p className="mt-4 max-w-md text-sm leading-7 text-white/72">
+              If you want, the same treatment can be extended to any additional routes or split into
+              even more polished sub-sections.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Link
+                href="/stats"
+                className="magnetic-link inline-flex items-center justify-center gap-2 rounded-full border border-primary/20 bg-background/40 px-4 py-2 text-sm text-white/78 hover:text-white"
+              >
+                Open stats
+              </Link>
+              <Link
+                href="/badscripthub"
+                className="magnetic-link inline-flex items-center justify-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-white/72 hover:border-primary/35 hover:text-white"
+              >
+                Open launcher
+              </Link>
+            </div>
           </div>
-        </Reveal>
 
-        <div className="mt-5 grid gap-4">
-          {projects.map((project, index) => {
-            const Icon = project.icon
-            const isExternal = project.href.startsWith("http")
-            return (
-              <Reveal key={project.name} delay={index * 70} asChild>
-                <article className="group panel magnetic-link flex flex-col gap-4 rounded-[0.375rem] p-4 hover:border-primary/30 hover:bg-primary/[0.04] sm:flex-row">
-                  <div className="flex min-h-32 w-full flex-col justify-between border border-white/10 bg-[#07101f] p-4 sm:w-56">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="grid size-12 place-items-center border border-primary/20 bg-primary/10 text-primary">
-                        <Icon className="size-5" />
-                      </div>
-                      <span className="mono-label text-[11px] text-white/36">{project.tag}</span>
-                    </div>
-                    <div className="grid gap-2">
-                      <div className="h-px bg-white/10" />
-                      <p className="mono-label text-[11px] text-white/48">{project.type}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex min-w-0 flex-1 flex-col">
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <p className="mono-label text-[11px] text-primary/72">{project.type}</p>
-                        <h2 className="mt-2 text-2xl font-semibold tracking-tight text-foreground">{project.name}</h2>
-                      </div>
-                      <StatusBadge label={project.type === "Automation hub" ? "active" : "maintenance"} />
-                    </div>
-                    <p className="body-copy mt-4 max-w-3xl text-sm">{project.description}</p>
-                    <div className="mt-5 flex flex-wrap gap-2">
-                      {project.stats.map((stat) => (
-                        <span
-                          key={stat}
-                          className="border border-white/10 bg-white/[0.04] px-3 py-1 font-mono text-[11px] uppercase tracking-[0.12em] text-white/58"
-                        >
-                          {stat}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="mt-6 flex flex-wrap gap-2">
-                      {isExternal ? (
-                        <a
-                          href={project.href}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="magnetic-link tactile-btn inline-flex items-center gap-2 border border-primary bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
-                        >
-                          View source
-                          <ArrowUpRight className="size-4" />
-                        </a>
-                      ) : (
-                        <Link
-                          href={project.href}
-                          className="magnetic-link tactile-btn inline-flex items-center gap-2 border border-primary bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground"
-                        >
-                          Open route
-                          <ArrowUpRight className="size-4" />
-                        </Link>
-                      )}
-                      <button
-                        type="button"
-                        disabled
-                        className="inline-flex items-center gap-2 border border-white/10 bg-white/[0.04] px-4 py-2 text-sm font-semibold text-white/28 opacity-60"
-                      >
-                        Docs
-                      </button>
-                    </div>
-                  </div>
-                </article>
-              </Reveal>
-            )
-          })}
+          <div className="reveal-element is-visible rounded-[1.5rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(255,182,141,0.14),transparent_38%),rgba(255,255,255,0.03)] p-6">
+            <div className="mono-label text-[0.7rem] text-primary/85">design principles</div>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
+              {[
+                {
+                  label: "rhythm",
+                  value: "section spacing keeps the page from feeling compressed.",
+                },
+                {
+                  label: "contrast",
+                  value: "one warm accent leads the eye without breaking the palette.",
+                },
+                {
+                  label: "motion",
+                  value: "hover, scroll, and reveal layers stay expressive but controlled.",
+                },
+                {
+                  label: "route flow",
+                  value: "every page gives the user a useful next action.",
+                },
+              ].map((item) => (
+                <div key={item.label} className="rounded-[1.15rem] border border-white/8 bg-white/[0.03] p-4">
+                  <div className="text-xs uppercase tracking-[0.18em] text-white/42">{item.label}</div>
+                  <div className="mt-2 text-sm text-white/72">{item.value}</div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
-      </section>
-    </AppFrame>
+      </div>
+    </RebuildShell>
   )
 }
