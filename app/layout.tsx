@@ -8,8 +8,8 @@ const geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono"
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://austinxyz.lol"),
-  title: "austinxyz.lol",
-  description: "Projects, experiments, and live dashboards by Austin.",
+  title: "DEV_OS v2.4 | austinxyz.lol",
+  description: "A developer portfolio, telemetry dashboard, and script hub with a utilitarian dark interface.",
   manifest: "/manifest.json",
   icons: {
     icon: [
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "austinxyz.lol",
+    title: "DEV_OS v2.4",
   },
   other: {
     "mobile-web-app-capable": "yes",
@@ -31,8 +31,8 @@ export const metadata: Metadata = {
     "apple-mobile-web-app-status-bar-style": "black-translucent",
   },
   openGraph: {
-    title: "austinxyz.lol",
-    description: "notabadcoder",
+    title: "DEV_OS v2.4 | austinxyz.lol",
+    description: "Projects, telemetry, and launch surfaces for Austin's personal web system.",
     images: [
       {
         url: "/BSHLogoNoBackground.png",
@@ -45,8 +45,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "austinxyz.lol",
-    description: "notabadcoder",
+    title: "DEV_OS v2.4 | austinxyz.lol",
+    description: "Projects, telemetry, and launch surfaces for Austin's personal web system.",
     images: ["/BSHLogoNoBackground.png"],
   },
 }
@@ -66,7 +66,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark h-full">
-      <body className={`${geist.variable} ${geistMono.variable} font-sans antialiased min-h-screen overflow-x-hidden`}>
+      <body className={`${geist.variable} ${geistMono.variable} font-sans antialiased min-h-screen overflow-x-hidden bg-background text-foreground`}>
         {children}
       </body>
     </html>
