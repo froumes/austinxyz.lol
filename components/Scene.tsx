@@ -1,11 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+
+const KEY_URL = "https://ads.luarmor.net/get_key?for=daydreamer_freemium_1_day-KDfKOqxIxyRD";
+const DAYBREAK_MS = 4000;
 
 type Props = { onBack: () => void };
 
 export default function Scene({ onBack }: Props) {
   const [lit, setLit] = useState(false);
+  const redirectTimer = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (redirectTimer.current !== null) {
+        window.clearTimeout(redirectTimer.current);
+      }
+    };
+  }, []);
+
+  const goIntoTheLight = () => {
+    if (lit) return;
+    setLit(true);
+    redirectTimer.current = window.setTimeout(() => {
+      window.location.href = KEY_URL;
+    }, DAYBREAK_MS);
+  };
+
+  const goBack = () => {
+    if (redirectTimer.current !== null) {
+      window.clearTimeout(redirectTimer.current);
+      redirectTimer.current = null;
+    }
+    if (lit) {
+      setLit(false);
+    } else {
+      onBack();
+    }
+  };
 
   return (
     <section className={"dd-scene" + (lit ? " is-lit" : "")}>
@@ -32,7 +64,7 @@ export default function Scene({ onBack }: Props) {
             <button
               className="dd-btn dd-light-btn"
               type="button"
-              onClick={() => setLit(true)}
+              onClick={goIntoTheLight}
               aria-label="into the light"
             >
               into the light
@@ -64,7 +96,7 @@ export default function Scene({ onBack }: Props) {
         <button
           className={"dd-textlink" + (lit ? " dd-textlink-lit" : "")}
           type="button"
-          onClick={() => (lit ? setLit(false) : onBack())}
+          onClick={goBack}
         >
           <svg
             width="14"

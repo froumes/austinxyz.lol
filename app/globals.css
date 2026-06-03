@@ -648,7 +648,7 @@ button {
   object-fit: cover;
   transform: scale(1.06);
   filter: brightness(0.48) saturate(0.88) contrast(1.04);
-  transition: filter 1600ms var(--ease-dream);
+  transition: filter 4000ms var(--ease-dream);
 }
 .dd-scene.is-lit .dd-scene-img {
   filter: brightness(1.16) saturate(1.16) contrast(1);
@@ -661,7 +661,7 @@ button {
     radial-gradient(98% 80% at 50% 28%, rgba(11, 16, 38, 0.14) 0%, rgba(11, 16, 38, 0.54) 100%),
     linear-gradient(180deg, rgba(11, 16, 38, 0.46) 0%, rgba(11, 16, 38, 0.16) 44%, rgba(10, 13, 18, 0.62) 100%);
   opacity: 1;
-  transition: opacity 1600ms var(--ease-dream);
+  transition: opacity 4000ms var(--ease-dream);
 }
 .dd-scene.is-lit .dd-scene-dark {
   opacity: 0;
@@ -679,7 +679,7 @@ button {
   );
   mix-blend-mode: screen;
   opacity: 0;
-  transition: opacity 1600ms var(--ease-dream);
+  transition: opacity 4000ms var(--ease-dream);
 }
 .dd-scene.is-lit .dd-scene-sunset {
   opacity: 1;
@@ -695,7 +695,7 @@ button {
   );
   mix-blend-mode: screen;
   opacity: 0;
-  transition: opacity 1600ms var(--ease-dream);
+  transition: opacity 4000ms var(--ease-dream);
 }
 .dd-scene.is-lit .dd-scene-sun {
   opacity: 1;
@@ -712,7 +712,7 @@ button {
 .dd-scene-mark {
   font-size: 22px;
   color: var(--cream);
-  transition: color 1600ms var(--ease-dream);
+  transition: color 4000ms var(--ease-dream);
 }
 .dd-scene.is-lit .dd-scene-mark {
   color: var(--fg-on-light);
