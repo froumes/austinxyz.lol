@@ -263,6 +263,14 @@ button {
     /* animationDuration and animationDelay overridden inline per star */
   }
 }
+.dd-shoot {
+  position: absolute;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(243, 236, 217, 0.9) 100%);
+  transform-origin: left center;
+  pointer-events: none;
+  animation: dd-shoot 1.1s var(--ease-dream) forwards;
+}
 @keyframes dd-twinkle {
   0%,
   100% {
@@ -399,6 +407,24 @@ button {
     box-shadow:
       0 0 0 1px rgba(243, 236, 217, 0.28),
       0 12px 55px -6px rgba(247, 239, 219, 0.42);
+  }
+}
+@keyframes dd-shoot {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--shot-angle)) scaleX(0);
+  }
+  15% {
+    opacity: 0.9;
+    transform: rotate(var(--shot-angle)) scaleX(0.4);
+  }
+  75% {
+    opacity: 0.6;
+    transform: rotate(var(--shot-angle)) scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--shot-angle)) translateX(20px) scaleX(1);
   }
 }
 

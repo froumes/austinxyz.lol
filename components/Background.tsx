@@ -13,6 +13,14 @@ type Star = {
   glow: boolean; // ~15% of stars get a halo
 };
 
+type Shot = {
+  id: number;
+  x: number;
+  y: number;
+  angle: number;
+  length: number;
+};
+
 // Deterministic LCG so SSR and CSR render the same star field
 // (avoids hydration mismatches without a useEffect detour).
 function seededStars(count: number, seed: number): Star[] {
@@ -37,7 +45,35 @@ export default function Background() {
   // Render stars only after mount. SSR/SSG paints empty starfield, then
   // hydration adds them. Twinkle animation masks the late arrival.
   const [mounted, setMounted] = useState(false);
+  const [shots, setShots] = useState<Shot[]>([]);
   useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    if (!mounted) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let timeoutId: ReturnType<typeof setTimeout>;
+
+    const schedule = () => {
+      const delay = 4000 + Math.random() * 10000;
+      timeoutId = setTimeout(() => {
+        const shot: Shot = {
+          id: Date.now(),
+          x: 10 + Math.random() * 70,
+          y: 5 + Math.random() * 30,
+          angle: -(20 + Math.random() * 30),
+          length: 80 + Math.random() * 80,
+        };
+        setShots((prev) => [...prev, shot]);
+        setTimeout(() => {
+          setShots((prev) => prev.filter((s) => s.id !== shot.id));
+        }, 1200);
+        schedule();
+      }, delay);
+    };
+
+    schedule();
+    return () => clearTimeout(timeoutId);
+  }, [mounted]);
   const stars = useMemo(() => (mounted ? seededStars(46, 1337) : []), [mounted]);
 
   return (
@@ -75,6 +111,18 @@ export default function Background() {
             />
           ),
         )}
+        {shots.map((sh) => (
+          <span
+            key={sh.id}
+            className="dd-shoot"
+            style={{
+              left: `${sh.x}%`,
+              top: `${sh.y}%`,
+              width: sh.length,
+              ["--shot-angle" as string]: `${sh.angle}deg`,
+            }}
+          />
+        ))}
       </div>
       <div className="dd-bg-wisp" />
       <div className="dd-horizon-glow" />
