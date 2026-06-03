@@ -52,6 +52,7 @@ export default function Background() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     let timeoutId: ReturnType<typeof setTimeout>;
+    const removeTimers: ReturnType<typeof setTimeout>[] = [];
 
     const schedule = () => {
       const delay = 4000 + Math.random() * 10000;
@@ -64,15 +65,19 @@ export default function Background() {
           length: 80 + Math.random() * 80,
         };
         setShots((prev) => [...prev, shot]);
-        setTimeout(() => {
+        const rid = setTimeout(() => {
           setShots((prev) => prev.filter((s) => s.id !== shot.id));
         }, 1200);
+        removeTimers.push(rid);
         schedule();
       }, delay);
     };
 
     schedule();
-    return () => clearTimeout(timeoutId);
+    return () => {
+      clearTimeout(timeoutId);
+      removeTimers.forEach(clearTimeout);
+    };
   }, [mounted]);
   const stars = useMemo(() => (mounted ? seededStars(46, 1337) : []), [mounted]);
 
