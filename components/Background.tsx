@@ -6,10 +6,11 @@ type Star = {
   id: number;
   x: number;
   y: number;
-  s: number;
+  s: number; // widened range: 0.4–2.8px
   o: number;
   d: number;
   dur: number;
+  glow: boolean; // ~15% of stars get a halo
 };
 
 // Deterministic LCG so SSR and CSR render the same star field
@@ -24,10 +25,11 @@ function seededStars(count: number, seed: number): Star[] {
     id: i,
     x: rand() * 100,
     y: rand() * 62,
-    s: rand() * 1.6 + 0.6,
+    s: rand() * 2.4 + 0.4,
     o: rand() * 0.5 + 0.18,
     d: rand() * 6,
     dur: rand() * 4 + 4,
+    glow: rand() < 0.15,
   }));
 }
 
@@ -43,20 +45,35 @@ export default function Background() {
       <div className="dd-bg-night" />
       <div className="dd-bg-dawn" />
       <div className="dd-bg-stars">
-        {stars.map((st) => (
-          <span
-            key={st.id}
-            style={{
-              left: `${st.x}%`,
-              top: `${st.y}%`,
-              width: st.s,
-              height: st.s,
-              opacity: st.o,
-              animationDelay: `${st.d}s`,
-              animationDuration: `${st.dur}s`,
-            }}
-          />
-        ))}
+        {stars.map((st) =>
+          st.glow ? (
+            <span
+              key={st.id}
+              className="dd-star-glow"
+              style={{
+                left: `${st.x}%`,
+                top: `${st.y}%`,
+                width: st.s,
+                height: st.s,
+                animationDuration: `${st.dur}s`,
+                animationDelay: `${st.d}s`,
+              }}
+            />
+          ) : (
+            <span
+              key={st.id}
+              style={{
+                left: `${st.x}%`,
+                top: `${st.y}%`,
+                width: st.s,
+                height: st.s,
+                opacity: st.o,
+                animationDelay: `${st.d}s`,
+                animationDuration: `${st.dur}s`,
+              }}
+            />
+          ),
+        )}
       </div>
       <div className="dd-bg-wisp" />
       <div className="dd-bg-grain" />
