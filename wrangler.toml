@@ -1,8 +1,0 @@
-name = "austinxyz-lol-auth"
-compatibility_date = "2024-01-01"
-pages_build_output_dir = "out"
-
-# KV namespace binding for telemetry data
-[[kv_namespaces]]
-binding = "TELEMETRY_KV"
-id = "758f48e91fbb4d96b72d7420c180bdae"
