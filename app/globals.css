@@ -234,6 +234,11 @@ button {
   background: var(--grad-dawn);
   mix-blend-mode: screen;
 }
+@media (prefers-reduced-motion: no-preference) {
+  .dd-bg-dawn {
+    animation: dd-dawn-breathe 8s ease-in-out 1s infinite;
+  }
+}
 
 .dd-bg-stars {
   position: absolute;
@@ -330,6 +335,72 @@ button {
     opacity: 1;
   }
 }
+@keyframes dd-grain {
+  0% {
+    background-position: 0 0;
+  }
+  20% {
+    background-position: 60px 30px;
+  }
+  40% {
+    background-position: 120px 80px;
+  }
+  60% {
+    background-position: 20px 120px;
+  }
+  80% {
+    background-position: 160px 50px;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+@keyframes dd-dawn-breathe {
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes dd-dot-breathe {
+  0%,
+  100% {
+    color: var(--dawn);
+    text-shadow: 0 0 8px rgba(229, 199, 162, 0.15);
+  }
+  50% {
+    color: #f0d8b4;
+    text-shadow: 0 0 24px rgba(229, 199, 162, 0.5);
+  }
+}
+@keyframes dd-wordmark-glow {
+  0%,
+  100% {
+    text-shadow:
+      0 0 40px rgba(243, 236, 217, 0.04),
+      0 0 80px rgba(229, 199, 162, 0.02);
+  }
+  50% {
+    text-shadow:
+      0 0 60px rgba(243, 236, 217, 0.14),
+      0 0 130px rgba(229, 199, 162, 0.07);
+  }
+}
+@keyframes dd-btn-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 1px rgba(243, 236, 217, 0.16),
+      0 8px 40px -8px rgba(247, 239, 219, 0.22);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px rgba(243, 236, 217, 0.28),
+      0 12px 55px -6px rgba(247, 239, 219, 0.42);
+  }
+}
 
 .dd-aurora {
   position: absolute;
@@ -390,6 +461,11 @@ button {
   background-size: 200px 200px;
   pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dd-bg-grain {
+    animation: dd-grain 0.12s steps(1) infinite;
+  }
 }
 
 /* ============================================================
@@ -457,8 +533,18 @@ button {
   margin: 0;
   font-weight: 300;
 }
+@media (prefers-reduced-motion: no-preference) {
+  .dd-hero-mark {
+    animation: dd-wordmark-glow 9s ease-in-out 0.5s infinite;
+  }
+}
 .dd-dot {
   color: var(--dd-accent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dd-landing .dd-dot {
+    animation: dd-dot-breathe 6s ease-in-out infinite;
+  }
 }
 
 .dd-enter {
@@ -469,6 +555,14 @@ button {
 }
 .dd-enter:hover svg {
   transform: translateX(4px);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .dd-enter {
+    animation: dd-btn-pulse 5s ease-in-out 1.5s infinite;
+  }
+  .dd-enter:hover {
+    animation-play-state: paused;
+  }
 }
 
 /* Staged entrance — content always visible by default, animation only
