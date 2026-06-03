@@ -1,0 +1,65 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+
+type Star = {
+  id: number;
+  x: number;
+  y: number;
+  s: number;
+  o: number;
+  d: number;
+  dur: number;
+};
+
+// Deterministic LCG so SSR and CSR render the same star field
+// (avoids hydration mismatches without a useEffect detour).
+function seededStars(count: number, seed: number): Star[] {
+  let state = seed >>> 0;
+  const rand = () => {
+    state = (state * 1664525 + 1013904223) >>> 0;
+    return state / 0xffffffff;
+  };
+  return Array.from({ length: count }, (_, i) => ({
+    id: i,
+    x: rand() * 100,
+    y: rand() * 62,
+    s: rand() * 1.6 + 0.6,
+    o: rand() * 0.5 + 0.18,
+    d: rand() * 6,
+    dur: rand() * 4 + 4,
+  }));
+}
+
+export default function Background() {
+  // Render stars only after mount. SSR/SSG paints empty starfield, then
+  // hydration adds them. Twinkle animation masks the late arrival.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const stars = useMemo(() => (mounted ? seededStars(46, 1337) : []), [mounted]);
+
+  return (
+    <div className="dd-bg" aria-hidden="true">
+      <div className="dd-bg-night" />
+      <div className="dd-bg-dawn" />
+      <div className="dd-bg-stars">
+        {stars.map((st) => (
+          <span
+            key={st.id}
+            style={{
+              left: `${st.x}%`,
+              top: `${st.y}%`,
+              width: st.s,
+              height: st.s,
+              opacity: st.o,
+              animationDelay: `${st.d}s`,
+              animationDuration: `${st.dur}s`,
+            }}
+          />
+        ))}
+      </div>
+      <div className="dd-bg-wisp" />
+      <div className="dd-bg-grain" />
+    </div>
+  );
+}
