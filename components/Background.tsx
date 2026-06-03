@@ -44,6 +44,7 @@ export default function Background() {
     <div className="dd-bg" aria-hidden="true">
       <div className="dd-bg-night" />
       <div className="dd-bg-dawn" />
+      <div className="dd-aurora" />
       <div className="dd-bg-stars">
         {stars.map((st) =>
           st.glow ? (
@@ -76,7 +77,9 @@ export default function Background() {
         )}
       </div>
       <div className="dd-bg-wisp" />
+      <div className="dd-horizon-glow" />
       <div className="dd-bg-grain" />
+      <div className="dd-vignette" />
     </div>
   );
 }
